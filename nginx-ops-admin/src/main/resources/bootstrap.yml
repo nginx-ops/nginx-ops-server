@@ -1,0 +1,79 @@
+spring:
+  messages:
+    basename: i18n/message
+    encoding: UTF-8
+  # 指定执行环境
+  profiles:
+    active: test
+  # 服务名(不推荐修改)
+  application:
+    name: nginx-ops
+  # 全局时间格式化(不推荐修改)
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+  # 全局时间格式化(不推荐修改)
+  mvc:
+    format:
+      date: yyyy-MM-dd
+  servlet:
+    # 设置上传的文件大小(根据情况修改)
+    multipart:
+      max-file-size: -1
+      file-size-threshold: -1
+  datasource:
+    # 数据库配置(根据情况修改)
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+
+# 监控接口(根据情况修改)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+    logfile:
+      external-file: ${logging.file.path}/info.log
+
+# 日志文件配置(根据情况修改)
+logging:
+  level:
+    com.alibaba.nacos.client.naming: warn
+  file:
+    path: /www/server/${spring.application.name}/logs
+
+# mybatis配置类(不推荐修改)
+mybatis-plus:
+  global-config:
+    db-config:
+      where-strategy: not_empty # 为空则不加入条件
+      update-strategy: not_empty # 为空则不加入条件
+      insert-strategy: not_empty # 为空则不加入条件
+
+# PageHelper分页插件(不推荐修改)
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  params: count=countSql
+
+# Sa-Token配置(不推荐修改)
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: authentication
+  # token前缀
+  token-prefix: Bearer
+  # token有效期，单位s 默认7天
+  timeout: 1209600
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: 3600
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: false
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # token风格
+  token-style: token-style=random-128
+  # 是否输出操作日志
+  is-log: false

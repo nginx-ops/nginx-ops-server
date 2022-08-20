@@ -1,0 +1,26 @@
+server:
+  # 端口号可以修改
+  port: 9988
+
+spring:
+  cloud:
+    nacos:
+      # 注册中心(根据情况修改)
+      discovery:
+        enabled: false
+      # 配置中心(根据情况修改)
+      config:
+        enabled: false
+  datasource:
+    # 数据库配置(根据情况修改)
+    url: jdbc:mysql://sh-cynosdbmysql-grp-nd1blxru.sql.tencentcdb.com:29792/nginx_ops?useUnicode=true&characterEncoding=utf8&useSSL=false&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: lh@686...
+
+# 测试环境打印SQL脚本
+logging:
+  level:
+    com.lihao.nginx.ops: debug
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl

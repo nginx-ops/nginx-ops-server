@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.nginx.ops.server.conf.mapper.ConfInfoUpstreamItemMapper">
+
+    <resultMap id="BaseResultMap" type="io.github.nginx.ops.server.conf.domain.ConfInfoUpstreamItem">
+        <id property="id" column="id" jdbcType="CHAR"/>
+        <result property="tencatId" column="tencat_id" jdbcType="CHAR"/>
+        <result property="upstreamId" column="upstream_id" jdbcType="CHAR"/>
+        <result property="ip" column="ip" jdbcType="CHAR"/>
+        <result property="port" column="port" jdbcType="INTEGER"/>
+        <result property="weight" column="weight" jdbcType="INTEGER"/>
+        <result property="failTimeout" column="fail_timeout" jdbcType="INTEGER"/>
+        <result property="maxFails" column="max_fails" jdbcType="INTEGER"/>
+        <result property="maxConns" column="max_conns" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="deleteFlag" column="delete_flag" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,tencat_id,upstream_id,
+        ip,port,weight,
+        fail_timeout,max_fails,max_conns,
+        status,create_by,create_time,
+        update_by,update_time,delete_flag
+    </sql>
+</mapper>
