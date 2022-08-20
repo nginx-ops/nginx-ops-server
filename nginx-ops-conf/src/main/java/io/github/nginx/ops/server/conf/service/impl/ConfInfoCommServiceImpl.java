@@ -3,15 +3,23 @@ package io.github.nginx.ops.server.conf.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.odiszapc.nginxparser.NgxBlock;
+import com.github.odiszapc.nginxparser.NgxConfig;
+import com.github.odiszapc.nginxparser.NgxDumper;
+import com.github.odiszapc.nginxparser.NgxParam;
 import io.github.nginx.ops.server.conf.domain.ConfInfoComm;
 import io.github.nginx.ops.server.conf.domain.query.ConfInfoCommQuery;
 import io.github.nginx.ops.server.conf.mapper.ConfInfoCommMapper;
 import io.github.nginx.ops.server.conf.service.ConfInfoCommService;
+import io.github.nginx.ops.server.conf.util.NginxConfUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author 24709
@@ -35,5 +43,51 @@ public class ConfInfoCommServiceImpl extends ServiceImpl<ConfInfoCommMapper, Con
         .like(ObjectUtil.isNotEmpty(query.getName()), ConfInfoComm::getName, query.getName())
         .like(ObjectUtil.isNotEmpty(query.getRemark()), ConfInfoComm::getRemark, query.getRemark());
     return this.list(queryWrapper);
+  }
+
+  @Override
+  public void deleteByOtherId(String otherId) {
+    queryWrapper.clear();
+    queryWrapper.eq(ConfInfoComm::getOtherId, otherId);
+    this.remove(queryWrapper);
+  }
+
+  @Override
+  public void deleteByOtherId(Set<String> ids) {
+    queryWrapper.clear();
+    queryWrapper.in(ConfInfoComm::getOtherId, ids);
+    this.remove(queryWrapper);
+  }
+
+  @Override
+  public List<ConfInfoComm> selectByOtherId(String otherId) {
+    queryWrapper.clear();
+    queryWrapper.eq(ConfInfoComm::getOtherId, otherId);
+    return this.list(queryWrapper);
+  }
+
+  @Override
+  public Map<String, List<ConfInfoComm>> getMap(Set<String> otherIds) {
+    queryWrapper.clear();
+    queryWrapper.in(ConfInfoComm::getOtherId, otherIds);
+    List<ConfInfoComm> list = this.list(queryWrapper);
+    return list.stream().collect(Collectors.groupingBy(ConfInfoComm::getOtherId));
+  }
+
+  @Override
+  public String preview(String type) {
+    queryWrapper.clear();
+    queryWrapper.eq(ConfInfoComm::getType, type);
+    List<ConfInfoComm> list = this.list(queryWrapper);
+    NgxConfig ngxConfig = new NgxConfig();
+    NgxBlock ngxBlockHttp = new NgxBlock();
+    ngxBlockHttp.addValue(type);
+    list.forEach(
+        item -> {
+          NgxParam ngxParam = new NgxParam();
+          ngxParam.addValue(item.getName().trim() + NginxConfUtils.SPACE + item.getValue().trim());
+          ngxBlockHttp.addEntry(ngxParam);
+        });
+    return new NgxDumper(ngxConfig).dump();
   }
 }

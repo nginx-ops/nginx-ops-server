@@ -5,6 +5,8 @@ import io.github.nginx.ops.server.conf.domain.ConfInfoComm;
 import io.github.nginx.ops.server.conf.domain.query.ConfInfoCommQuery;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author 24709
@@ -20,4 +22,42 @@ public interface ConfInfoCommService extends IService<ConfInfoComm> {
    * @return
    */
   List<ConfInfoComm> list(ConfInfoCommQuery query);
+
+  /**
+   * 根据其他ID删除
+   *
+   * @param otherId
+   */
+  void deleteByOtherId(String otherId);
+
+  /**
+   * 根据其他ID集合删除
+   *
+   * @param ids
+   */
+  void deleteByOtherId(Set<String> ids);
+
+  /**
+   * 根据其他ID查询列表
+   *
+   * @param otherId
+   * @return
+   */
+  List<ConfInfoComm> selectByOtherId(String otherId);
+
+  /**
+   * 查询配置按照其他ID分组
+   *
+   * @param otherIds
+   * @return
+   */
+  Map<String, List<ConfInfoComm>> getMap(Set<String> otherIds);
+
+  /**
+   * 预览
+   *
+   * @param type
+   * @return
+   */
+  String preview(String type);
 }

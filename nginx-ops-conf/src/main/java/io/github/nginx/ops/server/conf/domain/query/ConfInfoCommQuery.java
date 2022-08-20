@@ -1,5 +1,6 @@
 package io.github.nginx.ops.server.conf.domain.query;
 
+import io.github.nginx.ops.server.comm.domain.query.BaseQuery;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -18,10 +19,10 @@ import java.io.Serializable;
 @Setter
 @Builder
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConfInfoCommQuery implements Serializable {
+public class ConfInfoCommQuery extends BaseQuery implements Serializable {
 
   /** 关联表ID */
   private String otherId;

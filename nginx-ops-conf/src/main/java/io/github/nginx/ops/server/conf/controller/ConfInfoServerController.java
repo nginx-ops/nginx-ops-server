@@ -1,6 +1,9 @@
 package io.github.nginx.ops.server.conf.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import io.github.nginx.ops.server.comm.domain.vo.R;
+import io.github.nginx.ops.server.conf.domain.ConfInfoServer;
 import io.github.nginx.ops.server.conf.domain.dto.ConfInfoServerDTO;
 import io.github.nginx.ops.server.conf.domain.query.ConfInfoServerQuery;
 import io.github.nginx.ops.server.conf.service.ConfInfoServerService;
@@ -56,8 +59,29 @@ public class ConfInfoServerController {
 
   @GetMapping
   @ApiOperation("查询列表接口")
-  public R<List<ConfInfoServerDTO>> list(@ModelAttribute ConfInfoServerQuery query) {
-    List<ConfInfoServerDTO> list = service.list(query);
+  public R<List<ConfInfoServer>> list(@ModelAttribute ConfInfoServerQuery query) {
+    List<ConfInfoServer> list = service.list(query);
     return R.success("查询成功!", list);
+  }
+
+  @GetMapping("page")
+  @ApiOperation("查询列表接口")
+  public R<ConfInfoServer> pageList(@ModelAttribute ConfInfoServerQuery query) {
+    Page<ConfInfoServer> page = PageHelper.startPage(query);
+    List<ConfInfoServer> list = service.list(query);
+    return R.success("查询成功!", page);
+  }
+
+  @GetMapping("{id}")
+  @ApiOperation("查询单条信息")
+  public R<ConfInfoServerDTO> getOne(@PathVariable String id) {
+    ConfInfoServerDTO confInfoServer = service.getOne(id);
+    return R.success("查询成功!", confInfoServer);
+  }
+
+  @GetMapping("preview")
+  @ApiOperation("预览")
+  public R<String> preview(String id) {
+    return R.success("预览成功!", service.preview(id));
   }
 }

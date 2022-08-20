@@ -1,6 +1,8 @@
 package io.github.nginx.ops.server.conf.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import io.github.nginx.ops.server.comm.domain.vo.R;
 import io.github.nginx.ops.server.conf.domain.ConfInfoComm;
 import io.github.nginx.ops.server.conf.domain.dto.ConfInfoCommDTO;
@@ -49,11 +51,13 @@ public class ConfInfoCommController {
     return R.success("删除成功!");
   }
 
-  @PutMapping
+  @PutMapping("{id}")
   @ApiOperation("修改接口")
-  public R update(@RequestBody ConfInfoCommDTO dto) {
-    service.updateById(BeanUtil.copyProperties(dto, ConfInfoComm.class));
-    return R.success("新增成功!");
+  public R update(@PathVariable String id, @RequestBody ConfInfoCommDTO dto) {
+    ConfInfoComm confInfoComm = BeanUtil.copyProperties(dto, ConfInfoComm.class);
+    confInfoComm.setId(id);
+    service.updateById(confInfoComm);
+    return R.success("修改成功!");
   }
 
   @GetMapping
@@ -61,5 +65,19 @@ public class ConfInfoCommController {
   public R<List<ConfInfoComm>> list(@ModelAttribute ConfInfoCommQuery query) {
     List<ConfInfoComm> confInfoCommList = service.list(query);
     return R.success("查询成功!", confInfoCommList);
+  }
+
+  @GetMapping("page")
+  @ApiOperation("分页查询列表接口")
+  public R<ConfInfoComm> pageList(@ModelAttribute ConfInfoCommQuery query) {
+    Page<ConfInfoComm> page = PageHelper.startPage(query);
+    List<ConfInfoComm> confInfoCommList = service.list(query);
+    return R.success("查询成功!", page);
+  }
+
+  @GetMapping("preview")
+  @ApiOperation("预览")
+  public R<String> preview(String type) {
+    return R.success("预览成功!", service.preview(type));
   }
 }
