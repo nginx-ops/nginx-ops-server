@@ -3,6 +3,7 @@ package io.github.nginx.ops.server.conf.domain;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.OrderBy;
 import com.baomidou.mybatisplus.annotation.TableField;
+import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConfInfoUpstream implements Serializable {
+public class ConfInfoUpstream extends BaseEntity implements Serializable {
 
   private static final long serialVersionUID = 1L;
   /** 租户ID */
@@ -35,6 +36,8 @@ public class ConfInfoUpstream implements Serializable {
   @OrderBy(asc = true)
   @TableField("`order`")
   private Integer order;
+  /** 备注 */
+  private String remark;
   /** 逻辑删除 */
   private Boolean deleteFlag;
 }

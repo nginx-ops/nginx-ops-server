@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author lihao3
@@ -33,7 +33,7 @@ public class ConfInfoUpstreamDTO implements Serializable {
   /** 顺序 */
   private Integer order;
   /** 明细 */
-  private Set<ConfInfoUpstreamItemDTO> confInfoUpstreamItemList;
+  private List<ConfInfoUpstreamItemDTO> confInfoUpstreamItemList;
   /** 额外参数 */
-  private Set<ConfInfoCommDTO> confInfoCommList;
+  private List<ConfInfoCommDTO> confInfoCommList;
 }
