@@ -1,6 +1,7 @@
 package io.github.nginx.ops.server.conf.controller;
 
 import io.github.nginx.ops.server.comm.domain.vo.R;
+import io.github.nginx.ops.server.conf.domain.dto.ReloadDTO;
 import io.github.nginx.ops.server.conf.domain.vo.ConfInfoVO;
 import io.github.nginx.ops.server.conf.domain.vo.FileVo;
 import io.github.nginx.ops.server.conf.service.ConfInfoService;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,12 +42,6 @@ public class ConfInfoController {
     return R.success("预览成功!", service.preview(type, id));
   }
 
-  @GetMapping("old/preview")
-  @ApiOperation("预览")
-  public R<ConfInfoVO> oldPreview(String type, String id) {
-    return R.success("预览成功!", service.preview(type, id));
-  }
-
   @ApiOperation("校验文件")
   @PostMapping("test")
   public R test() {
@@ -62,8 +58,8 @@ public class ConfInfoController {
 
   @ApiOperation("重新装配")
   @PostMapping("reload")
-  public R reload(ConfInfoVO confInfoVO) {
-    String result = service.reload(confInfoVO);
+  public R reload(@RequestBody ReloadDTO reloadDTO) {
+    String result = service.reload(reloadDTO);
     return R.success(result);
   }
 
@@ -85,5 +81,11 @@ public class ConfInfoController {
   @PostMapping("status")
   public R status() {
     return R.success("获取成功!", service.status());
+  }
+
+  @GetMapping
+  @ApiOperation("获取当前生效的配置文件")
+  public R<ConfInfoVO> get() {
+    return R.success("预览成功!", service.get());
   }
 }

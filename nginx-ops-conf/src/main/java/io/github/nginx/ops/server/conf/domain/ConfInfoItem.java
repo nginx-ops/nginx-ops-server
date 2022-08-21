@@ -27,10 +27,10 @@ public class ConfInfoItem extends BaseEntity implements Serializable {
   private String tenantId;
   /** 文件ID */
   private String confId;
-  /** 状态 */
-  private String status;
   /** 文件名称 */
   private String name;
+  /** 文件路径 */
+  private String path;
   /** 配置文件 */
   private String content;
 }

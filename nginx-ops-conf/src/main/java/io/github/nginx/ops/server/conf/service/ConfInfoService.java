@@ -2,6 +2,7 @@ package io.github.nginx.ops.server.conf.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.nginx.ops.server.conf.domain.ConfInfo;
+import io.github.nginx.ops.server.conf.domain.dto.ReloadDTO;
 import io.github.nginx.ops.server.conf.domain.vo.ConfInfoVO;
 import io.github.nginx.ops.server.conf.domain.vo.FileVo;
 
@@ -46,7 +47,7 @@ public interface ConfInfoService extends IService<ConfInfo> {
    *
    * @return
    */
-  String reload(ConfInfoVO confInfoVO);
+  String reload(ReloadDTO reloadDTO);
 
   /**
    * 停止nginx
@@ -68,4 +69,11 @@ public interface ConfInfoService extends IService<ConfInfo> {
    * @return
    */
   Boolean status();
+
+  /**
+   * 获取当前运行的配置文件
+   *
+   * @return
+   */
+  ConfInfoVO get();
 }

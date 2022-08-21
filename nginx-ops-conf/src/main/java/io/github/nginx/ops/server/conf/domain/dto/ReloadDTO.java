@@ -1,5 +1,6 @@
-package io.github.nginx.ops.server.conf.domain.vo;
+package io.github.nginx.ops.server.conf.domain.dto;
 
+import io.github.nginx.ops.server.conf.domain.vo.ConfInfoVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -9,11 +10,10 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author lihao3
- * @date 2022/8/20
+ * @date 2022/8/21
  */
 @Getter
 @Setter
@@ -22,12 +22,10 @@ import java.util.List;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConfInfoVO implements Serializable {
+public class ReloadDTO implements Serializable {
 
-  /** 配置文件 */
-  private String id;
-  /** 配置文件 */
-  private String content;
-  /** 按照域名拆分文件列表 */
-  private List<ConfInfoItemVO> confInfoItemList;
+  /** 新配置文件 */
+  private ConfInfoVO newConfInfo;
+  /** 旧配置文件 */
+  private ConfInfoVO oldConfInfo;
 }

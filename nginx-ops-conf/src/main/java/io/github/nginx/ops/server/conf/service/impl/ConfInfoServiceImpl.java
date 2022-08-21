@@ -1,7 +1,9 @@
 package io.github.nginx.ops.server.conf.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.RuntimeUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.odiszapc.nginxparser.NgxConfig;
@@ -9,12 +11,18 @@ import com.github.odiszapc.nginxparser.NgxDumper;
 import com.github.odiszapc.nginxparser.NgxParam;
 import io.github.nginx.ops.server.comm.exception.BusinessException;
 import io.github.nginx.ops.server.conf.domain.ConfInfo;
+import io.github.nginx.ops.server.conf.domain.ConfInfoHis;
+import io.github.nginx.ops.server.conf.domain.ConfInfoHisItem;
+import io.github.nginx.ops.server.conf.domain.ConfInfoItem;
+import io.github.nginx.ops.server.conf.domain.dto.ReloadDTO;
 import io.github.nginx.ops.server.conf.domain.vo.ConfInfoItemVO;
 import io.github.nginx.ops.server.conf.domain.vo.ConfInfoVO;
 import io.github.nginx.ops.server.conf.domain.vo.FileVo;
 import io.github.nginx.ops.server.conf.enums.NginxConfTypeEnum;
 import io.github.nginx.ops.server.conf.mapper.ConfInfoMapper;
 import io.github.nginx.ops.server.conf.service.ConfInfoCommService;
+import io.github.nginx.ops.server.conf.service.ConfInfoHisItemService;
+import io.github.nginx.ops.server.conf.service.ConfInfoHisService;
 import io.github.nginx.ops.server.conf.service.ConfInfoItemService;
 import io.github.nginx.ops.server.conf.service.ConfInfoServerService;
 import io.github.nginx.ops.server.conf.service.ConfInfoService;
@@ -25,6 +33,7 @@ import io.github.nginx.ops.server.system.service.SysSettingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,6 +54,8 @@ public class ConfInfoServiceImpl extends ServiceImpl<ConfInfoMapper, ConfInfo>
   private final ConfInfoItemService confInfoItemService;
   private final ConfInfoServerService confInfoServerService;
   private final ConfInfoUpstreamService confInfoUpstreamService;
+  private final ConfInfoHisService confInfoHisService;
+  private final ConfInfoHisItemService confInfoHisItemService;
   private final SysSettingService sysSettingService;
 
   private final LambdaQueryWrapper<ConfInfo> queryWrapper = new LambdaQueryWrapper<>();
@@ -122,7 +133,13 @@ public class ConfInfoServiceImpl extends ServiceImpl<ConfInfoMapper, ConfInfo>
   @Override
   public String test() {
     SysSetting sysSetting = sysSettingService.getOneByLogin();
-    String result = NginxConfUtils.test(sysSetting.getNginxExe());
+    String result =
+        RuntimeUtil.execForStr(
+            sysSetting.getNginxExe()
+                + NginxConfUtils.SPACE
+                + "-t -c"
+                + NginxConfUtils.SPACE
+                + NginxConfUtils.TMP_NGINX_INDEX_CONF_PATH);
     if (!result.contains("successful")) {
       throw new BusinessException(result);
     }
@@ -143,31 +160,72 @@ public class ConfInfoServiceImpl extends ServiceImpl<ConfInfoMapper, ConfInfo>
   }
 
   @Override
-  public String reload(ConfInfoVO confInfoVO) {
+  @Transactional(rollbackFor = Exception.class)
+  public String reload(ReloadDTO reloadDTO) {
+    // 删除老配置文件
+    this.removeById(reloadDTO.getOldConfInfo().getId());
+    confInfoItemService.removeByConfId(reloadDTO.getOldConfInfo().getId());
+    // 插入历史表
+    confInfoHisService.save(BeanUtil.copyProperties(reloadDTO.getOldConfInfo(), ConfInfoHis.class));
+    confInfoHisItemService.saveBatch(
+        BeanUtil.copyToList(
+            reloadDTO.getOldConfInfo().getConfInfoItemList(), ConfInfoHisItem.class));
+    // 插入新配置文件
+    this.save(BeanUtil.copyProperties(reloadDTO.getNewConfInfo(), ConfInfo.class));
+    confInfoItemService.saveBatch(
+        BeanUtil.copyToList(reloadDTO.getNewConfInfo().getConfInfoItemList(), ConfInfoItem.class));
+    // 获取命令
     SysSetting sysSetting = sysSettingService.getOneByLogin();
-    String result = NginxConfUtils.reload(sysSetting.getNginxReloadCmd());
+    // 执行重启命令
+    String result = RuntimeUtil.execForStr(sysSetting.getNginxReloadCmd());
     if (!ObjectUtil.isEmpty(result) || !result.contains("signal process started")) {
       throw new BusinessException(result);
     }
-    // 获取之前的配置文件
-    queryWrapper.clear();
-    ConfInfo confInfo = this.getOne(queryWrapper);
-
     return result;
   }
 
   @Override
   public String stop() {
-    return null;
+    SysSetting sysSetting = sysSettingService.getOneByLogin();
+    String result = RuntimeUtil.execForStr(sysSetting.getNginxStopCmd());
+    if (this.status()) {
+      throw new BusinessException("暂停失败, nginx返回结果为: " + result);
+    }
+    return result;
   }
 
   @Override
   public String run() {
-    return null;
+    SysSetting sysSetting = sysSettingService.getOneByLogin();
+    String result = RuntimeUtil.execForStr(sysSetting.getNginxStartCmd());
+    if (!this.status()) {
+      throw new BusinessException("启动失败, nginx返回结果为: " + result);
+    }
+    return result;
   }
 
   @Override
   public Boolean status() {
-    return null;
+    boolean status;
+    if (FileUtil.isWindows()) {
+      String[] command = {"tasklist"};
+      String rs = RuntimeUtil.execForStr(command);
+      status = rs.toLowerCase().contains("nginx.exe");
+    } else {
+      String[] command = {"/bin/sh", "-c", "ps -ef | grep nginx"};
+      String rs = RuntimeUtil.execForStr(command);
+      status = rs.contains("nginx: master process") || rs.contains("nginx: worker process");
+    }
+    return status;
+  }
+
+  @Override
+  public ConfInfoVO get() {
+    queryWrapper.clear();
+    ConfInfo confInfo = this.getOne(queryWrapper);
+    List<ConfInfoItem> confInfoItemList = confInfoItemService.selectByConfId(confInfo.getId());
+    ConfInfoVO confInfoVO = BeanUtil.copyProperties(confInfo, ConfInfoVO.class);
+    confInfoVO.setConfInfoItemList(BeanUtil.copyToList(confInfoItemList, ConfInfoItemVO.class));
+    return confInfoVO;
   }
 }

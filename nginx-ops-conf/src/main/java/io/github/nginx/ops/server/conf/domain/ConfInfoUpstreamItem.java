@@ -2,6 +2,7 @@ package io.github.nginx.ops.server.conf.domain;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import java.io.Serializable;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConfInfoUpstreamItem implements Serializable {
+public class ConfInfoUpstreamItem extends BaseEntity implements Serializable {
 
   private static final long serialVersionUID = 1L;
   /** 租户ID */
