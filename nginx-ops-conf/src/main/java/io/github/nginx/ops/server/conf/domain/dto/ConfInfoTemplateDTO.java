@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author lihao3
@@ -33,5 +33,5 @@ public class ConfInfoTemplateDTO implements Serializable {
   /** 排序 */
   private Integer order;
   /** 明细 */
-  private Set<ConfInfoTemplateItemDTO> confInfoTemplateItemList;
+  private List<ConfInfoTemplateItemDTO> confInfoTemplateItemList;
 }

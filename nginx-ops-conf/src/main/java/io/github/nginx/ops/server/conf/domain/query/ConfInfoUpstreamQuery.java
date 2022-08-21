@@ -25,6 +25,8 @@ public class ConfInfoUpstreamQuery implements Serializable {
 
   /** 名称 */
   private String name;
+  /** 备注 */
+  private String remark;
   /** 负载策略 */
   private String tactics;
   /** 转发类型(HTTP or UDP) */

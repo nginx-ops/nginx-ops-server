@@ -1,7 +1,9 @@
 package io.github.nginx.ops.server.conf.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import io.github.nginx.ops.server.comm.domain.vo.R;
-import io.github.nginx.ops.server.conf.domain.dto.ConfInfoServerDTO;
+import io.github.nginx.ops.server.conf.domain.ConfInfoTemplate;
 import io.github.nginx.ops.server.conf.domain.dto.ConfInfoTemplateDTO;
 import io.github.nginx.ops.server.conf.domain.query.ConfInfoTemplateQuery;
 import io.github.nginx.ops.server.conf.service.ConfInfoTemplateService;
@@ -57,8 +59,23 @@ public class ConfInfoTemplateController {
 
   @GetMapping
   @ApiOperation("查询列表接口")
-  public R<List<ConfInfoServerDTO>> list(@ModelAttribute ConfInfoTemplateQuery query) {
-    List<ConfInfoServerDTO> list = service.list(query);
+  public R<List<ConfInfoTemplate>> list(@ModelAttribute ConfInfoTemplateQuery query) {
+    List<ConfInfoTemplate> list = service.list(query);
     return R.success("查询成功!", list);
+  }
+
+  @GetMapping("page")
+  @ApiOperation("分页查询列表接口")
+  public R<ConfInfoTemplate> pageList(@ModelAttribute ConfInfoTemplateQuery query) {
+    Page<ConfInfoTemplate> page = PageHelper.startPage(query);
+    List<ConfInfoTemplate> list = service.list(query);
+    return R.success("查询成功!", page);
+  }
+
+  @GetMapping("{id}")
+  @ApiOperation("根据ID查询模板信息")
+  public R<ConfInfoTemplateDTO> getOne(@PathVariable String id) {
+    ConfInfoTemplateDTO confInfoTemplateDTO = service.getOne(id);
+    return R.success("查询成功!", confInfoTemplateDTO);
   }
 }

@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author lihao3
@@ -24,7 +24,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class ConfInfoServerDTO implements Serializable {
 
-  private String id;
   /** 监听域名 */
   private String serverName;
   /** 监听IP */
@@ -52,7 +51,7 @@ public class ConfInfoServerDTO implements Serializable {
   /** 备注 */
   private String remark;
   /** 其他参数 */
-  private Set<ConfInfoCommDTO> confInfoCommList;
+  private List<ConfInfoCommDTO> confInfoCommList;
   /** 明细 */
-  private Set<ConfInfoServerItemDTO> confInfoServerItemList;
+  private List<ConfInfoServerItemDTO> confInfoServerItemList;
 }

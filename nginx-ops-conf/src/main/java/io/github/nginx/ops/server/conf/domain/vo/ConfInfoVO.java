@@ -25,6 +25,8 @@ import java.util.List;
 public class ConfInfoVO implements Serializable {
 
   /** 配置文件 */
+  private String id;
+  /** 配置文件 */
   private String content;
   /** 按照域名拆分文件列表 */
   private List<ConfInfoItemVO> confInfoItemList;

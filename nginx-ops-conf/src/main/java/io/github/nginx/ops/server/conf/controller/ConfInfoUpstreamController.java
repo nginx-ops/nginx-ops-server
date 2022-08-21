@@ -1,7 +1,9 @@
 package io.github.nginx.ops.server.conf.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import io.github.nginx.ops.server.comm.domain.vo.R;
-import io.github.nginx.ops.server.conf.domain.dto.ConfInfoServerDTO;
+import io.github.nginx.ops.server.conf.domain.ConfInfoUpstream;
 import io.github.nginx.ops.server.conf.domain.dto.ConfInfoUpstreamDTO;
 import io.github.nginx.ops.server.conf.domain.query.ConfInfoUpstreamQuery;
 import io.github.nginx.ops.server.conf.service.ConfInfoUpstreamService;
@@ -57,8 +59,23 @@ public class ConfInfoUpstreamController {
 
   @GetMapping
   @ApiOperation("查询列表接口")
-  public R<List<ConfInfoServerDTO>> list(@ModelAttribute ConfInfoUpstreamQuery query) {
-    List<ConfInfoServerDTO> list = service.list(query);
+  public R<List<ConfInfoUpstream>> list(@ModelAttribute ConfInfoUpstreamQuery query) {
+    List<ConfInfoUpstream> list = service.list(query);
     return R.success("查询成功!", list);
+  }
+
+  @GetMapping("page")
+  @ApiOperation("查询列表接口")
+  public R<ConfInfoUpstream> pageList(@ModelAttribute ConfInfoUpstreamQuery query) {
+    Page<ConfInfoUpstream> page = PageHelper.startPage(query);
+    List<ConfInfoUpstream> list = service.list(query);
+    return R.success("查询成功!", page);
+  }
+
+  @GetMapping("{id}")
+  @ApiOperation("查询单条信息")
+  public R<ConfInfoUpstreamDTO> getOne(@PathVariable String id) {
+    ConfInfoUpstreamDTO confInfoUpstream = service.getOne(id);
+    return R.success("查询成功!", confInfoUpstream);
   }
 }

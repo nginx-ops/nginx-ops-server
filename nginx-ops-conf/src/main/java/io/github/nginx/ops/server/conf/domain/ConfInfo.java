@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,6 +18,7 @@ import java.io.Serializable;
 @Getter
 @ToString
 @SuperBuilder
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConfInfo extends BaseEntity implements Serializable {

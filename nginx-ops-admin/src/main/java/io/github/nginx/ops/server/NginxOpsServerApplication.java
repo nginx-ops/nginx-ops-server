@@ -1,5 +1,6 @@
 package io.github.nginx.ops.server;
 
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +13,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
  */
 @RefreshScope
 @MapperScan("io.github.nginx.ops.server.*.mapper")
+@EnableAdminServer
 @SpringBootApplication
 @EnableDiscoveryClient
 public class NginxOpsServerApplication {

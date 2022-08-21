@@ -7,7 +7,7 @@ spring:
     active: test
   # 服务名(不推荐修改)
   application:
-    name: nginx-ops
+    name: nginx-ops-server
   # 全局时间格式化(不推荐修改)
   jackson:
     date-format: yyyy-MM-dd
@@ -25,6 +25,18 @@ spring:
     # 数据库配置(根据情况修改)
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
+  boot:
+    admin:
+      context-path: /springboot-admin
+      discovery:
+        instances-metadata:
+          # 添加元数据,让springboot admin只监听为true的服务
+          nginx-ops: true
+      client:
+        instance:
+          # 使用ip注册进来
+          prefer-ip: true
+        url: http://localhost:${server.port}/${spring.boot.admin.context-path}
 
 # 监控接口(根据情况修改)
 management:

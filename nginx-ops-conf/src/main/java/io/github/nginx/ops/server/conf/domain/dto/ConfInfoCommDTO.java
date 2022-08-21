@@ -23,12 +23,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class ConfInfoCommDTO implements Serializable {
 
-  /** 唯一ID */
-  private String id;
-  /** 租户ID */
-  private String tenantId;
-  /** 关联表ID */
-  private String otherId;
   /** 配置类型 */
   private String type;
   /** 字段标题 */

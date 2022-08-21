@@ -33,6 +33,7 @@
         <sa-token.version>1.29.0</sa-token.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <oshi-core.version>5.6.1</oshi-core.version>
+        <spring-boot-admin.version>2.3.1</spring-boot-admin.version>
     </properties>
 
     <dependencyManagement>
@@ -102,6 +103,17 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
                 <version>${druid.version}</version>
+            </dependency>
+            <!--spring-boot-admin-->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring-boot-admin.version}</version>
             </dependency>
             <!-- Sa-Token 权限认证 -->
             <dependency>

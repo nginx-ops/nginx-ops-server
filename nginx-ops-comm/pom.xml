@@ -42,12 +42,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--监测接口-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-            <scope>runtime</scope>
-        </dependency>
         <!--引入undertow的依赖-->
         <dependency>
             <artifactId>spring-boot-starter-undertow</artifactId>
@@ -97,6 +91,11 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-system</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-http</artifactId>
             <version>${hutool.version}</version>
         </dependency>
     </dependencies>

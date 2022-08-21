@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.nginx.ops.server.system.mapper.SysOperationLogMapper">
+
+    <resultMap id="BaseResultMap" type="io.github.nginx.ops.server.system.domain.SysOperationLog">
+        <id property="id" column="id" jdbcType="CHAR"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="businessType" column="business_type" jdbcType="VARCHAR"/>
+        <result property="method" column="method" jdbcType="VARCHAR"/>
+        <result property="requestMethod" column="request_method" jdbcType="VARCHAR"/>
+        <result property="url" column="url" jdbcType="VARCHAR"/>
+        <result property="browser" column="browser" jdbcType="VARCHAR"/>
+        <result property="os" column="os" jdbcType="VARCHAR"/>
+        <result property="param" column="param" jdbcType="OTHER"/>
+        <result property="result" column="result" jdbcType="OTHER"/>
+        <result property="status" column="status" jdbcType="BIT"/>
+        <result property="errorMsg" column="error_msg" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,title,business_type,
+        method,request_method,url,
+        browser,os,param,
+        result,status,error_msg,
+        create_by,create_time,update_by,
+        update_time
+    </sql>
+</mapper>

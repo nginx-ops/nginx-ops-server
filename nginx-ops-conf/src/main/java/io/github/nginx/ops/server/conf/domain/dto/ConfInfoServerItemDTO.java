@@ -11,7 +11,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author lihao3
@@ -49,5 +49,5 @@ public class ConfInfoServerItemDTO implements Serializable {
   /** 备注 */
   private String remark;
   /** 其他参数 */
-  private Set<ConfInfoCommDTO> confInfoCommList;
+  private List<ConfInfoCommDTO> confInfoCommList;
 }
