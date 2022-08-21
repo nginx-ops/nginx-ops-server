@@ -22,5 +22,14 @@
             <artifactId>nginx-ops-comm</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+        <!--aop 切面-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+        </dependency>
     </dependencies>
 </project>
