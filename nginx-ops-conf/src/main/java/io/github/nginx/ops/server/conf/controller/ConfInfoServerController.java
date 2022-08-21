@@ -79,9 +79,4 @@ public class ConfInfoServerController {
     return R.success("查询成功!", confInfoServer);
   }
 
-  @GetMapping("preview")
-  @ApiOperation("预览")
-  public R<String> preview(String id) {
-    return R.success("预览成功!", service.preview(id));
-  }
 }

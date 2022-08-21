@@ -74,10 +74,4 @@ public class ConfInfoCommController {
     List<ConfInfoComm> confInfoCommList = service.list(query);
     return R.success("查询成功!", page);
   }
-
-  @GetMapping("preview")
-  @ApiOperation("预览")
-  public R<String> preview(String type) {
-    return R.success("预览成功!", service.preview(type));
-  }
 }

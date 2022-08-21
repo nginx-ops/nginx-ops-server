@@ -4,11 +4,10 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.odiszapc.nginxparser.NgxBlock;
-import com.github.odiszapc.nginxparser.NgxConfig;
-import com.github.odiszapc.nginxparser.NgxDumper;
 import com.github.odiszapc.nginxparser.NgxParam;
 import io.github.nginx.ops.server.conf.domain.ConfInfoComm;
 import io.github.nginx.ops.server.conf.domain.query.ConfInfoCommQuery;
+import io.github.nginx.ops.server.conf.enums.NginxConfTypeEnum;
 import io.github.nginx.ops.server.conf.mapper.ConfInfoCommMapper;
 import io.github.nginx.ops.server.conf.service.ConfInfoCommService;
 import io.github.nginx.ops.server.conf.util.NginxConfUtils;
@@ -75,19 +74,44 @@ public class ConfInfoCommServiceImpl extends ServiceImpl<ConfInfoCommMapper, Con
   }
 
   @Override
-  public String preview(String type) {
-    queryWrapper.clear();
-    queryWrapper.eq(ConfInfoComm::getType, type);
-    List<ConfInfoComm> list = this.list(queryWrapper);
-    NgxConfig ngxConfig = new NgxConfig();
+  public NgxParam buildIndex() {
+    NgxParam ngxParam = new NgxParam();
+    List<ConfInfoComm> list =
+        this.list(ConfInfoCommQuery.builder().type(NginxConfTypeEnum.INDEX.getCode()).build());
+    list.forEach(
+        item ->
+            ngxParam.addValue(
+                item.getName().trim() + NginxConfUtils.SPACE + item.getValue().trim()));
+    return ngxParam;
+  }
+
+  @Override
+  public NgxBlock buildHttp() {
+    List<ConfInfoComm> list =
+        this.list(ConfInfoCommQuery.builder().type(NginxConfTypeEnum.HTTP.getCode()).build());
     NgxBlock ngxBlockHttp = new NgxBlock();
-    ngxBlockHttp.addValue(type);
+    ngxBlockHttp.addValue(NginxConfTypeEnum.HTTP.getCode());
     list.forEach(
         item -> {
           NgxParam ngxParam = new NgxParam();
           ngxParam.addValue(item.getName().trim() + NginxConfUtils.SPACE + item.getValue().trim());
           ngxBlockHttp.addEntry(ngxParam);
         });
-    return new NgxDumper(ngxConfig).dump();
+    return ngxBlockHttp;
+  }
+
+  @Override
+  public NgxBlock buildStream() {
+    List<ConfInfoComm> list =
+        this.list(ConfInfoCommQuery.builder().type(NginxConfTypeEnum.STREAM.getCode()).build());
+    NgxBlock ngxBlockStream = new NgxBlock();
+    ngxBlockStream.addValue(NginxConfTypeEnum.STREAM.getCode());
+    list.forEach(
+        item -> {
+          NgxParam ngxParam = new NgxParam();
+          ngxParam.addValue(item.getName().trim() + NginxConfUtils.SPACE + item.getValue().trim());
+          ngxBlockStream.addEntry(ngxParam);
+        });
+    return ngxBlockStream;
   }
 }

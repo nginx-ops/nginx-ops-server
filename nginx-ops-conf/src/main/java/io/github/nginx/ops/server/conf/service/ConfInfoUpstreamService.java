@@ -5,6 +5,7 @@ import com.github.odiszapc.nginxparser.NgxBlock;
 import io.github.nginx.ops.server.conf.domain.ConfInfoUpstream;
 import io.github.nginx.ops.server.conf.domain.dto.ConfInfoUpstreamDTO;
 import io.github.nginx.ops.server.conf.domain.query.ConfInfoUpstreamQuery;
+import io.github.nginx.ops.server.conf.domain.vo.ConfInfoItemVO;
 
 import java.util.List;
 
@@ -54,12 +55,12 @@ public interface ConfInfoUpstreamService extends IService<ConfInfoUpstream> {
   ConfInfoUpstreamDTO getOne(String id);
 
   /**
-   * 预览
+   * 拼接负载均衡配置文件
    *
    * @param id
    * @return
    */
-  String preview(String id);
+  NgxBlock buildBlockUpstream(String id);
 
   /**
    * 拼接负载均衡配置文件
@@ -68,4 +69,11 @@ public interface ConfInfoUpstreamService extends IService<ConfInfoUpstream> {
    * @return
    */
   NgxBlock buildBlockUpstream(ConfInfoUpstreamDTO confInfoUpstreamDTO);
+
+  /**
+   * 创建临时文件
+   *
+   * @return
+   */
+  List<ConfInfoItemVO> createTempFile();
 }

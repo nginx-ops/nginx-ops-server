@@ -1,7 +1,7 @@
 package io.github.nginx.ops.server.conf.controller;
 
-import cn.hutool.core.util.ObjectUtil;
 import io.github.nginx.ops.server.comm.domain.vo.R;
+import io.github.nginx.ops.server.conf.domain.vo.ConfInfoVO;
 import io.github.nginx.ops.server.conf.domain.vo.FileVo;
 import io.github.nginx.ops.server.conf.service.ConfInfoService;
 import io.swagger.annotations.Api;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,10 +28,22 @@ public class ConfInfoController {
 
   private final ConfInfoService service;
 
-  @ApiOperation("生成配置")
-  @GetMapping("generate")
-  public R generate() {
-    return R.success("生成成功!", service.generate(false));
+  @ApiOperation("获取磁盘树")
+  @GetMapping("node/list")
+  public R<List<FileVo>> nodeList(String pid) {
+    return R.success("查询成功", service.nodeList(pid));
+  }
+
+  @GetMapping("preview")
+  @ApiOperation("预览")
+  public R<ConfInfoVO> preview(String type, String id) {
+    return R.success("预览成功!", service.preview(type, id));
+  }
+
+  @GetMapping("old/preview")
+  @ApiOperation("预览")
+  public R<ConfInfoVO> oldPreview(String type, String id) {
+    return R.success("预览成功!", service.preview(type, id));
   }
 
   @ApiOperation("校验文件")
@@ -52,8 +62,8 @@ public class ConfInfoController {
 
   @ApiOperation("重新装配")
   @PostMapping("reload")
-  public R reload() {
-    String result = service.reload();
+  public R reload(ConfInfoVO confInfoVO) {
+    String result = service.reload(confInfoVO);
     return R.success(result);
   }
 
@@ -74,29 +84,6 @@ public class ConfInfoController {
   @ApiOperation("当前运行状态")
   @PostMapping("status")
   public R status() {
-    String result = service.status();
-    return R.success(result);
-  }
-
-  @ApiOperation("获取磁盘树")
-  @GetMapping("node/list")
-  public R<List<FileVo>> nodeList(String pid) {
-    File[] fileList = null;
-    if (ObjectUtil.isEmpty(pid)) {
-      fileList = File.listRoots();
-    } else {
-      fileList = new File(pid).listFiles();
-    }
-    List<FileVo> fileVoList = new ArrayList<>();
-    for (File file : fileList) {
-      fileVoList.add(
-          FileVo.builder()
-              .id(file.getPath())
-              .pid(file.getParent())
-              .isParent(file.isDirectory())
-              .name(file.getName())
-              .build());
-    }
-    return R.success("查询成功", fileVoList);
+    return R.success("获取成功!", service.status());
   }
 }

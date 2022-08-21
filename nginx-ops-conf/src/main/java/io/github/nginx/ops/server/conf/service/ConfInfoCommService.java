@@ -1,6 +1,8 @@
 package io.github.nginx.ops.server.conf.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.odiszapc.nginxparser.NgxBlock;
+import com.github.odiszapc.nginxparser.NgxParam;
 import io.github.nginx.ops.server.conf.domain.ConfInfoComm;
 import io.github.nginx.ops.server.conf.domain.query.ConfInfoCommQuery;
 
@@ -54,10 +56,23 @@ public interface ConfInfoCommService extends IService<ConfInfoComm> {
   Map<String, List<ConfInfoComm>> getMap(Set<String> otherIds);
 
   /**
-   * 预览
+   * 构建全局参数
    *
-   * @param type
    * @return
    */
-  String preview(String type);
+  NgxParam buildIndex();
+
+  /**
+   * 构建HTTP参数
+   *
+   * @return
+   */
+  NgxBlock buildHttp();
+
+  /**
+   * 构建STREAM参数
+   *
+   * @return
+   */
+  NgxBlock buildStream();
 }

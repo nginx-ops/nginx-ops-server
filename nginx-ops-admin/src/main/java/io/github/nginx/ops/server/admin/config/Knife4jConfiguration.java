@@ -24,9 +24,9 @@ public class Knife4jConfiguration {
         new Docket(DocumentationType.SWAGGER_2)
             .apiInfo(
                 new ApiInfoBuilder()
-                    .title("nginx-ops")
-                    .description("nginx-ops-module-conf")
-                    .termsOfServiceUrl("https://github.com/pearstack/nginx-ops")
+                    .title("nginx-ops-server帮助文档")
+                    .description("nginx-ops服务端")
+                    .termsOfServiceUrl("https://github.com/nginx-ops/nginx-ops-server")
                     .contact("lihao3@foxmail.com")
                     .version("1.0.0")
                     .build())

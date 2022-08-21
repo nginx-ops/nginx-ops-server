@@ -78,10 +78,4 @@ public class ConfInfoUpstreamController {
     ConfInfoUpstreamDTO confInfoUpstream = service.getOne(id);
     return R.success("查询成功!", confInfoUpstream);
   }
-
-  @GetMapping("preview")
-  @ApiOperation("预览")
-  public R<String> preview(String id) {
-    return R.success("预览成功!", service.preview(id));
-  }
 }

@@ -1,6 +1,7 @@
 package io.github.nginx.ops.server.conf.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -15,16 +16,20 @@ import io.github.nginx.ops.server.conf.domain.dto.ConfInfoCommDTO;
 import io.github.nginx.ops.server.conf.domain.dto.ConfInfoUpstreamDTO;
 import io.github.nginx.ops.server.conf.domain.dto.ConfInfoUpstreamItemDTO;
 import io.github.nginx.ops.server.conf.domain.query.ConfInfoUpstreamQuery;
+import io.github.nginx.ops.server.conf.domain.vo.ConfInfoItemVO;
 import io.github.nginx.ops.server.conf.mapper.ConfInfoUpstreamMapper;
 import io.github.nginx.ops.server.conf.service.ConfInfoCommService;
 import io.github.nginx.ops.server.conf.service.ConfInfoUpstreamItemService;
 import io.github.nginx.ops.server.conf.service.ConfInfoUpstreamService;
+import io.github.nginx.ops.server.conf.util.NginxConfUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StopWatch;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -162,12 +167,9 @@ public class ConfInfoUpstreamServiceImpl
   }
 
   @Override
-  public String preview(String id) {
+  public NgxBlock buildBlockUpstream(String id) {
     ConfInfoUpstreamDTO confInfoUpstreamDTO = this.getOne(id);
-    NgxConfig ngxConfig = new NgxConfig();
-    NgxBlock ngxBlock = this.buildBlockUpstream(confInfoUpstreamDTO);
-    ngxConfig.addEntry(ngxBlock);
-    return new NgxDumper(ngxConfig).dump();
+    return this.buildBlockUpstream(confInfoUpstreamDTO);
   }
 
   @Override
@@ -193,11 +195,32 @@ public class ConfInfoUpstreamServiceImpl
     return ngxBlockServer;
   }
 
+  @Override
+  public List<ConfInfoItemVO> createTempFile() {
+    List<ConfInfoUpstream> list = this.list();
+    if (ObjectUtil.isNotEmpty(list)) {
+      return Collections.emptyList();
+    }
+    NgxConfig ngxConfig = new NgxConfig();
+    List<ConfInfoItemVO> confInfoItemVOList = new ArrayList<>();
+    list.forEach(
+        item -> {
+          NgxBlock ngxBlockUpstream = this.buildBlockUpstream(item.getId());
+          ngxConfig.addEntry(ngxBlockUpstream);
+          String serverConf = new NgxDumper(ngxConfig).dump();
+          String tempConfFile = NginxConfUtils.createTempConfFile(serverConf, item.getName());
+          confInfoItemVOList.add(
+              ConfInfoItemVO.builder()
+                  .name(FileNameUtil.getName(tempConfFile))
+                  .path(tempConfFile)
+                  .content(serverConf)
+                  .build());
+        });
+    return confInfoItemVOList;
+  }
+
   private String buildNodeStr(ConfInfoUpstreamItemDTO upstreamServer) {
     StringBuilder conf = new StringBuilder();
-    if (upstreamServer.getIp().contains(":")) {
-      upstreamServer.setIp("[" + upstreamServer.getIp() + "]");
-    }
     conf.append(upstreamServer.getIp()).append(":").append(upstreamServer.getPort());
     if (upstreamServer.getWeight() != null) {
       conf.append(" weight=").append(upstreamServer.getWeight());

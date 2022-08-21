@@ -1,9 +1,11 @@
 package io.github.nginx.ops.server.conf.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.github.odiszapc.nginxparser.NgxBlock;
 import io.github.nginx.ops.server.conf.domain.ConfInfoServer;
 import io.github.nginx.ops.server.conf.domain.dto.ConfInfoServerDTO;
 import io.github.nginx.ops.server.conf.domain.query.ConfInfoServerQuery;
+import io.github.nginx.ops.server.conf.domain.vo.ConfInfoItemVO;
 
 import java.util.List;
 
@@ -53,10 +55,17 @@ public interface ConfInfoServerService extends IService<ConfInfoServer> {
   ConfInfoServerDTO getOne(String id);
 
   /**
-   * 预览
+   * 拼接nginx配置文件
    *
    * @param id
    * @return
    */
-  String preview(String id);
+  NgxBlock buildBlockServer(String id);
+
+  /**
+   * 生成临时文件
+   *
+   * @return
+   */
+  List<ConfInfoItemVO> createTempFile();
 }
