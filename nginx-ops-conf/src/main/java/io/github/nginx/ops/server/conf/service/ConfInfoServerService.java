@@ -68,4 +68,12 @@ public interface ConfInfoServerService extends IService<ConfInfoServer> {
    * @return
    */
   List<ConfInfoItemVO> createTempFile();
+
+  /**
+   * 根据证书ID查询使用证书的数量
+   *
+   * @param certificateId
+   * @return
+   */
+  long selectCountByCertificateId(String certificateId);
 }

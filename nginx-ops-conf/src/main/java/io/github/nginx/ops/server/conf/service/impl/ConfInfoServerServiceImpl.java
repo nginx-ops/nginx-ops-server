@@ -343,4 +343,11 @@ public class ConfInfoServerServiceImpl extends ServiceImpl<ConfInfoServerMapper,
         });
     return confInfoItemVOList;
   }
+
+  @Override
+  public long selectCountByCertificateId(String certificateId) {
+    queryWrapper.clear();
+    queryWrapper.eq(ConfInfoServer::getCertificateId, certificateId);
+    return this.count(queryWrapper);
+  }
 }
