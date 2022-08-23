@@ -76,4 +76,12 @@ public interface ConfInfoServerService extends IService<ConfInfoServer> {
    * @return
    */
   long selectCountByCertificateId(String certificateId);
+
+  /**
+   * 预览
+   *
+   * @return
+   * @param nginxConfPath
+   */
+  List<ConfInfoItemVO> preview(String nginxConfPath);
 }

@@ -11,18 +11,13 @@ import com.github.odiszapc.nginxparser.NgxDumper;
 import com.github.odiszapc.nginxparser.NgxParam;
 import io.github.nginx.ops.server.comm.exception.BusinessException;
 import io.github.nginx.ops.server.conf.domain.ConfInfo;
-import io.github.nginx.ops.server.conf.domain.ConfInfoHis;
-import io.github.nginx.ops.server.conf.domain.ConfInfoHisItem;
 import io.github.nginx.ops.server.conf.domain.ConfInfoItem;
-import io.github.nginx.ops.server.conf.domain.dto.ReloadDTO;
 import io.github.nginx.ops.server.conf.domain.vo.ConfInfoItemVO;
 import io.github.nginx.ops.server.conf.domain.vo.ConfInfoVO;
 import io.github.nginx.ops.server.conf.domain.vo.FileVo;
 import io.github.nginx.ops.server.conf.enums.NginxConfTypeEnum;
 import io.github.nginx.ops.server.conf.mapper.ConfInfoMapper;
 import io.github.nginx.ops.server.conf.service.ConfInfoCommService;
-import io.github.nginx.ops.server.conf.service.ConfInfoHisItemService;
-import io.github.nginx.ops.server.conf.service.ConfInfoHisService;
 import io.github.nginx.ops.server.conf.service.ConfInfoItemService;
 import io.github.nginx.ops.server.conf.service.ConfInfoServerService;
 import io.github.nginx.ops.server.conf.service.ConfInfoService;
@@ -54,8 +49,6 @@ public class ConfInfoServiceImpl extends ServiceImpl<ConfInfoMapper, ConfInfo>
   private final ConfInfoItemService confInfoItemService;
   private final ConfInfoServerService confInfoServerService;
   private final ConfInfoUpstreamService confInfoUpstreamService;
-  private final ConfInfoHisService confInfoHisService;
-  private final ConfInfoHisItemService confInfoHisItemService;
   private final SysSettingService sysSettingService;
 
   private final LambdaQueryWrapper<ConfInfo> queryWrapper = new LambdaQueryWrapper<>();
@@ -106,8 +99,8 @@ public class ConfInfoServiceImpl extends ServiceImpl<ConfInfoMapper, ConfInfo>
       // 判断是否需要分割文件
       if (Boolean.TRUE.equals(sysSetting.getIsSplit())) {
         List<ConfInfoItemVO> confInfoItemVOList = new ArrayList<>();
-        confInfoItemVOList.addAll(confInfoServerService.createTempFile());
-        confInfoItemVOList.addAll(confInfoUpstreamService.createTempFile());
+        confInfoItemVOList.addAll(confInfoServerService.preview(sysSetting.getNginxConfPath()));
+        confInfoItemVOList.addAll(confInfoUpstreamService.preview(sysSetting.getNginxConfPath()));
         if (ObjectUtil.isNotEmpty(confInfoItemVOList)) {
           NgxParam ngxParam = new NgxParam();
           confInfoItemVOList.forEach(
@@ -122,17 +115,24 @@ public class ConfInfoServiceImpl extends ServiceImpl<ConfInfoMapper, ConfInfo>
     }
     // 生成配置
     String nginxConf = new NgxDumper(ngxConfig).dump();
-    if (ObjectUtil.isEmpty(type)) {
-      // 生成临时文件
-      NginxConfUtils.createTempConfFile(nginxConf, "nginx");
-    }
     confInfoVO.setContent(nginxConf);
     return confInfoVO;
   }
 
   @Override
-  public String test() {
+  public String test(ConfInfoVO confInfoVO) {
+    // 获取nginx基础配置文件
     SysSetting sysSetting = sysSettingService.getOneByLogin();
+    // 创建临时文件
+    FileUtil.clean(NginxConfUtils.TMP_NGINX_CONF_PATH);
+    FileUtil.writeUtf8String(confInfoVO.getContent(), NginxConfUtils.TMP_NGINX_INDEX_CONF_PATH);
+    confInfoVO
+        .getConfInfoItemList()
+        .forEach(
+            item ->
+                FileUtil.writeUtf8String(
+                    item.getContent(), NginxConfUtils.TMP_NGINX_CONF_PATH + item.getName()));
+    // 执行命令
     String result =
         RuntimeUtil.execForStr(
             sysSetting.getNginxExe()
@@ -147,33 +147,24 @@ public class ConfInfoServiceImpl extends ServiceImpl<ConfInfoMapper, ConfInfo>
   }
 
   @Override
-  public void replace() {
+  public void replace(ConfInfoVO confInfoVO) {
+    // 获取nginx基础配置文件
     SysSetting sysSetting = sysSettingService.getOneByLogin();
     String nginxConfPath = sysSetting.getNginxConfPath();
-    // 先copy到back中
-    FileUtil.clean(NginxConfUtils.BACK_NGINX_CONF_PATH);
-    FileUtil.copy(nginxConfPath, NginxConfUtils.BACK_NGINX_CONF_PATH, true);
-    // 再删除
-    FileUtil.clean(sysSetting.getNginxConfPath());
-    // 在插入
-    FileUtil.copy(NginxConfUtils.TMP_NGINX_CONF_PATH, sysSetting.getNginxConfPath(), true);
+    FileUtil.clean(nginxConfPath);
+    FileUtil.writeUtf8String(confInfoVO.getContent(), nginxConfPath + "nginx.conf");
+    if (ObjectUtil.isNotEmpty(confInfoVO.getConfInfoItemList())) {
+      // 写从文件
+      confInfoVO
+          .getConfInfoItemList()
+          .forEach(
+              item -> FileUtil.writeUtf8String(item.getContent(), nginxConfPath + item.getName()));
+    }
   }
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  public String reload(ReloadDTO reloadDTO) {
-    // 删除老配置文件
-    this.removeById(reloadDTO.getOldConfInfo().getId());
-    confInfoItemService.removeByConfId(reloadDTO.getOldConfInfo().getId());
-    // 插入历史表
-    confInfoHisService.save(BeanUtil.copyProperties(reloadDTO.getOldConfInfo(), ConfInfoHis.class));
-    confInfoHisItemService.saveBatch(
-        BeanUtil.copyToList(
-            reloadDTO.getOldConfInfo().getConfInfoItemList(), ConfInfoHisItem.class));
-    // 插入新配置文件
-    this.save(BeanUtil.copyProperties(reloadDTO.getNewConfInfo(), ConfInfo.class));
-    confInfoItemService.saveBatch(
-        BeanUtil.copyToList(reloadDTO.getNewConfInfo().getConfInfoItemList(), ConfInfoItem.class));
+  public String reload() {
     // 获取命令
     SysSetting sysSetting = sysSettingService.getOneByLogin();
     // 执行重启命令

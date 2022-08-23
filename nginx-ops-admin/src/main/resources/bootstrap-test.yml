@@ -16,8 +16,9 @@ spring:
     url: jdbc:mysql://sh-cynosdbmysql-grp-nd1blxru.sql.tencentcdb.com:29792/nginx_ops?useUnicode=true&characterEncoding=utf8&useSSL=false&noAccessToProcedureBodies=true&serverTimezone=Asia/Shanghai
     username: root
     password: lh@686...
-
-
+  redis:
+    # 缓存数据库配置(根据情况修改)
+    host: 10.99.10.123
 
 # 测试环境打印SQL脚本
 logging:

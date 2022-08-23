@@ -1,7 +1,6 @@
 package io.github.nginx.ops.server.conf.controller;
 
 import io.github.nginx.ops.server.comm.domain.vo.R;
-import io.github.nginx.ops.server.conf.domain.dto.ReloadDTO;
 import io.github.nginx.ops.server.conf.domain.vo.ConfInfoVO;
 import io.github.nginx.ops.server.conf.domain.vo.FileVo;
 import io.github.nginx.ops.server.conf.service.ConfInfoService;
@@ -48,25 +47,25 @@ public class ConfInfoController {
 
   @PostMapping("test")
   @ApiOperation("校验文件")
-  @OperationLog(title = "预览nginx配置文件", businessType = BusinessTypeEnum.OTHER)
-  public R test() {
-    String result = service.test();
+  @OperationLog(title = "替换nginx配置文件", businessType = BusinessTypeEnum.OTHER)
+  public R test(@RequestBody ConfInfoVO confInfoVO) {
+    String result = service.test(confInfoVO);
     return R.success(result);
   }
 
   @PostMapping("replace")
   @ApiOperation("替换文件")
   @OperationLog(title = "替换nginx配置文件", businessType = BusinessTypeEnum.OTHER)
-  public R replace() {
-    service.replace();
+  public R replace(@RequestBody ConfInfoVO confInfoVO) {
+    service.replace(confInfoVO);
     return R.success("替换成功!");
   }
 
   @ApiOperation("重新装配")
   @PostMapping("reload")
   @OperationLog(title = "重新装配nginx配置文件", businessType = BusinessTypeEnum.OTHER)
-  public R reload(@RequestBody ReloadDTO reloadDTO) {
-    String result = service.reload(reloadDTO);
+  public R reload() {
+    String result = service.reload();
     return R.success(result);
   }
 

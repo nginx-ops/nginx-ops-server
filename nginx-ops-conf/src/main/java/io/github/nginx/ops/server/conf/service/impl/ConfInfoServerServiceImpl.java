@@ -1,6 +1,7 @@
 package io.github.nginx.ops.server.conf.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -23,6 +24,7 @@ import io.github.nginx.ops.server.conf.service.ConfInfoCommService;
 import io.github.nginx.ops.server.conf.service.ConfInfoServerItemService;
 import io.github.nginx.ops.server.conf.service.ConfInfoServerService;
 import io.github.nginx.ops.server.conf.util.NginxConfUtils;
+import io.github.nginx.ops.server.system.service.SysSettingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,7 @@ import java.util.stream.Collectors;
 public class ConfInfoServerServiceImpl extends ServiceImpl<ConfInfoServerMapper, ConfInfoServer>
     implements ConfInfoServerService {
 
+  private final SysSettingService sysSettingService;
   private final ConfInfoCommService confInfoCommService;
   private final ConfInfoServerItemService confInfoServerItemService;
 
@@ -349,5 +352,30 @@ public class ConfInfoServerServiceImpl extends ServiceImpl<ConfInfoServerMapper,
     queryWrapper.clear();
     queryWrapper.eq(ConfInfoServer::getCertificateId, certificateId);
     return this.count(queryWrapper);
+  }
+
+  @Override
+  public List<ConfInfoItemVO> preview(String nginxConfPath) {
+    List<ConfInfoServer> list = this.list();
+    if (ObjectUtil.isNotEmpty(list)) {
+      return Collections.emptyList();
+    }
+    NgxConfig ngxConfig = new NgxConfig();
+    List<ConfInfoItemVO> confInfoItemVOList = new ArrayList<>();
+    list.forEach(
+        item -> {
+          NgxBlock buildBlockServer = this.buildBlockServer(item.getId());
+          ngxConfig.addEntry(buildBlockServer);
+          String serverConf = new NgxDumper(ngxConfig).dump();
+          String fileName = item.getServerName() + ".conf";
+          confInfoItemVOList.add(
+              ConfInfoItemVO.builder()
+                  .name(fileName)
+                  .path(
+                      FileUtil.normalize(nginxConfPath + NginxConfUtils.FILE_SEPARATOR + fileName))
+                  .content(serverConf)
+                  .build());
+        });
+    return confInfoItemVOList;
   }
 }
