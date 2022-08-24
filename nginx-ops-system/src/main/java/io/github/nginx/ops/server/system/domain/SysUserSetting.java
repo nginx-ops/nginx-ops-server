@@ -11,7 +11,12 @@ import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
-/** 系统设置-字典表 @TableName sys_dict */
+/**
+ * 用户和设置的中间表
+ *
+ * @author lihao3
+ * @date 2022/8/24 9:41
+ */
 @Setter
 @Getter
 @ToString
@@ -19,18 +24,15 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysDict extends BaseEntity implements Serializable {
+public class SysUserSetting extends BaseEntity implements Serializable {
 
-  /** 字典类型 */
-  private String type;
-  /** 字典编码 */
-  private String code;
-  /** 字典内容 */
-  private String value;
+  private static final long serialVersionUID = 1L;
+  /** 用户ID */
+  private String userId;
+  /** nginx管理ID */
+  private String settingId;
   /** 备注 */
   private String remark;
   /** 逻辑删除 */
   private Boolean deleteFlag;
-
-  private static final long serialVersionUID = 1L;
 }

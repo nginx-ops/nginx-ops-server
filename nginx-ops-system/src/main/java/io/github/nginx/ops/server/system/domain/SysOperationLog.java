@@ -1,6 +1,5 @@
 package io.github.nginx.ops.server.system.domain;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -26,8 +25,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class SysOperationLog extends BaseEntity implements Serializable {
 
-  @TableField(exist = false)
-  private static final long serialVersionUID = 1L;
   /** 模块标题 */
   private String title;
   /** 业务类型 */
@@ -52,4 +49,6 @@ public class SysOperationLog extends BaseEntity implements Serializable {
   private Boolean status;
   /** 错误消息 */
   private String errorMsg;
+
+  private static final long serialVersionUID = 1L;
 }

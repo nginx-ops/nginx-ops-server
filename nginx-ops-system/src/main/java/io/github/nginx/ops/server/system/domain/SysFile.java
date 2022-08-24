@@ -25,7 +25,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class SysFile extends BaseEntity implements Serializable {
 
-  private static final long serialVersionUID = 1L;
   /** 文件名称 */
   private String fileName;
   /** 文件描述 */
@@ -38,4 +37,6 @@ public class SysFile extends BaseEntity implements Serializable {
   private Long fileSize;
   /** 备注 */
   private String remark;
+
+  private static final long serialVersionUID = 1L;
 }
