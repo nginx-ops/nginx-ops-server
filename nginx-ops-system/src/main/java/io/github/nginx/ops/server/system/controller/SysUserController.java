@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -49,12 +50,12 @@ public class SysUserController {
   @GetMapping
   @ApiOperation("查询用户列表")
   @OperationLog(title = "查询用户列表", businessType = BusinessTypeEnum.SELECT)
-  public R list() {}
+  public R list(@ModelAttribute) {}
 
   @GetMapping("page")
   @ApiOperation("分页查询用户列表")
   @OperationLog(title = "分页查询用户列表", businessType = BusinessTypeEnum.SELECT)
-  public R pageList() {}
+  public R pageList(@ModelAttribute) {}
 
   @GetMapping("{id}")
   @ApiOperation("根据ID查询")
