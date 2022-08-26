@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Getter
 @ToString
 @SuperBuilder
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConfInfo extends BaseEntity implements Serializable {
