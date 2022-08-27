@@ -38,9 +38,6 @@ spring:
       # 配置监控页功能
       stat-view-servlet:
         enabled: true
-        # login-username: admin
-        # login-password: admin
-
   boot:
     admin:
       context-path: /springboot-admin
@@ -80,6 +77,9 @@ mybatis-plus:
       where-strategy: not_empty # 为空则不加入条件
       update-strategy: not_empty # 为空则不加入条件
       insert-strategy: not_empty # 为空则不加入条件
+      logic-delete-field: deleteFlag  # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 
 # PageHelper分页插件(不推荐修改)
 pagehelper:

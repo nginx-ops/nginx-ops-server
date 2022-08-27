@@ -1,6 +1,5 @@
 package io.github.nginx.ops.server.system.domain.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -10,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author lihao3
@@ -27,7 +27,6 @@ public class SysUserDTO implements Serializable {
   /** 登陆账号 */
   private String loginName;
   /** 密码 */
-  @TableField(value = "`password`")
   private String password;
   /** 昵称 */
   private String nickName;
@@ -35,6 +34,8 @@ public class SysUserDTO implements Serializable {
   private String email;
   /** 头像 */
   private String avatar;
-  /** nginx设置 */
-  private SysSettingDTO sysSetting;
+  /** 备注 */
+  private String remark;
+  /** 设置表ID集合 */
+  private List<String> sysSettingIdList;
 }
