@@ -1,6 +1,7 @@
 package io.github.nginx.ops.server.conf.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -213,6 +214,31 @@ public class ConfInfoUpstreamServiceImpl
               ConfInfoItemVO.builder()
                   .name(FileNameUtil.getName(tempConfFile))
                   .path(tempConfFile)
+                  .content(serverConf)
+                  .build());
+        });
+    return confInfoItemVOList;
+  }
+
+  @Override
+  public List<ConfInfoItemVO> preview(String nginxConfPath) {
+    List<ConfInfoUpstream> list = this.list();
+    if (ObjectUtil.isNotEmpty(list)) {
+      return Collections.emptyList();
+    }
+    NgxConfig ngxConfig = new NgxConfig();
+    List<ConfInfoItemVO> confInfoItemVOList = new ArrayList<>();
+    list.forEach(
+        item -> {
+          NgxBlock ngxBlockUpstream = this.buildBlockUpstream(item.getId());
+          ngxConfig.addEntry(ngxBlockUpstream);
+          String serverConf = new NgxDumper(ngxConfig).dump();
+          String fileName = item.getName() + ".conf";
+          confInfoItemVOList.add(
+              ConfInfoItemVO.builder()
+                  .name(fileName)
+                  .path(
+                      FileUtil.normalize(nginxConfPath + NginxConfUtils.FILE_SEPARATOR + fileName))
                   .content(serverConf)
                   .build());
         });

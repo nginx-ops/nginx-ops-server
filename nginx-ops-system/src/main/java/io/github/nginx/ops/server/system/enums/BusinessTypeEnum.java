@@ -21,6 +21,8 @@ public enum BusinessTypeEnum {
   UPDATE("update"),
   /** 删除 */
   DELETE("delete"),
+  /** 上传 */
+  UPLOAD("upload"),
   /** 授权 */
   GRANT("grant"),
   /** 导出 */

@@ -2,7 +2,6 @@ package io.github.nginx.ops.server.conf.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.nginx.ops.server.conf.domain.ConfInfo;
-import io.github.nginx.ops.server.conf.domain.dto.ReloadDTO;
 import io.github.nginx.ops.server.conf.domain.vo.ConfInfoVO;
 import io.github.nginx.ops.server.conf.domain.vo.FileVo;
 
@@ -36,18 +35,23 @@ public interface ConfInfoService extends IService<ConfInfo> {
    * 测试配置文件
    *
    * @return
+   * @param confInfoVO
    */
-  String test();
+  String test(ConfInfoVO confInfoVO);
 
-  /** 替换配置文件到正式环境中 */
-  void replace();
+  /**
+   * 替换配置文件到正式环境中
+   *
+   * @param confInfoVO
+   */
+  void replace(ConfInfoVO confInfoVO);
 
   /**
    * nginx 重新装配
    *
    * @return
    */
-  String reload(ReloadDTO reloadDTO);
+  String reload();
 
   /**
    * 停止nginx

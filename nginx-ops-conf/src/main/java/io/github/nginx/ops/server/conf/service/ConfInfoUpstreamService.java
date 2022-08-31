@@ -76,4 +76,12 @@ public interface ConfInfoUpstreamService extends IService<ConfInfoUpstream> {
    * @return
    */
   List<ConfInfoItemVO> createTempFile();
+
+  /**
+   * 预览文件
+   *
+   * @return
+   * @param nginxConfPath
+   */
+  List<ConfInfoItemVO> preview(String nginxConfPath);
 }

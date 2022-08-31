@@ -25,6 +25,19 @@ spring:
     # 数据库配置(根据情况修改)
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      # 监控SpringBean
+      aop-patterns: io.github.nginx.ops.server.*
+      # 底层开启功能，stat（sql监控），wall（防火墙）
+      filters: stat,wall
+      # 监控web
+      web-stat-filter:
+        enabled: true
+        urlPattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+      # 配置监控页功能
+      stat-view-servlet:
+        enabled: true
   boot:
     admin:
       context-path: /springboot-admin
@@ -64,6 +77,9 @@ mybatis-plus:
       where-strategy: not_empty # 为空则不加入条件
       update-strategy: not_empty # 为空则不加入条件
       insert-strategy: not_empty # 为空则不加入条件
+      logic-delete-field: deleteFlag  # 全局逻辑删除的实体字段名
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
 
 # PageHelper分页插件(不推荐修改)
 pagehelper:

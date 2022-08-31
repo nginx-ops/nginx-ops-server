@@ -2,6 +2,7 @@ package io.github.nginx.ops.server.system.domain;
 
 import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 @Getter
 @ToString
 @SuperBuilder
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 public class SysSetting extends BaseEntity implements Serializable {
@@ -25,12 +27,6 @@ public class SysSetting extends BaseEntity implements Serializable {
   private String name;
   /** 地址 */
   private String url;
-
-  private static final long serialVersionUID = 1L;
-  /** 账号 */
-  private String username;
-  /** 密码 */
-  private String password;
   /** 顺序 */
   private Integer order;
   /** nginx执行文件 */
@@ -53,4 +49,6 @@ public class SysSetting extends BaseEntity implements Serializable {
   private Boolean deleteFlag;
   /** 是否按照域名分割文件 */
   private Boolean isSplit;
+
+  private static final long serialVersionUID = 1L;
 }

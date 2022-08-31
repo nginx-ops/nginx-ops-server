@@ -2,6 +2,7 @@ package io.github.nginx.ops.server.system.domain;
 
 import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 @Getter
 @ToString
 @SuperBuilder
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 public class SysDict extends BaseEntity implements Serializable {
@@ -27,7 +29,6 @@ public class SysDict extends BaseEntity implements Serializable {
   private String value;
   /** 备注 */
   private String remark;
-
   /** 逻辑删除 */
   private Boolean deleteFlag;
 
