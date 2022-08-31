@@ -3,6 +3,9 @@ package io.github.nginx.ops.server.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.nginx.ops.server.system.domain.SysUser;
 import io.github.nginx.ops.server.system.domain.dto.SysUserDTO;
+import io.github.nginx.ops.server.system.domain.query.SysUserQuery;
+
+import java.util.List;
 
 /**
  * @author lihao3
@@ -31,4 +34,20 @@ public interface SysUserService extends IService<SysUser> {
    * @param dto
    */
   void update(String id, SysUserDTO dto);
+
+  /**
+   * 查询列表
+   *
+   * @param query
+   * @return
+   */
+  List<SysUser> list(SysUserQuery query);
+
+  /**
+   * 查询单条信息
+   *
+   * @param id
+   * @return
+   */
+  SysUserDTO getOne(String id);
 }

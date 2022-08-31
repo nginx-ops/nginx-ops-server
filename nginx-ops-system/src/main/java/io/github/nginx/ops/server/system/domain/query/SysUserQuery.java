@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author lihao3
@@ -21,4 +22,22 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysUserQuery implements Serializable {}
+public class SysUserQuery implements Serializable {
+
+  /** 登陆账号 */
+  private String loginName;
+  /** 昵称 */
+  private String nickName;
+  /** 邮箱 */
+  private String email;
+  /** 是否启用 */
+  private Boolean isEnable;
+  /** 开始最后登录时间 */
+  private Date startLoginDate;
+  /** 截止最后登录时间 */
+  private Date endLoginDate;
+  /** 开始最后登录时间 */
+  private Date startCreatTime;
+  /** 截止最后登录时间 */
+  private Date endCreatTime;
+}

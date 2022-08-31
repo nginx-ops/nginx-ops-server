@@ -36,6 +36,8 @@ public class SysUserDTO implements Serializable {
   private String avatar;
   /** 备注 */
   private String remark;
-  /** 设置表ID集合 */
-  private List<String> sysSettingIdList;
+  /** 设置表列表 */
+  private List<SysSettingDTO> sysSettingList;
+  /** 角色表列表 */
+  private List<SysRoleDTO> sysRoleList;
 }

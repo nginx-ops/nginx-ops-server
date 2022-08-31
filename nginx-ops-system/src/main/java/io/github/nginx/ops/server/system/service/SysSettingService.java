@@ -2,6 +2,10 @@ package io.github.nginx.ops.server.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.nginx.ops.server.system.domain.SysSetting;
+import io.github.nginx.ops.server.system.domain.dto.SysSettingDTO;
+import io.github.nginx.ops.server.system.domain.query.SysSettingQuery;
+
+import java.util.List;
 
 /**
  * @author 24709
@@ -16,4 +20,42 @@ public interface SysSettingService extends IService<SysSetting> {
    * @return
    */
   SysSetting getOneByLogin();
+
+  /**
+   * 保存
+   *
+   * @param dto
+   */
+  void save(SysSettingDTO dto);
+
+  /**
+   * 删除
+   *
+   * @param id
+   */
+  void delete(String id);
+
+  /**
+   * 修改
+   *
+   * @param id
+   * @param dto
+   */
+  void update(String id, SysSettingDTO dto);
+
+  /**
+   * 查询
+   *
+   * @param query
+   * @return
+   */
+  List<SysSetting> list(SysSettingQuery query);
+
+  /**
+   * 查询单条
+   *
+   * @param id
+   * @return
+   */
+  SysSettingDTO getOne(String id);
 }

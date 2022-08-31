@@ -1,19 +1,28 @@
 package io.github.nginx.ops.server.system.domain;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /** 用户角色关联表 @TableName sys_user_role */
-@TableName(value = "sys_user_role")
-@Data
-public class SysUserRole implements Serializable {
-  @TableField(exist = false)
-  private static final long serialVersionUID = 1L;
+@Setter
+@Getter
+@ToString
+@SuperBuilder
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
+public class SysUserRole extends BaseEntity implements Serializable {
+
   /** 唯一ID */
   @TableId private String id;
   /** 用户ID */
@@ -32,4 +41,6 @@ public class SysUserRole implements Serializable {
   private Date updateTime;
   /** 逻辑删除 */
   private Boolean deleteFlag;
+
+  private static final long serialVersionUID = 1L;
 }
