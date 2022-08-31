@@ -16,7 +16,6 @@
 
 
 -- 导出 nginx_ops 的数据库结构
-DROP DATABASE IF EXISTS `nginx_ops`;
 CREATE DATABASE IF NOT EXISTS `nginx_ops` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
 USE `nginx_ops`;
 
@@ -39,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `conf_info`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='nginx配置表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.conf_info_certificate 结构
 DROP TABLE IF EXISTS `conf_info_certificate`;
@@ -60,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `conf_info_certificate`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='证书表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info_certificate 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.conf_info_comm 结构
 DROP TABLE IF EXISTS `conf_info_comm`;
@@ -89,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `conf_info_comm`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='nginx通用配置表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info_comm 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.conf_info_his 结构
 DROP TABLE IF EXISTS `conf_info_his`;
@@ -110,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `conf_info_his`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='nginx配置历史表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info_his 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.conf_info_his_item 结构
 DROP TABLE IF EXISTS `conf_info_his_item`;
@@ -133,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `conf_info_his_item`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='nginx明细配置记录表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info_his_item 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.conf_info_item 结构
 DROP TABLE IF EXISTS `conf_info_item`;
@@ -158,7 +157,7 @@ CREATE TABLE IF NOT EXISTS `conf_info_item`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='nginx明细配置表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info_item 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.conf_info_server 结构
 DROP TABLE IF EXISTS `conf_info_server`;
@@ -195,7 +194,7 @@ CREATE TABLE IF NOT EXISTS `conf_info_server`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='nginx服务配置表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info_server 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.conf_info_server_item 结构
 DROP TABLE IF EXISTS `conf_info_server_item`;
@@ -228,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `conf_info_server_item`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='nginx服务明细配置表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info_server_item 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.conf_info_template 结构
 DROP TABLE IF EXISTS `conf_info_template`;
@@ -254,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `conf_info_template`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='nginx配置模板表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info_template 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.conf_info_template_item 结构
 DROP TABLE IF EXISTS `conf_info_template_item`;
@@ -283,7 +282,7 @@ CREATE TABLE IF NOT EXISTS `conf_info_template_item`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='nginx配置模板表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info_template_item 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.conf_info_upstream 结构
 DROP TABLE IF EXISTS `conf_info_upstream`;
@@ -311,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `conf_info_upstream`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='nginx 负载均衡头表配置表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info_upstream 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.conf_info_upstream_item 结构
 DROP TABLE IF EXISTS `conf_info_upstream_item`;
@@ -343,7 +342,7 @@ CREATE TABLE IF NOT EXISTS `conf_info_upstream_item`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='nginx 负载均衡明细配置表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.conf_info_upstream_item 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.sys_dict 结构
 DROP TABLE IF EXISTS `sys_dict`;
@@ -369,7 +368,71 @@ CREATE TABLE IF NOT EXISTS `sys_dict`
   AUTO_INCREMENT = 31
   DEFAULT CHARSET = utf8mb4 COMMENT ='系统设置-字典表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.sys_dict 的数据：~30 rows (大约)
+INSERT INTO `sys_dict` (`id`, `type`, `code`, `value`, `order`, `remark`, `create_by`, `create_time`, `update_by`,
+                        `update_time`, `delete_flag`)
+VALUES (1, 'nginxHttpDefaultConf', 'keepalive_timeout', '75', 0, '连接超时时间', 'SYS', '2022-08-16 23:26:41', 'SYS',
+        '2022-08-16 23:26:47', b'0'),
+       (2, 'nginxHttpDefaultConf', 'gzip', 'on', 0, '是否开启压缩传输', 'SYS', '2022-08-16 23:26:44', 'SYS',
+        '2022-08-17 08:11:37', b'0'),
+       (3, 'nginxHttpDefaultConf', 'gzip_min_length', '4k', 0, '最小压缩文件', 'SYS', '2022-08-16 23:26:45', 'SYS',
+        '2022-08-17 08:10:35', b'0'),
+       (4, 'nginxHttpDefaultConf', 'gzip_comp_level', '4', 0, '压缩率', 'SYS', '2022-08-16 23:26:45', 'SYS',
+        '2022-08-16 23:27:15', b'0'),
+       (5, 'gzip_types', 'text/html', 'html', 0, '压缩类型', 'SYS', '2022-08-17 07:51:49', 'SYS', '2022-08-17 07:51:49',
+        b'0'),
+       (6, 'gzip_types', 'text/plain', 'plain', 0, '压缩类型', 'SYS', '2022-08-17 07:51:49', 'SYS', '2022-08-17 07:51:49',
+        b'0'),
+       (7, 'gzip_types', 'text/css', 'css', 0, '压缩类型', 'SYS', '2022-08-17 07:51:49', 'SYS', '2022-08-17 07:51:49',
+        b'0'),
+       (8, 'gzip_types', 'application/x-javascript', 'x-javascript', 0, '压缩类型', 'SYS', '2022-08-17 07:51:49', 'SYS',
+        '2022-08-17 07:51:49', b'0'),
+       (9, 'gzip_types', 'text/javascript', 'javascript', 0, '压缩类型', 'SYS', '2022-08-17 07:51:49', 'SYS',
+        '2022-08-17 07:51:49', b'0'),
+       (10, 'gzip_types', 'application/xml', 'xml', 0, '压缩类型', 'SYS', '2022-08-17 07:51:49', 'SYS',
+        '2022-08-17 07:51:49', b'0'),
+       (11, 'gzip_types', 'application/json', 'json', 0, '压缩类型', 'SYS', '2022-08-17 07:51:49', 'SYS',
+        '2022-08-17 07:51:49', b'0'),
+       (12, 'nginxBasisDefaultConf', 'worker_processes', 'auto', 0, '工作进程', 'SYS', '2022-08-17 08:02:09', 'SYS',
+        '2022-08-17 08:02:09', b'0'),
+       (13, 'nginxBasisDefaultConf', 'events', '{\naccept_mutex on;\nmulti_accept on;\nuse epoll;\n}', 0, '全局块', 'SYS',
+        '2022-08-17 08:02:09', 'SYS', '2022-08-17 08:02:09', b'0'),
+       (14, 'nginxHttpDefaultConf', 'server_tokens', 'off', 0, '是否展示NGINX版本号', 'SYS', '2022-08-17 08:10:35', 'SYS',
+        '2022-08-17 08:10:35', b'0'),
+       (15, 'nginxHttpDefaultConf', 'sendfile', 'on', 0,
+        'sendfile = off 时，应用程序读取磁盘中的文件以字节流的形式从磁盘中加载文件，然后再将文件以字节流的形式复制到内核中。内核在把文件推送到NC。\nsendfile = on 时，应用程序直接向内核发送指令，让内核去读文件。读完文件内核直接推送给NC。只有一次复制操作，实现异步网络IO形式。因此，性能会有很大的提升。',
+        'SYS', '2022-08-17 08:10:35', 'SYS', '2022-08-17 08:11:37', b'0'),
+       (16, 'nginxHttpDefaultConf', 'charset', 'UTF-8', 0, '默认字符编码', 'SYS', '2022-08-17 08:10:35', 'SYS',
+        '2022-08-17 08:10:35', b'0'),
+       (17, 'nginxHttpDefaultConf', 'default_type', 'application/octet-stream', 0, '默认返回类型', 'SYS',
+        '2022-08-17 08:10:35', 'SYS', '2022-08-17 08:10:35', b'0'),
+       (18, 'nginxHttpDefaultConf', 'client_max_body_size', '1024m', 0, '最大上传限制', 'SYS', '2022-08-17 08:10:35', 'SYS',
+        '2022-08-17 08:10:35', b'0'),
+       (19, 'nginxHttpDefaultConf', 'client_header_buffer_size', '32k', 0, '客户端请求头buffer大小', 'SYS',
+        '2022-08-17 08:10:35', 'SYS', '2022-08-17 08:10:35', b'0'),
+       (20, 'nginxHttpDefaultConf', 'client_body_buffer_size', '8m', 0, '请求主体缓冲区', 'SYS', '2022-08-17 08:10:35', 'SYS',
+        '2022-08-17 08:10:35', b'0'),
+       (21, 'nginxHttpDefaultConf', 'server_names_hash_bucket_size', '512', 0, '服务器名字的哈希表大小', 'SYS',
+        '2022-08-17 08:10:35', 'SYS', '2022-08-17 08:10:35', b'0'),
+       (22, 'nginxHttpDefaultConf', 'proxy_headers_hash_max_size', '51200', 0, '头部哈希表的最大值', 'SYS',
+        '2022-08-17 08:10:35', 'SYS', '2022-08-17 08:10:35', b'0'),
+       (23, 'nginxHttpDefaultConf', 'proxy_headers_hash_bucket_size', '6400', 0, '头部哈希表大小', 'SYS',
+        '2022-08-17 08:10:35', 'SYS', '2022-08-17 08:10:35', b'0'),
+       (24, 'nginxHttpDefaultConf', 'include', 'mime.types', 0, '包含类型', 'SYS', '2022-08-17 08:13:05', 'SYS',
+        '2022-08-17 08:14:37', b'0'),
+       (25, 'nginxHttpDefaultConf', 'log_format',
+        'json \'{"@timestamp":"$time_iso8601",\'\n                 \'"host":"$server_addr",\'\n                 \'"clientIp":"$remote_addr",\'\n                 \'"size":$body_bytes_sent,\'\n                 \'"responseTime":$request_time,\'\n                 \'"upstreamTime":"$upstream_response_time",\'\n                 \'"upstreamHost":"$upstream_addr",\'\n                 \'"http_host":"$host",\'\n                 \'"url":"$uri",\'\n                 \'"referer":"$http_referer",\'\n                 \'"agent":"$http_user_agent",\'\n                 \'"status":"$status"}\'',
+        0, '日志json格式', 'SYS', '2022-08-17 08:18:08', 'SYS', '2022-08-17 08:18:08', b'0'),
+       (26, 'nginxTemplateType', 'server_http', '反向代理(server)(http)', 0, '模板配置类型', 'SYS', '2022-08-17 12:45:09', 'SYS',
+        '2022-08-17 12:45:09', b'0'),
+       (27, 'nginxTemplateType', 'server_tcp', '反向代理(server)(tcp)', 0, '模板配置类型', 'SYS', '2022-08-17 12:45:09', 'SYS',
+        '2022-08-17 12:45:09', b'0'),
+       (28, 'nginxTemplateType', 'server_udp', '反向代理(server)(udp)', 0, '模板配置类型', 'SYS', '2022-08-17 12:45:09', 'SYS',
+        '2022-08-17 12:45:09', b'0'),
+       (29, 'nginxTemplateType', 'location', '代理目标(location)', 0, '模板配置类型', 'SYS', '2022-08-17 12:45:10', 'SYS',
+        '2022-08-17 12:45:10', b'0'),
+       (30, 'nginxTemplateType', 'upstream', '负载均衡(upstream)', 0, '模板配置类型', 'SYS', '2022-08-17 12:45:10', 'SYS',
+        '2022-08-17 12:45:10', b'0');
 
 -- 导出  表 nginx_ops.sys_file 结构
 DROP TABLE IF EXISTS `sys_file`;
@@ -391,7 +454,41 @@ CREATE TABLE IF NOT EXISTS `sys_file`
   DEFAULT CHARSET = utf8mb4
   ROW_FORMAT = DYNAMIC;
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.sys_file 的数据：~0 rows (大约)
+
+-- 导出  表 nginx_ops.sys_menu 结构
+DROP TABLE IF EXISTS `sys_menu`;
+CREATE TABLE IF NOT EXISTS `sys_menu`
+(
+    `id`          char(20)    NOT NULL COMMENT '菜单ID',
+    `menu_name`   varchar(50) NOT NULL COMMENT '菜单名称',
+    `parent_id`   char(20)     DEFAULT NULL COMMENT '父菜单ID',
+    `order`       int(4)       DEFAULT '0' COMMENT '显示顺序',
+    `path`        varchar(200) DEFAULT NULL COMMENT '路由地址',
+    `component`   varchar(255) DEFAULT NULL COMMENT '组件路径',
+    `query`       varchar(255) DEFAULT NULL COMMENT '路由参数',
+    `is_frame`    bit(1)       DEFAULT b'0' COMMENT '是否为外链（0是 1否）',
+    `is_cache`    bit(1)       DEFAULT b'0' COMMENT '是否缓存（0缓存 1不缓存）',
+    `menu_type`   char(1)      DEFAULT NULL COMMENT '菜单类型（M目录 C菜单 F按钮）',
+    `is_enable`   bit(1)       DEFAULT b'1' COMMENT '菜单状态（0正常 1停用）',
+    `perms`       varchar(100) DEFAULT NULL COMMENT '权限标识',
+    `icon`        varchar(100) DEFAULT '#' COMMENT '菜单图标',
+    `create_by`   varchar(50)  DEFAULT 'SYS' COMMENT '创建者',
+    `create_time` datetime     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_by`   varchar(50)  DEFAULT 'SYS' COMMENT '更新者',
+    `update_time` datetime     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `delete_flag` bit(1)       DEFAULT b'0' COMMENT '逻辑删除',
+    `remark`      text COMMENT '备注',
+    PRIMARY KEY (`id`) USING BTREE,
+    KEY `idx_parent_id` (`parent_id`),
+    KEY `idx_order` (`order`),
+    KEY `idx_is_enable` (`is_enable`),
+    KEY `idx_menu_name` (`menu_name`),
+    KEY `idx_delete_flag` (`delete_flag`)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT ='菜单权限表';
+
+-- 正在导出表  nginx_ops.sys_menu 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.sys_operation_log 结构
 DROP TABLE IF EXISTS `sys_operation_log`;
@@ -425,7 +522,7 @@ CREATE TABLE IF NOT EXISTS `sys_operation_log`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='操作日志表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.sys_operation_log 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.sys_role 结构
 DROP TABLE IF EXISTS `sys_role`;
@@ -452,7 +549,28 @@ CREATE TABLE IF NOT EXISTS `sys_role`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='角色表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.sys_role 的数据：~0 rows (大约)
+
+-- 导出  表 nginx_ops.sys_role_menu 结构
+DROP TABLE IF EXISTS `sys_role_menu`;
+CREATE TABLE IF NOT EXISTS `sys_role_menu`
+(
+    `id`          char(20) NOT NULL COMMENT '唯一ID',
+    `role_id`     char(20) NOT NULL COMMENT '角色ID',
+    `menu_id`     char(20) NOT NULL COMMENT '菜单ID',
+    `create_by`   varchar(50) DEFAULT NULL COMMENT '创建人',
+    `create_time` datetime    DEFAULT NULL COMMENT '创建时间',
+    `update_by`   varchar(50) DEFAULT NULL COMMENT '修改人',
+    `update_time` datetime    DEFAULT NULL COMMENT '修改时间',
+    `delete_flag` bit(1)      DEFAULT NULL COMMENT '逻辑删除',
+    PRIMARY KEY (`id`) USING BTREE,
+    KEY `idx_menu_id` (`menu_id`) USING BTREE,
+    KEY `idx_role_id` (`role_id`) USING BTREE,
+    KEY `idx_delete_flag` (`delete_flag`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4 COMMENT ='角色菜单关联表';
+
+-- 正在导出表  nginx_ops.sys_role_menu 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.sys_setting 结构
 DROP TABLE IF EXISTS `sys_setting`;
@@ -486,7 +604,7 @@ CREATE TABLE IF NOT EXISTS `sys_setting`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='系统设置';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.sys_setting 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.sys_user 结构
 DROP TABLE IF EXISTS `sys_user`;
@@ -510,7 +628,7 @@ CREATE TABLE IF NOT EXISTS `sys_user`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='用户表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.sys_user 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.sys_user_role 结构
 DROP TABLE IF EXISTS `sys_user_role`;
@@ -519,7 +637,6 @@ CREATE TABLE IF NOT EXISTS `sys_user_role`
     `id`          char(20) NOT NULL COMMENT '唯一ID',
     `user_id`     char(20) NOT NULL COMMENT '用户ID',
     `role_id`     char(20) NOT NULL COMMENT '角色ID',
-    `remark`      text COMMENT '备注',
     `create_by`   varchar(50) DEFAULT NULL COMMENT '创建人',
     `create_time` datetime    DEFAULT NULL COMMENT '创建时间',
     `update_by`   varchar(50) DEFAULT NULL COMMENT '修改人',
@@ -532,7 +649,7 @@ CREATE TABLE IF NOT EXISTS `sys_user_role`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='用户角色关联表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.sys_user_role 的数据：~0 rows (大约)
 
 -- 导出  表 nginx_ops.sys_user_setting 结构
 DROP TABLE IF EXISTS `sys_user_setting`;
@@ -554,7 +671,7 @@ CREATE TABLE IF NOT EXISTS `sys_user_setting`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='用户和设置的中间表';
 
--- 数据导出被取消选择。
+-- 正在导出表  nginx_ops.sys_user_setting 的数据：~0 rows (大约)
 
 /*!40103 SET TIME_ZONE = IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE = IFNULL(@OLD_SQL_MODE, '') */;
