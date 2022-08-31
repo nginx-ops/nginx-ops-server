@@ -5,7 +5,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 nginx管理工具服务端
 
-## 贡献者(Contributors )✨
+## 贡献者(Contributors)✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
