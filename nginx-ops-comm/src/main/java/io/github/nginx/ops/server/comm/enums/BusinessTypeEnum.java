@@ -1,4 +1,4 @@
-package io.github.nginx.ops.server.system.enums;
+package io.github.nginx.ops.server.comm.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

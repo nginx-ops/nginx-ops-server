@@ -2,12 +2,12 @@ package io.github.nginx.ops.server.system.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import io.github.nginx.ops.server.comm.annotation.OperationLog;
 import io.github.nginx.ops.server.comm.domain.vo.R;
-import io.github.nginx.ops.server.system.annotation.OperationLog;
+import io.github.nginx.ops.server.comm.enums.BusinessTypeEnum;
 import io.github.nginx.ops.server.system.domain.SysRole;
 import io.github.nginx.ops.server.system.domain.dto.SysRoleDTO;
 import io.github.nginx.ops.server.system.domain.query.SysRoleQuery;
-import io.github.nginx.ops.server.system.enums.BusinessTypeEnum;
 import io.github.nginx.ops.server.system.service.SysRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

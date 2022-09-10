@@ -1,11 +1,11 @@
 package io.github.nginx.ops.server.conf.controller;
 
+import io.github.nginx.ops.server.comm.annotation.OperationLog;
 import io.github.nginx.ops.server.comm.domain.vo.R;
+import io.github.nginx.ops.server.comm.enums.BusinessTypeEnum;
 import io.github.nginx.ops.server.conf.domain.vo.ConfInfoVO;
 import io.github.nginx.ops.server.conf.domain.vo.FileVo;
 import io.github.nginx.ops.server.conf.service.ConfInfoService;
-import io.github.nginx.ops.server.system.annotation.OperationLog;
-import io.github.nginx.ops.server.system.enums.BusinessTypeEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

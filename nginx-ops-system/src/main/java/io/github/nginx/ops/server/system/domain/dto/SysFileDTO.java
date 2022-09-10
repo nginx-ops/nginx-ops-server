@@ -1,5 +1,6 @@
 package io.github.nginx.ops.server.system.domain.dto;
 
+import com.alibaba.fastjson2.annotation.JSONField;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -29,5 +30,6 @@ public class SysFileDTO implements Serializable {
   /** 文件类型 */
   private String fileType;
   /** 文件 */
+  @JSONField(serialize = false)
   private MultipartFile file;
 }
