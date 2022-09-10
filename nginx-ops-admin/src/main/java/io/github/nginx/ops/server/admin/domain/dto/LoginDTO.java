@@ -36,9 +36,11 @@ public class LoginDTO implements Serializable {
   /** 验证码唯一ID */
   @ApiModelProperty(value = "验证码唯一ID", required = true)
   @NotEmpty(message = "验证码不能为空")
-  private String verKey;
+  private String verId;
   /** 验证码内容 */
   @ApiModelProperty(value = "验证码内容", required = true)
   @NotEmpty(message = "验证码不能为空")
   private String verCode;
+
+  private String device;
 }

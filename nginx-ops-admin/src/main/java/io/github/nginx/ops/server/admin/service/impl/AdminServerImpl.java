@@ -1,18 +1,28 @@
 package io.github.nginx.ops.server.admin.service.impl;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.extra.servlet.ServletUtil;
 import com.wf.captcha.SpecCaptcha;
 import io.github.nginx.ops.server.admin.domain.dto.LoginDTO;
 import io.github.nginx.ops.server.admin.domain.vo.CaptchaVO;
+import io.github.nginx.ops.server.admin.enums.AdminExceptionEnums;
 import io.github.nginx.ops.server.admin.service.AdminServer;
 import io.github.nginx.ops.server.comm.constant.CacheConstants;
+import io.github.nginx.ops.server.comm.exception.BusinessException;
+import io.github.nginx.ops.server.system.domain.SysUser;
+import io.github.nginx.ops.server.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,10 +35,36 @@ public class AdminServerImpl implements AdminServer {
 
   private static final Snowflake SNOWFLAKE = IdUtil.getSnowflake();
   private final RedisTemplate redisTemplate;
+  private final SysUserService sysUserService;
+  private final BCryptPasswordEncoder encoder;
 
   @Override
-  public String login(LoginDTO dto) {
-    return null;
+  public SaTokenInfo login(LoginDTO dto, HttpServletRequest request) {
+    // 判断验证码是否正确
+    String cacheKey =
+        CacheConstants.APP_NAME
+            + CacheConstants.SEPARATOR
+            + CacheConstants.CAPTCHA
+            + CacheConstants.SEPARATOR
+            + dto.getVerId();
+    if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))) {
+      throw new BusinessException(AdminExceptionEnums.A0001);
+    }
+    SysUser sysUser = sysUserService.getOneByLoginName(dto.getLoginName());
+    if (ObjectUtil.isEmpty(sysUser) || !encoder.matches(sysUser.getPassword(), dto.getPassword())) {
+      throw new BusinessException(AdminExceptionEnums.A0002);
+    }
+    // 修改登录时间
+    sysUserService.updateById(
+        SysUser.builder()
+            .id(sysUser.getId())
+            .loginIp(ServletUtil.getClientIP(request))
+            .loginDate(new Date())
+            .build());
+    // 进行登录
+    StpUtil.login(dto.getLoginName(), dto.getDevice());
+    // 第2步，获取 Token  相关参数
+    return StpUtil.getTokenInfo();
   }
 
   @Override

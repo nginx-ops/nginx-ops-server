@@ -1,6 +1,7 @@
 package io.github.nginx.ops.server.comm.exception;
 
 import io.github.nginx.ops.server.comm.domain.vo.R;
+import io.github.nginx.ops.server.comm.domain.vo.ReturnService;
 import lombok.Getter;
 
 /**
@@ -36,5 +37,11 @@ public class BusinessException extends RuntimeException {
     super(message);
     this.code = messageCode;
     this.message = message;
+  }
+
+  public BusinessException(ReturnService returnService) {
+    super(returnService.getMessage());
+    this.code = returnService.getCode();
+    this.message = returnService.getMessage();
   }
 }

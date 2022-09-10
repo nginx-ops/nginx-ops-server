@@ -25,7 +25,7 @@ import java.util.Collection;
 public class R<T> implements Serializable {
 
   /** 成功 */
-  public static final String SUCCESS = "200";
+  public static final String SUCCESS = "00000";
   /** 成功 */
   public static final String ERROR = "500";
 
@@ -76,7 +76,11 @@ public class R<T> implements Serializable {
             .build();
   }
 
-  public static R error(String code, String message) {
-    return R.builder().code(code).message(message).time(System.currentTimeMillis()).build();
+  public static R error(ReturnService returnService) {
+    return R.builder()
+        .code(returnService.getCode())
+        .message(returnService.getMessage())
+        .time(System.currentTimeMillis())
+        .build();
   }
 }

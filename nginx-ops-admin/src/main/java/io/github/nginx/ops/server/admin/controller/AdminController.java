@@ -1,5 +1,6 @@
 package io.github.nginx.ops.server.admin.controller;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import io.github.nginx.ops.server.admin.domain.dto.LoginDTO;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author lihao3
  * @date 2022/8/31 19:02
@@ -33,9 +36,9 @@ public class AdminController {
   @PostMapping("login")
   @ApiOperation("登录接口")
   @OperationLog(title = "登录", businessType = BusinessTypeEnum.LOGIN)
-  public R login(@RequestBody LoginDTO dto) {
-    String token = server.login(dto);
-    return R.success("登录成功!", token);
+  public R login(@RequestBody LoginDTO dto, HttpServletRequest request) {
+    SaTokenInfo saTokenInfo = server.login(dto, request);
+    return R.success("登录成功!", saTokenInfo);
   }
 
   @PostMapping("logout")
