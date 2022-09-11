@@ -1,4 +1,4 @@
-package io.github.nginx.ops.server.comm.util;
+package io.github.nginx.ops.server.comm.util.json;
 
 import com.alibaba.fastjson2.JSON;
 
