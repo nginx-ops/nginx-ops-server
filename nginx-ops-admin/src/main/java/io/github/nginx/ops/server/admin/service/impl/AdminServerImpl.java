@@ -7,9 +7,9 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.wf.captcha.SpecCaptcha;
+import io.github.nginx.ops.server.admin.constant.AdminReturnCodeConstant;
 import io.github.nginx.ops.server.admin.domain.dto.LoginDTO;
 import io.github.nginx.ops.server.admin.domain.vo.CaptchaVO;
-import io.github.nginx.ops.server.admin.enums.AdminExceptionEnums;
 import io.github.nginx.ops.server.admin.service.AdminServer;
 import io.github.nginx.ops.server.comm.constant.CacheConstants;
 import io.github.nginx.ops.server.comm.exception.BusinessException;
@@ -48,11 +48,14 @@ public class AdminServerImpl implements AdminServer {
             + CacheConstants.SEPARATOR
             + dto.getVerId();
     if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))) {
-      throw new BusinessException("captcha.timeout");
+      throw new BusinessException(AdminReturnCodeConstant.CAPTCHA_HAS_EXPIRED);
     }
     SysUser sysUser = sysUserService.getOneByLoginName(dto.getLoginName());
     if (ObjectUtil.isEmpty(sysUser) || !encoder.matches(sysUser.getPassword(), dto.getPassword())) {
-      throw new BusinessException(AdminExceptionEnums.A0002);
+      throw new BusinessException(AdminReturnCodeConstant.USER_DOES_NOT_EXIST);
+    }
+    if (Boolean.FALSE.equals(sysUser.getIsEnable())) {
+      throw new BusinessException(AdminReturnCodeConstant.USER_NOT_ENABLE);
     }
     // 修改登录时间
     sysUserService.updateById(
