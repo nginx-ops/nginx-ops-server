@@ -4,7 +4,7 @@ import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import io.github.nginx.ops.server.comm.annotation.OperationLog;
-import io.github.nginx.ops.server.comm.util.JsonUtils;
+import io.github.nginx.ops.server.comm.util.json.JsonUtils;
 import io.github.nginx.ops.server.system.domain.SysOperationLog;
 import io.github.nginx.ops.server.system.service.SysOperationLogService;
 import lombok.RequiredArgsConstructor;

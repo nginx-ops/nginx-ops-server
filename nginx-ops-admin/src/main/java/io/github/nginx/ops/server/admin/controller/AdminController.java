@@ -13,12 +13,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * @author lihao3
@@ -26,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(tags = "用户鉴权接口")
 @Slf4j
+@Validated
 @RestController
 @RequiredArgsConstructor
 public class AdminController {
@@ -36,7 +39,7 @@ public class AdminController {
   @PostMapping("login")
   @ApiOperation("登录接口")
   @OperationLog(title = "登录", businessType = BusinessTypeEnum.LOGIN)
-  public R login(@RequestBody LoginDTO dto, HttpServletRequest request) {
+  public R login(@RequestBody @Valid LoginDTO dto, HttpServletRequest request) {
     SaTokenInfo saTokenInfo = server.login(dto, request);
     return R.success("登录成功!", saTokenInfo);
   }

@@ -76,11 +76,7 @@ public class R<T> implements Serializable {
             .build();
   }
 
-  public static R error(ReturnService returnService) {
-    return R.builder()
-        .code(returnService.getCode())
-        .message(returnService.getMessage())
-        .time(System.currentTimeMillis())
-        .build();
+  public static R error(String code, String message) {
+    return R.builder().code(code).message(message).time(System.currentTimeMillis()).build();
   }
 }

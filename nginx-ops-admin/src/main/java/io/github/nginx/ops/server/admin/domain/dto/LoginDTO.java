@@ -27,19 +27,19 @@ public class LoginDTO implements Serializable {
 
   /** 用户名 */
   @ApiModelProperty(value = "用户名", required = true)
-  @NotEmpty(message = "用户名不能为空")
+  @NotEmpty(message = "{loginDTO.loginName.notEmpty}")
   private String loginName;
   /** 密码 */
   @ApiModelProperty(value = "密码", required = true)
-  @NotEmpty(message = "密码不能为空")
+  @NotEmpty(message = "{loginDTO.password.notEmpty}")
   private String password;
   /** 验证码唯一ID */
   @ApiModelProperty(value = "验证码唯一ID", required = true)
-  @NotEmpty(message = "验证码不能为空")
+  @NotEmpty(message = "{loginDTO.verId.notEmpty}")
   private String verId;
   /** 验证码内容 */
   @ApiModelProperty(value = "验证码内容", required = true)
-  @NotEmpty(message = "验证码不能为空")
+  @NotEmpty(message = "{loginDTO.verCode.notEmpty}")
   private String verCode;
 
   private String device;
