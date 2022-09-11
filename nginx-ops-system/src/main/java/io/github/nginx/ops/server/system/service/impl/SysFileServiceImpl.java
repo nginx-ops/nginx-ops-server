@@ -1,6 +1,7 @@
 package io.github.nginx.ops.server.system.service.impl;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.nginx.ops.server.comm.exception.BusinessException;
 import io.github.nginx.ops.server.system.domain.SysFile;
@@ -28,7 +29,15 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile>
   @Override
   public SysFile upload(SysFileDTO dto) {
     MultipartFile multipartFile = dto.getFile();
-    File file = FileUtil.newFile(dto.getPath() + FileUtil.FILE_SEPARATOR + multipartFile.getName());
+    // 随机生成盐值
+    String salt = RandomUtil.randomString(5);
+    File file =
+        FileUtil.newFile(
+            dto.getPath()
+                + FileUtil.FILE_SEPARATOR
+                + salt
+                + "-"
+                + multipartFile.getOriginalFilename());
     try {
       FileUtil.writeFromStream(multipartFile.getInputStream(), file);
     } catch (Exception e) {
@@ -37,6 +46,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile>
     }
     SysFile sysFile =
         SysFile.builder()
+            .salt(salt)
             .fileName(multipartFile.getOriginalFilename())
             .filePath(dto.getPath())
             .fileType(multipartFile.getContentType())
