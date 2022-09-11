@@ -48,7 +48,7 @@ public class AdminServerImpl implements AdminServer {
             + CacheConstants.SEPARATOR
             + dto.getVerId();
     if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))) {
-      throw new BusinessException(AdminExceptionEnums.A0001);
+      throw new BusinessException("captcha.timeout");
     }
     SysUser sysUser = sysUserService.getOneByLoginName(dto.getLoginName());
     if (ObjectUtil.isEmpty(sysUser) || !encoder.matches(sysUser.getPassword(), dto.getPassword())) {
