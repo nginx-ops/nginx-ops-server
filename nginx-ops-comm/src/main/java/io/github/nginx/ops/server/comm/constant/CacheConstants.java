@@ -13,4 +13,6 @@ public class CacheConstants {
   public static final String SEPARATOR = ":";
   /** 验证码 */
   public static final String CAPTCHA = "captcha";
+  /** 返回值 */
+  public static final String RETURN = "return";
 }

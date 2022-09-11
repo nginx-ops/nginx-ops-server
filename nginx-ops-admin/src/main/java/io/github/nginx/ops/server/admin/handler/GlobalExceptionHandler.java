@@ -1,11 +1,10 @@
-package io.github.nginx.ops.server.comm.handler;
+package io.github.nginx.ops.server.admin.handler;
 
 import io.github.nginx.ops.server.comm.domain.vo.R;
 import io.github.nginx.ops.server.comm.exception.BusinessException;
+import io.github.nginx.ops.server.system.service.SysReturnService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -24,21 +23,20 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
-  private final MessageSource messageSource;
+  private final SysReturnService sysReturnService;
 
   /** 业务异常 */
   @ExceptionHandler(BusinessException.class)
   public R handleBusinessException(BusinessException e, HttpServletRequest request) {
-    String message =
-        messageSource.getMessage(e.getMessage(), null, LocaleContextHolder.getLocale());
-    return R.error(message);
+    log.warn("业务异常, 异常信息为:{}", e.getMessage(), e);
+    return R.error(sysReturnService.getMessage(e.getCode()));
   }
 
   /** 拦截未知的运行时异常 */
   @ExceptionHandler(RuntimeException.class)
   public R handleRuntimeException(RuntimeException e, HttpServletRequest request) {
     String requestURI = request.getRequestURI();
-    log.error("请求地址: {},发生未知异常.", requestURI, e);
+    log.error("请求地址:{},发生未知异常.", requestURI, e);
     return R.error(e.getMessage());
   }
 
@@ -46,7 +44,7 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(Exception.class)
   public R handleException(Exception e, HttpServletRequest request) {
     String requestURI = request.getRequestURI();
-    log.error("请求地址: {},发生系统异常.", requestURI, e);
+    log.error("请求地址:{},发生系统异常.", requestURI, e);
     return R.error(e.getMessage());
   }
 
@@ -60,11 +58,9 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public R handleBindException(MethodArgumentNotValidException e) {
-    log.error(e.getMessage(), e);
-    String message =
-        messageSource.getMessage(
-            e.getBindingResult().getFieldError(), LocaleContextHolder.getLocale());
-    return R.error(message, message);
+    log.warn("参数校验失败, 异常简介为:{}", e.getMessage(), e);
+    return R.error(
+        sysReturnService.getMessage(e.getBindingResult().getFieldError().getDefaultMessage()));
   }
 
   /** 请求方式不支持 */
