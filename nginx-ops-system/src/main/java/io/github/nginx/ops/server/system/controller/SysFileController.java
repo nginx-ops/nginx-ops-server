@@ -36,7 +36,7 @@ public class SysFileController {
     return R.success("上传成功!", sysFile);
   }
 
-  @DeleteMapping("delete/{id}")
+  @DeleteMapping("{id}")
   @ApiOperation("删除文件")
   @OperationLog(title = "删除文件", businessType = BusinessTypeEnum.DELETE)
   public R delete(@PathVariable String id) {
@@ -52,7 +52,7 @@ public class SysFileController {
     return R.success("批量删除成功!");
   }
 
-  @GetMapping("list/{page}/{limit}")
+  @GetMapping("{page}/{limit}")
   @ApiOperation("分页查询文件")
   @OperationLog(title = "分页查询文件", businessType = BusinessTypeEnum.SELECT)
   public R pageList(@PathVariable Long page, @PathVariable Long limit, SysFileQuery sysFileQuery) {
