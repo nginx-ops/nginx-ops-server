@@ -5,7 +5,7 @@ PS: 本项目采用Google编码风格
 
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 nginx管理工具服务端
 
@@ -17,9 +17,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="https://github.com/TOP-LH"><img src="https://avatars.githubusercontent.com/u/49888630?v=4?s=100" width="100px;" alt=""/><br /><sub><b>阿波连</b></sub></a><br /><a href="#infra-TOP-LH" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/nginx-ops/nginx-ops-server/commits?author=TOP-LH" title="Tests">⚠️</a> <a href="https://github.com/nginx-ops/nginx-ops-server/commits?author=TOP-LH" title="Code">💻</a> <a href="https://github.com/nginx-ops/nginx-ops-server/commits?author=TOP-LH" title="Documentation">📖</a> <a href="https://github.com/nginx-ops/nginx-ops-server/pulls?q=is%3Apr+reviewed-by%3ATOP-LH" title="Reviewed Pull Requests">👀</a> <a href="#translation-TOP-LH" title="Translation">🌍</a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://github.com/TOP-LH"><img src="https://avatars.githubusercontent.com/u/49888630?v=4?s=100" width="100px;" alt=""/><br /><sub><b>阿波连</b></sub></a><br /><a href="#infra-TOP-LH" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/nginx-ops/nginx-ops-server/commits?author=TOP-LH" title="Tests">⚠️</a> <a href="https://github.com/nginx-ops/nginx-ops-server/commits?author=TOP-LH" title="Code">💻</a> <a href="https://github.com/nginx-ops/nginx-ops-server/commits?author=TOP-LH" title="Documentation">📖</a> <a href="https://github.com/nginx-ops/nginx-ops-server/pulls?q=is%3Apr+reviewed-by%3ATOP-LH" title="Reviewed Pull Requests">👀</a> <a href="#translation-TOP-LH" title="Translation">🌍</a></td>
+      <td align="center"><a href="https://github.com/wucoder"><img src="https://avatars.githubusercontent.com/u/59016551?v=4?s=100" width="100px;" alt=""/><br /><sub><b>coderwu</b></sub></a><br /><a href="https://github.com/nginx-ops/nginx-ops-server/commits?author=wucoder" title="Code">💻</a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->
