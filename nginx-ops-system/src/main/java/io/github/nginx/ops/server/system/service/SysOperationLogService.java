@@ -1,8 +1,10 @@
 package io.github.nginx.ops.server.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import io.github.nginx.ops.server.comm.domain.vo.R;
+import io.github.nginx.ops.server.comm.domain.query.BaseQuery;
 import io.github.nginx.ops.server.system.domain.SysOperationLog;
+
+import java.util.List;
 
 /**
  * @author 24709
@@ -12,23 +14,12 @@ import io.github.nginx.ops.server.system.domain.SysOperationLog;
 public interface SysOperationLogService extends IService<SysOperationLog> {
 
   /**
-   * @description: 登陆日志分页查询
+   * @description: 日志分页查询
    * @author: wgy
-   * @date: 2022/9/11 19:16
-   * @param: page
-   * @param: limit
+   * @date: 2022/9/12 22:45
+   * @param: baseQuery
+   * @param: flag true 登陆日志 false 操作日志
    * @return: io.github.nginx.ops.server.comm.domain.vo.R
    */
-  R loginLogList(Long page, Long limit, String type);
-
-  /**
-   * @description: 操作日志分页查询
-   * @author: wgy
-   * @date: 2022/9/11 19:42
-   * @param: page
-   * @param: limit
-   * @param: type
-   * @return: io.github.nginx.ops.server.comm.domain.vo.R
-   */
-  R operationLogList(Long page, Long limit, String type);
+  List<SysOperationLog> logPageList(BaseQuery baseQuery, boolean flag);
 }
