@@ -1,4 +1,4 @@
-package io.github.nginx.ops.server.system.enums;
+package io.github.nginx.ops.server.comm.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +23,8 @@ public enum BusinessTypeEnum {
   DELETE("delete"),
   /** 上传 */
   UPLOAD("upload"),
+  /** 下载 */
+  DOWNLOAD("download"),
   /** 授权 */
   GRANT("grant"),
   /** 导出 */

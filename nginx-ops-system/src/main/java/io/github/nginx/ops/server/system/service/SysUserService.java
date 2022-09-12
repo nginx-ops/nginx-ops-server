@@ -50,4 +50,12 @@ public interface SysUserService extends IService<SysUser> {
    * @return
    */
   SysUserDTO getOne(String id);
+
+  /**
+   * 根据用户名查询用户
+   *
+   * @param loginName
+   * @return
+   */
+  SysUser getOneByLoginName(String loginName);
 }

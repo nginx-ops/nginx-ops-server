@@ -34,6 +34,7 @@
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <oshi-core.version>5.6.1</oshi-core.version>
         <spring-boot-admin.version>2.3.1</spring-boot-admin.version>
+        <forest.version>1.5.26</forest.version>
     </properties>
 
     <dependencyManagement>
@@ -138,6 +139,12 @@
                 <groupId>com.github.oshi</groupId>
                 <artifactId>oshi-core</artifactId>
                 <version>${oshi-core.version}</version>
+            </dependency>
+            <!--http 请求-->
+            <dependency>
+                <groupId>com.dtflys.forest</groupId>
+                <artifactId>forest-spring-boot-starter</artifactId>
+                <version>${forest.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

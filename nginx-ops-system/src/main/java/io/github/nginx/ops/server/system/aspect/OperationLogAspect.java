@@ -3,8 +3,8 @@ package io.github.nginx.ops.server.system.aspect;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
-import com.alibaba.fastjson2.JSON;
-import io.github.nginx.ops.server.system.annotation.OperationLog;
+import io.github.nginx.ops.server.comm.annotation.OperationLog;
+import io.github.nginx.ops.server.comm.util.json.JsonUtils;
 import io.github.nginx.ops.server.system.domain.SysOperationLog;
 import io.github.nginx.ops.server.system.service.SysOperationLogService;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +44,7 @@ public class OperationLogAspect {
   private final SysOperationLogService service;
 
   /** 设置操作日志切入点 记录操作日志 在注解的位置切入代码 */
-  @Pointcut("@annotation(io.github.nginx.ops.server.system.annotation.OperationLog)")
+  @Pointcut("@annotation(io.github.nginx.ops.server.comm.annotation.OperationLog)")
   public void operationLogPointcut() {}
 
   /**
@@ -102,9 +102,9 @@ public class OperationLogAspect {
             .ip(ServletUtil.getClientIP(request))
             .param(
                 controllerLog.isSaveRequestData()
-                    ? JSON.toJSONString(this.getRequestParamsByJoinPoint(joinPoint))
+                    ? JsonUtils.toJSONString(this.getRequestParamsByJoinPoint(joinPoint))
                     : null)
-            .result(controllerLog.isSaveReturnData() ? JSON.toJSONString(result) : null)
+            .result(controllerLog.isSaveReturnData() ? JsonUtils.toJSONString(result) : null)
             .status(e == null)
             .errorMsg(e == null ? null : e.getMessage())
             .build();

@@ -118,4 +118,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     sysUserDTO.setSysRoleList(sysRoleService.selectSysRoleListByUserId(id));
     return sysUserDTO;
   }
+
+  @Override
+  public SysUser getOneByLoginName(String loginName) {
+    queryWrapper.clear();
+    queryWrapper.eq(SysUser::getLoginName, loginName);
+    return this.getOne(queryWrapper);
+  }
 }

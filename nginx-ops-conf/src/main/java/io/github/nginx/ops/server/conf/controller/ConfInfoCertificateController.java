@@ -2,13 +2,13 @@ package io.github.nginx.ops.server.conf.controller;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import io.github.nginx.ops.server.comm.annotation.OperationLog;
 import io.github.nginx.ops.server.comm.domain.vo.R;
+import io.github.nginx.ops.server.comm.enums.BusinessTypeEnum;
 import io.github.nginx.ops.server.conf.domain.ConfInfoCertificate;
 import io.github.nginx.ops.server.conf.domain.dto.ConfInfoCertificateDTO;
 import io.github.nginx.ops.server.conf.domain.query.ConfInfoCertificateQuery;
 import io.github.nginx.ops.server.conf.service.ConfInfoCertificateService;
-import io.github.nginx.ops.server.system.annotation.OperationLog;
-import io.github.nginx.ops.server.system.enums.BusinessTypeEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

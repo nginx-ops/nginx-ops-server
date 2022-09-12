@@ -27,8 +27,8 @@ public class SysFile extends BaseEntity implements Serializable {
 
   /** 文件名称 */
   private String fileName;
-  /** 文件描述 */
-  private String fileDesc;
+  /** 带盐值 */
+  private String salt;
   /** 文件路径 */
   private String filePath;
   /** 文件类型 */

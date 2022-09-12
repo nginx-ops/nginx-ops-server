@@ -1,6 +1,6 @@
-package io.github.nginx.ops.server.system.annotation;
+package io.github.nginx.ops.server.comm.annotation;
 
-import io.github.nginx.ops.server.system.enums.BusinessTypeEnum;
+import io.github.nginx.ops.server.comm.enums.BusinessTypeEnum;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
