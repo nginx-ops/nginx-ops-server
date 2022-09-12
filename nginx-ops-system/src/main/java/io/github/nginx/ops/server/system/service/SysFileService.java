@@ -1,12 +1,13 @@
 package io.github.nginx.ops.server.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import io.github.nginx.ops.server.comm.domain.vo.R;
 import io.github.nginx.ops.server.system.domain.SysFile;
 import io.github.nginx.ops.server.system.domain.dto.SysFileDTO;
 import io.github.nginx.ops.server.system.domain.query.SysFileQuery;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author 24709
@@ -16,36 +17,39 @@ import java.util.List;
 public interface SysFileService extends IService<SysFile> {
 
   /**
-   * 上传文件
+   * 多文件上传
    *
    * @param dto
-   * @return
    */
-  SysFile upload(SysFileDTO dto);
+  void upload(SysFileDTO dto);
 
   /**
-   * @description: 删除文件
-   * @author: wgy
-   * @date: 2022/9/11 16:41
-   * @param: id
+   * 下载或预览文件
+   *
+   * @param id
+   * @param preview
+   */
+  void download(String id, Boolean preview, HttpServletResponse response);
+
+  /**
+   * 多文件打包下载
+   *
+   * @param ids
+   */
+  void downloadZip(Set<String> ids, HttpServletResponse response);
+
+  /**
+   * 删除文件
+   *
+   * @param id
    */
   void delete(String id);
 
   /**
-   * @description: 批量删除文件
-   * @author: wgy
-   * @date: 2022/9/11 16:42
-   * @param: ids
+   * 查询文件列表
+   *
+   * @param query
+   * @return
    */
-  void deleteBatch(List<String> ids);
-
-  /**
-   * @description: 分页查询文件
-   * @author: wgy
-   * @date: 2022/9/11 18:08
-   * @param: page
-   * @param: limit
-   * @param: sysFileQuery
-   */
-  R selectPage(Long page, Long limit, SysFileQuery sysFileQuery);
+  List<SysFile> list(SysFileQuery query);
 }

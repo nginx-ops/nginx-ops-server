@@ -1,7 +1,12 @@
 package io.github.nginx.ops.server.system.domain;
 
 import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
@@ -22,10 +27,8 @@ public class SysFile extends BaseEntity implements Serializable {
 
   /** 文件名称 */
   private String fileName;
-  /** 文件名称 */
+  /** 带盐值 */
   private String salt;
-  /** 文件描述 */
-  private String fileDesc;
   /** 文件路径 */
   private String filePath;
   /** 文件类型 */

@@ -11,6 +11,7 @@ import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author lihao3
@@ -27,9 +28,9 @@ public class SysFileDTO implements Serializable {
 
   /** 存储路径 */
   private String path;
-  /** 文件类型 */
-  private String fileType;
   /** 文件 */
   @JSONField(serialize = false)
-  private MultipartFile file;
+  private List<MultipartFile> files;
+  /** 备注 */
+  private String remark;
 }

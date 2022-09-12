@@ -1,8 +1,6 @@
 package io.github.nginx.ops.server.admin.controller;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
-import cn.hutool.core.lang.Snowflake;
-import cn.hutool.core.util.IdUtil;
 import io.github.nginx.ops.server.admin.domain.dto.LoginDTO;
 import io.github.nginx.ops.server.admin.domain.vo.CaptchaVO;
 import io.github.nginx.ops.server.admin.service.AdminServer;
@@ -34,7 +32,6 @@ import javax.validation.Valid;
 public class AdminController {
 
   private final AdminServer server;
-  private final Snowflake SNOWFLAKE = IdUtil.getSnowflake();
 
   @PostMapping("login")
   @ApiOperation("登录接口")

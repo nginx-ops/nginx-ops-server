@@ -23,6 +23,8 @@ public enum BusinessTypeEnum {
   DELETE("delete"),
   /** 上传 */
   UPLOAD("upload"),
+  /** 下载 */
+  DOWNLOAD("download"),
   /** 授权 */
   GRANT("grant"),
   /** 导出 */

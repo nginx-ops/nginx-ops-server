@@ -1,6 +1,13 @@
 package io.github.nginx.ops.server.system.domain.query;
 
-import lombok.*;
+import io.github.nginx.ops.server.comm.domain.query.BaseQuery;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
@@ -13,15 +20,15 @@ import java.io.Serializable;
 @Getter
 @Builder
 @ToString
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysFileQuery implements Serializable {
+public class SysFileQuery extends BaseQuery implements Serializable {
 
   /** 文件名 */
   private String fileName;
   /** 文件类型 */
   private String fileType;
   /** 文件备注 */
-  private String fileDesc;
+  private String remark;
 }
