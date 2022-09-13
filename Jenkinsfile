@@ -15,7 +15,6 @@ pipeline {
                 echo "current branch is: ${env.gitlabBranch}"
             }
         }
-
         stage('build-test') {
             when {
                 environment name: 'gitlabBranch', value: 'test'
