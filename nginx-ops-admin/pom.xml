@@ -17,6 +17,7 @@
     </properties>
 
     <dependencies>
+        <!--业务框架-->
         <dependency>
             <groupId>io.github.nginx.ops</groupId>
             <artifactId>nginx-ops-conf</artifactId>
