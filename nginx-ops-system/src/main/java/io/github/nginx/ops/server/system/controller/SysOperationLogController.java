@@ -1,17 +1,23 @@
 package io.github.nginx.ops.server.system.controller;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import io.github.nginx.ops.server.comm.annotation.OperationLog;
 import io.github.nginx.ops.server.comm.domain.vo.R;
 import io.github.nginx.ops.server.comm.enums.BusinessTypeEnum;
+import io.github.nginx.ops.server.system.domain.SysOperationLog;
+import io.github.nginx.ops.server.system.domain.query.SysOperationLogQuery;
 import io.github.nginx.ops.server.system.service.SysOperationLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @BelongsProject: nginx-ops-server @BelongsPackage:
@@ -21,23 +27,18 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "日志管理接口")
 @Slf4j
 @RestController
-@RequestMapping("sys/log")
+@RequestMapping("sys/operation/log")
 @RequiredArgsConstructor
-public class SysOperationLogConteoller {
+public class SysOperationLogController {
 
   private final SysOperationLogService sysOperationLogService;
 
-  @GetMapping("loginLog/{page}/{limit}")
-  @ApiOperation("登录日志")
-  @OperationLog(title = "登录日志", businessType = BusinessTypeEnum.SELECT)
-  public R loginLogList(@PathVariable Long page, @PathVariable Long limit) {
-    return sysOperationLogService.loginLogList(page, limit, BusinessTypeEnum.LOGIN.getCode());
-  }
-
-  @GetMapping("operationLog/{page}/{limit}")
-  @ApiOperation("操作日志")
-  @OperationLog(title = "操作日志", businessType = BusinessTypeEnum.SELECT)
-  public R operationLogList(@PathVariable Long page, @PathVariable Long limit) {
-    return sysOperationLogService.operationLogList(page, limit, BusinessTypeEnum.LOGIN.getCode());
+  @GetMapping("page")
+  @ApiOperation("分页查询操作日志")
+  @OperationLog(title = "分页查询操作日志", businessType = BusinessTypeEnum.SELECT)
+  public R selectPageList(@ModelAttribute SysOperationLogQuery query) {
+    Page<SysOperationLog> page = PageHelper.startPage(query);
+    List<SysOperationLog> sysOperationLogs = sysOperationLogService.list(query);
+    return R.success("登陆日志分页查询成功", page);
   }
 }

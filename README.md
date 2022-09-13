@@ -1,14 +1,28 @@
-# nginx-ops-server
+<h1 align="center">
+      nginx-ops-server
+</h1>
 
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-PS: 本项目采用Google编码风格
-![image](https://user-images.githubusercontent.com/49888630/189461380-4b518aeb-4017-400e-888c-520d655c5bc3.png)
+<h4 align="center">
+A graphical-based nginx management tool, fast to deploy and easy to use
+<h4 align="center">
+    一款基于图形化nginx管理工具, 快速部署, 方便使用
+</h4> 
 
-nginx管理工具服务端
+<p align="center">
+    <a href="https://github.com/nginx-ops/nginx-ops-server/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/nginx-ops/nginx-ops-server"></a>
+    <a href="https://github.com/nginx-ops/nginx-ops-server/network"><img alt="GitHub forks" src="https://img.shields.io/github/forks/nginx-ops/nginx-ops-server"></a>
+    <a href="https://github.com/nginx-ops/nginx-ops-server/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/nginx-ops/nginx-ops-server"></a>
+    <a href="https://github.com/nginx-ops/nginx-ops-server/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/nginx-ops/nginx-ops-server"></a>
 
-## 贡献者(Contributors)✨
+## 工程简介✨
+
+一款基于图形化nginx管理工具, 快速部署, 方便使用
+
+## PR规范✨
+
+PS: 本项目采用Google编码风格, 如果您使用IDEA编程, 请下载google-java-format格式化后在提交代码
+
+## [贡献者(Contributors)✨](https://github.com/nginx-ops/nginx-ops-server/graphs/contributors)
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -29,4 +43,9 @@ nginx管理工具服务端
 
 ## 点赞趋势(Stargazers over time)✨
 
-[![Stargazers over time](https://starchart.cc/nginx-ops/nginx-ops-server.svg)](https://starchart.cc/nginx-ops/nginx-ops-server) 
+[![Stargazers over time](https://starchart.cc/nginx-ops/nginx-ops-server.svg)](https://starchart.cc/nginx-ops/nginx-ops-server)
+
+## 友情链接
+
+## 特别鸣谢
+
