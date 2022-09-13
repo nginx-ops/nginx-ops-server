@@ -28,6 +28,7 @@
             <artifactId>nginx-ops-system</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+
         <!--监测接口-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
