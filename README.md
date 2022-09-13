@@ -16,11 +16,13 @@ A graphical-based nginx management tool, fast to deploy and easy to use
 
 ## 工程简介✨
 
-PS: 本项目采用Google编码风格
+一款基于图形化nginx管理工具, 快速部署, 方便使用
 
-​ IDEA: 请下载google-java-format
+## PR规范✨
 
-## 贡献者(Contributors)✨
+PS: 本项目采用Google编码风格, 如果您使用IDEA编程, 请下载google-java-format格式化后在提交代码
+
+## [贡献者(Contributors)✨](https://github.com/nginx-ops/nginx-ops-server/graphs/contributors)
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
