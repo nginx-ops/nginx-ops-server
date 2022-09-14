@@ -22,6 +22,15 @@ A graphical-based nginx management tool, fast to deploy and easy to use
 
 PS: 本项目采用Google编码风格, 如果您使用IDEA编程, 请下载google-java-format格式化后在提交代码
 
+## 我们的优势
+
+1. UI 现代化
+2. 多租户
+3. 数据库优化
+4. 分布式部署
+5. 更细的权限
+6. 后端架构设计
+
 ## [贡献者(Contributors)✨](https://github.com/nginx-ops/nginx-ops-server/graphs/contributors)
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
