@@ -1,7 +1,9 @@
 package io.github.nginx.ops.server.admin.service.impl;
 
+import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.lang.Snowflake;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -13,7 +15,10 @@ import io.github.nginx.ops.server.admin.domain.vo.CaptchaVO;
 import io.github.nginx.ops.server.admin.service.AdminServer;
 import io.github.nginx.ops.server.comm.constant.CacheConstants;
 import io.github.nginx.ops.server.comm.exception.BusinessException;
+import io.github.nginx.ops.server.comm.util.json.JsonUtils;
 import io.github.nginx.ops.server.system.domain.SysUser;
+import io.github.nginx.ops.server.system.domain.dto.SysUserDTO;
+import io.github.nginx.ops.server.system.domain.dto.UserInfo;
 import io.github.nginx.ops.server.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +42,21 @@ public class AdminServerImpl implements AdminServer {
   private final RedisTemplate redisTemplate;
   private final SysUserService sysUserService;
   private final BCryptPasswordEncoder encoder;
+
+  @Override
+  public UserInfo getUserInfo() {
+    // 获取当前登录的唯一ID
+    String loginName = StpUtil.getLoginIdAsString();
+    // 查询用户信息
+    SysUserDTO sysUserDTO = sysUserService.getOne(loginName);
+    // 存入缓存
+    StpUtil.getSession().set(CacheConstants.USERINFO, JsonUtils.toJSONString(sysUserDTO));
+    return UserInfo.builder()
+        .sysUser(BeanUtil.copyProperties(sysUserDTO, SysUserDTO.class))
+        .sysRoleList(sysUserDTO.getSysRoleList())
+        .sysSettingList(sysUserDTO.getSysSettingList())
+        .build();
+  }
 
   @Override
   public SaTokenInfo login(LoginDTO dto, HttpServletRequest request) {
@@ -65,7 +85,9 @@ public class AdminServerImpl implements AdminServer {
             .loginDate(new Date())
             .build());
     // 进行登录
-    StpUtil.login(dto.getLoginName(), dto.getDevice());
+    StpUtil.login(
+        dto.getLoginName(),
+        new SaLoginModel().setDevice(dto.getDevice()).setIsLastingCookie(dto.getRemember()));
     // 第2步，获取 Token  相关参数
     return StpUtil.getTokenInfo();
   }

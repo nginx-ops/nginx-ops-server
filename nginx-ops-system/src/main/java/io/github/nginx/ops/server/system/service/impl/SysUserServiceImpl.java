@@ -11,6 +11,7 @@ import io.github.nginx.ops.server.system.domain.dto.SysUserDTO;
 import io.github.nginx.ops.server.system.domain.query.SysUserQuery;
 import io.github.nginx.ops.server.system.mapper.SysUserMapper;
 import io.github.nginx.ops.server.system.service.SysRoleService;
+import io.github.nginx.ops.server.system.service.SysSettingService;
 import io.github.nginx.ops.server.system.service.SysUserRoleService;
 import io.github.nginx.ops.server.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
 
   private final SysUserRoleService sysUserRoleService;
   private final SysRoleService sysRoleService;
+  private final SysSettingService sysSettingService;
 
   @Override
   @Transactional(rollbackFor = Exception.class)
@@ -116,6 +118,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     SysUser sysUser = this.getById(id);
     SysUserDTO sysUserDTO = BeanUtil.copyProperties(sysUser, SysUserDTO.class);
     sysUserDTO.setSysRoleList(sysRoleService.selectSysRoleListByUserId(id));
+    sysUserDTO.setSysSettingList(sysSettingService.selectByUserId(id));
     return sysUserDTO;
   }
 

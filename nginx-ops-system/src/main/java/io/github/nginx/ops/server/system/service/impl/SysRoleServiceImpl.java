@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
 import io.github.nginx.ops.server.comm.exception.BusinessException;
 import io.github.nginx.ops.server.system.domain.SysRole;
 import io.github.nginx.ops.server.system.domain.dto.SysRoleDTO;
@@ -36,7 +37,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
   public List<SysRoleDTO> selectSysRoleListByUserId(String id) {
     queryWrapper.clear();
     Set<String> roleIds = sysUserRoleService.selectRoleIdListByUserId(id);
-    queryWrapper.in(SysRole::getRoleCode, roleIds).eq(SysRole::getIsEnable, true);
+    queryWrapper.in(BaseEntity::getId, roleIds).eq(SysRole::getIsEnable, true);
     List<SysRole> sysRoleList = this.list(queryWrapper);
     return BeanUtil.copyToList(sysRoleList, SysRoleDTO.class);
   }

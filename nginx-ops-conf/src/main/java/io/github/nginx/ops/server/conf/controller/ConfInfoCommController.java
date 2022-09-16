@@ -14,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -32,6 +35,7 @@ import java.util.List;
  */
 @Api(tags = "nginx通用配置项目接口")
 @Slf4j
+@Validated
 @RestController
 @RequestMapping("conf/info/comm")
 @RequiredArgsConstructor
@@ -42,7 +46,9 @@ public class ConfInfoCommController {
   @PostMapping
   @ApiOperation("新增接口")
   @OperationLog(title = "新增nginx通用配置文件表", businessType = BusinessTypeEnum.UPDATE)
-  public R save(@RequestBody List<ConfInfoCommDTO> dtoList) {
+  public R save(
+      @RequestBody @Valid @NotEmpty(message = "{confInfoCommDTO.notEmpty}")
+          List<ConfInfoCommDTO> dtoList) {
     service.saveBatch(BeanUtil.copyToList(dtoList, ConfInfoComm.class));
     return R.success("新增成功!");
   }

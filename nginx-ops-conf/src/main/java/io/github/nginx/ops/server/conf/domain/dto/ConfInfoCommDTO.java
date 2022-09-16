@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -24,10 +25,13 @@ import java.io.Serializable;
 public class ConfInfoCommDTO implements Serializable {
 
   /** 配置类型 */
+  @NotEmpty(message = "{confInfoCommDTO.type.notEmpty}")
   private String type;
   /** 字段标题 */
+  @NotEmpty(message = "{confInfoCommDTO.name.notEmpty}")
   private String name;
   /** 字段内容 */
+  @NotEmpty(message = "{confInfoCommDTO.value.notEmpty}")
   private String value;
   /** 顺序 */
   private Integer order;

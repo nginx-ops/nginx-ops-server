@@ -1,12 +1,15 @@
 package io.github.nginx.ops.server.system.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
 import io.github.nginx.ops.server.system.domain.SysSetting;
 import io.github.nginx.ops.server.system.domain.dto.SysSettingDTO;
 import io.github.nginx.ops.server.system.domain.query.SysSettingQuery;
 import io.github.nginx.ops.server.system.mapper.SysSettingMapper;
 import io.github.nginx.ops.server.system.service.SysSettingService;
+import io.github.nginx.ops.server.system.service.SysUserSettingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +27,7 @@ import java.util.List;
 public class SysSettingServiceImpl extends ServiceImpl<SysSettingMapper, SysSetting>
     implements SysSettingService {
 
+  private final SysUserSettingService sysUserSettingService;
   private final LambdaQueryWrapper<SysSetting> queryWrapper = new LambdaQueryWrapper<>();
 
   @Override
@@ -48,5 +52,14 @@ public class SysSettingServiceImpl extends ServiceImpl<SysSettingMapper, SysSett
   @Override
   public SysSettingDTO getOne(String id) {
     return null;
+  }
+
+  @Override
+  public List<SysSettingDTO> selectByUserId(String id) {
+    queryWrapper.clear();
+    List<String> settingIds = sysUserSettingService.selectSettingIdListByUserId(id);
+    queryWrapper.in(BaseEntity::getId, settingIds);
+    List<SysSetting> list = this.list(queryWrapper);
+    return BeanUtil.copyToList(list, SysSettingDTO.class);
   }
 }

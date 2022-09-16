@@ -41,6 +41,8 @@ public class LoginDTO implements Serializable {
   @ApiModelProperty(value = "验证码内容", required = true)
   @NotEmpty(message = "{loginDTO.verCode.notEmpty}")
   private String verCode;
-
+  /** 登录设备 */
   private String device;
+  /** 是否记住我 */
+  private Boolean remember = false;
 }

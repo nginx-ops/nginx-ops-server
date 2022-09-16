@@ -1,5 +1,6 @@
 package io.github.nginx.ops.server.conf.domain;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.OrderBy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
@@ -22,6 +23,9 @@ import java.io.Serializable;
 public class ConfInfoTemplate extends BaseEntity implements Serializable {
 
   private static final long serialVersionUID = 1L;
+  /** 租户ID */
+  @TableField(fill = FieldFill.INSERT)
+  private String tenantId;
   /** 类型 */
   private String type;
   /** 名称 */
