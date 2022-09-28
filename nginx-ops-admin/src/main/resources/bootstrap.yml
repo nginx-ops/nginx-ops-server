@@ -66,6 +66,8 @@ logging:
     com.alibaba.nacos.client.naming: warn
   file:
     path: /www/server/${spring.application.name}/logs
+  config:
+    path:
 
 # mybatis配置类(不推荐修改)
 mybatis-plus:

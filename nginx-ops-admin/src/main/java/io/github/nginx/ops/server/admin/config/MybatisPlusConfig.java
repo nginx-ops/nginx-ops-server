@@ -27,29 +27,8 @@ import java.util.Date;
 @Configuration
 public class MybatisPlusConfig implements MetaObjectHandler {
 
-  @Bean
-  public MybatisPlusInterceptor mybatisPlusInterceptor() {
-    MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-    // 防止全部更新
-    interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
-    // 多住户
-    interceptor.addInnerInterceptor(
-        new TenantLineInnerInterceptor(
-            new TenantLineHandler() {
-              @Override
-              public Expression getTenantId() {
-                return new StringValue("TEST");
-              }
-
-              // 这是 default 方法,默认返回 false 表示所有表都需要拼多租户条件
-              @Override
-              public boolean ignoreTable(String tableName) {
-                return !"sys".equalsIgnoreCase(tableName);
-              }
-            }));
-    // 分页
-    interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
-    return interceptor;
+  public static void main(String[] args) {
+    System.out.println("\"sys\".equals(\"nginx\") = " + "sys".equals("nginx"));
   }
 
   @Override
@@ -78,5 +57,30 @@ public class MybatisPlusConfig implements MetaObjectHandler {
     this.strictInsertFill(
         metaObject, "updateBy", String.class, userInfo.getSysUser().getLoginName());
     this.strictUpdateFill(metaObject, "updateTime", Date.class, dateTime);
+  }
+
+  @Bean
+  public MybatisPlusInterceptor mybatisPlusInterceptor() {
+    MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+    // 防止全部更新
+    interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
+    // 多住户
+    interceptor.addInnerInterceptor(
+        new TenantLineInnerInterceptor(
+            new TenantLineHandler() {
+              @Override
+              public Expression getTenantId() {
+                return new StringValue("test");
+              }
+
+              // 这是 default 方法,默认返回 false 表示所有表都需要拼多租户条件
+              @Override
+              public boolean ignoreTable(String tableName) {
+                return !"sys".equalsIgnoreCase(tableName);
+              }
+            }));
+    // 分页
+    interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+    return interceptor;
   }
 }

@@ -81,7 +81,7 @@ public class ConfInfoServiceImpl extends ServiceImpl<ConfInfoMapper, ConfInfo>
     SysSetting sysSetting = sysSettingService.getOneByLogin();
     NgxConfig ngxConfig = new NgxConfig();
     ConfInfoVO confInfoVO = new ConfInfoVO();
-    if (type.equals(NginxConfTypeEnum.INDEX.getCode())) {
+    if (type.equals(NginxConfTypeEnum.MAIN.getCode())) {
       ngxConfig.addEntry(confInfoCommService.buildIndex());
     } else if (type.equals(NginxConfTypeEnum.HTTP.getCode())) {
       ngxConfig.addEntry(confInfoCommService.buildHttp());

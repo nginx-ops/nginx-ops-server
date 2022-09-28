@@ -5,10 +5,11 @@
 # ./nginx-ops-server.sh restart 重启
 # ./nginx-ops-server.sh status 状态
 SERVER_NAME=nginx-ops-server
-APP_NAME=$SERVER_NAME.jar
-APP_HOME=/www/server/$SERVER_NAME
+APP_NAME=nginx-ops-server.jar
+APP_HOME=/www/server/nginx-ops-server
 LOG_PATH=$APP_HOME/logs
-JVM_OPTS="-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOG_PATH -Xms1g -Xmx1g"
+LOG_CONF_PATH=./config/logback-spring.xml
+JVM_OPTS="-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOG_PATH -Xms512m -Xmx512m -Xmn256m"
 
 if [ "$1" = "" ]; then
   echo -e "\033[0;31m 未输入操作名 \033[0m  \033[0;34m {start|stop|restart|status} \033[0m"

@@ -10,10 +10,16 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum NginxConfTypeEnum {
-  INDEX("index"),
+
+  /** 入门 */
+  MAIN("main"),
+  /** HTTP属性 */
   HTTP("http"),
+  /** stream */
   STREAM("stream"),
+  /** server */
   SERVER("server"),
+  /** upstream */
   UPSTREAM("upstream"),
   ;
 

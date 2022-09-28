@@ -1,6 +1,6 @@
 def TARGET_PATH = '/www/server/wison-wpos'
 def SOURCE_PATH = './wpos-server/target'
-def SHELL_NAME = 'wison-wpos.sh'
+def SHELL_NAME = 'nginx-ops-server.sh'
 
 pipeline {
     agent any
