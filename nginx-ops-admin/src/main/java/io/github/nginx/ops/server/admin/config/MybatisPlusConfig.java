@@ -8,8 +8,6 @@ import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
-import io.github.nginx.ops.server.system.domain.dto.UserInfo;
-import io.github.nginx.ops.server.system.util.UserInfoUtils;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.StringValue;
@@ -53,9 +51,8 @@ public class MybatisPlusConfig implements MetaObjectHandler {
   public void updateFill(MetaObject metaObject) {
     log.debug("start update fill ....");
     DateTime dateTime = new DateTime();
-    UserInfo userInfo = UserInfoUtils.getUserInfo();
-    this.strictInsertFill(
-        metaObject, "updateBy", String.class, userInfo.getSysUser().getLoginName());
+    // UserInfo userInfo = UserInfoUtils.getUserInfo();
+    this.strictInsertFill(metaObject, "updateBy", String.class, "test");
     this.strictUpdateFill(metaObject, "updateTime", Date.class, dateTime);
   }
 

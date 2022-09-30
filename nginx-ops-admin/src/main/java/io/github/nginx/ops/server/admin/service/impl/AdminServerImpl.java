@@ -71,7 +71,8 @@ public class AdminServerImpl implements AdminServer {
       throw new BusinessException(AdminReturnCodeConstant.CAPTCHA_HAS_EXPIRED);
     }
     SysUser sysUser = sysUserService.getOneByLoginName(dto.getLoginName());
-    if (ObjectUtil.isEmpty(sysUser) || !encoder.matches(sysUser.getPassword(), dto.getPassword())) {
+    if (ObjectUtil.isEmpty(sysUser)
+        || Boolean.FALSE.equals(encoder.matches(dto.getPassword(), sysUser.getPassword()))) {
       throw new BusinessException(AdminReturnCodeConstant.USER_DOES_NOT_EXIST);
     }
     if (Boolean.FALSE.equals(sysUser.getIsEnable())) {
