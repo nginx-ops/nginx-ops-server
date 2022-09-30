@@ -114,4 +114,11 @@ public class AdminServerImpl implements AdminServer {
     // 将key和base64返回给前端
     return CaptchaVO.builder().id(id).image(specCaptcha.toBase64()).build();
   }
+
+  public static void main(String[] args){
+    //
+    BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+    System.out.println("encoder.encode(\"123456\") = " + encoder.encode("123456"));
+    System.out.println("encoder.matches(\"123456\", \"$2a$10$zyGraLskfQl.T5oncHzr9uvoKcX5zxak3NZe/MMSgAzn1poRLRv0u\") = " + encoder.matches("123456", "$2a$10$zyGraLskfQl.T5oncHzr9uvoKcX5zxak3NZe/MMSgAzn1poRLRv0u"));
+  }
 }
