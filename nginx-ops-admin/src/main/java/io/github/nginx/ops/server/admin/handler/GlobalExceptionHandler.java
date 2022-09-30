@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 /**
  * 全局异常处理
@@ -61,6 +63,15 @@ public class GlobalExceptionHandler {
     log.warn("参数校验失败, 异常简介为:{}", e.getMessage(), e);
     return R.error(
         sysReturnService.getMessage(e.getBindingResult().getFieldError().getDefaultMessage()));
+  }
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  public R handleBindException(ConstraintViolationException e) {
+    log.warn("参数校验失败, 异常简介为:{}", e.getMessage(), e);
+    for (ConstraintViolation<?> constraintViolation : e.getConstraintViolations()) {
+      return R.error(sysReturnService.getMessage(constraintViolation.getMessage()));
+    }
+    return null;
   }
 
   /** 请求方式不支持 */

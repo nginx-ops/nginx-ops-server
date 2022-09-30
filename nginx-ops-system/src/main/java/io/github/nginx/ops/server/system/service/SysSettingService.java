@@ -58,4 +58,12 @@ public interface SysSettingService extends IService<SysSetting> {
    * @return
    */
   SysSettingDTO getOne(String id);
+
+  /**
+   * 根据用户ID查询他所拥有的nginx实例
+   *
+   * @param id
+   * @return
+   */
+  List<SysSettingDTO> selectByUserId(String id);
 }

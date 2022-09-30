@@ -17,6 +17,7 @@
     </properties>
 
     <dependencies>
+        <!--业务框架-->
         <dependency>
             <groupId>io.github.nginx.ops</groupId>
             <artifactId>nginx-ops-conf</artifactId>
@@ -67,6 +68,8 @@
     </dependencies>
 
     <build>
+        <finalName>${parent.artifactId}</finalName>
+
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

@@ -1,11 +1,12 @@
 package io.github.nginx.ops.server.system.controller;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.github.nginx.ops.server.comm.annotation.OperationLog;
-import io.github.nginx.ops.server.comm.domain.query.BaseQuery;
 import io.github.nginx.ops.server.comm.domain.vo.R;
 import io.github.nginx.ops.server.comm.enums.BusinessTypeEnum;
 import io.github.nginx.ops.server.system.domain.SysOperationLog;
+import io.github.nginx.ops.server.system.domain.query.SysOperationLogQuery;
 import io.github.nginx.ops.server.system.service.SysOperationLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,27 +27,18 @@ import java.util.List;
 @Api(tags = "日志管理接口")
 @Slf4j
 @RestController
-@RequestMapping("sys/log")
+@RequestMapping("sys/operation/log")
 @RequiredArgsConstructor
-public class SysOperationLogConteoller {
+public class SysOperationLogController {
 
   private final SysOperationLogService sysOperationLogService;
 
-  @GetMapping("loginLog")
-  @ApiOperation("登录日志")
-  @OperationLog(title = "登录日志", businessType = BusinessTypeEnum.SELECT)
-  public R loginLogList(@ModelAttribute BaseQuery baseQuery) {
-    PageHelper.startPage(baseQuery);
-    List<SysOperationLog> sysOperationLogs = sysOperationLogService.logPageList(baseQuery, true);
-    return R.success("登陆日志分页查询成功", sysOperationLogs);
-  }
-
-  @GetMapping("operationLog")
-  @ApiOperation("操作日志")
-  @OperationLog(title = "操作日志", businessType = BusinessTypeEnum.SELECT)
-  public R operationLogList(@ModelAttribute BaseQuery baseQuery) {
-    PageHelper.startPage(baseQuery);
-    List<SysOperationLog> sysOperationLogs = sysOperationLogService.logPageList(baseQuery, false);
-    return R.success("操作日志分页查询成功", sysOperationLogs);
+  @GetMapping("page")
+  @ApiOperation("分页查询操作日志")
+  @OperationLog(title = "分页查询操作日志", businessType = BusinessTypeEnum.SELECT)
+  public R selectPageList(@ModelAttribute SysOperationLogQuery query) {
+    Page<SysOperationLog> page = PageHelper.startPage(query);
+    List<SysOperationLog> sysOperationLogs = sysOperationLogService.list(query);
+    return R.success("登陆日志分页查询成功", page);
   }
 }

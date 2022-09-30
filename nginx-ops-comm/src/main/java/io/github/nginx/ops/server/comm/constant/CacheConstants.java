@@ -15,4 +15,6 @@ public class CacheConstants {
   public static final String CAPTCHA = "captcha";
   /** 返回值 */
   public static final String RETURN = "return";
+  /** 用户信息 */
+  public static final String USERINFO = "user-info";
 }

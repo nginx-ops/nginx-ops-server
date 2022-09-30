@@ -77,7 +77,7 @@ public class ConfInfoCommServiceImpl extends ServiceImpl<ConfInfoCommMapper, Con
   public NgxParam buildIndex() {
     NgxParam ngxParam = new NgxParam();
     List<ConfInfoComm> list =
-        this.list(ConfInfoCommQuery.builder().type(NginxConfTypeEnum.INDEX.getCode()).build());
+        this.list(ConfInfoCommQuery.builder().type(NginxConfTypeEnum.MAIN.getCode()).build());
     list.forEach(
         item ->
             ngxParam.addValue(

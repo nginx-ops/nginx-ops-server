@@ -29,7 +29,7 @@ import java.util.List;
  * @author lihao3
  * @date 2022/8/22
  */
-@Api(tags = "nginx通用配置项目接口")
+@Api(tags = "nginx证书相关接口")
 @Slf4j
 @RestController
 @RequestMapping("conf/info/certificate")

@@ -18,4 +18,16 @@ public class JsonUtils {
   public static String toJSONString(Object object) {
     return JSON.toJSONString(object);
   }
+
+  /**
+   * 将JSON字符串转为实体类
+   *
+   * @param text
+   * @param clazz
+   * @param <T>
+   * @return
+   */
+  public static <T> T parseObject(String text, Class<T> clazz) {
+    return JSON.parseObject(text, clazz);
+  }
 }
