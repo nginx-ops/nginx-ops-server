@@ -7,7 +7,7 @@ package io.github.nginx.ops.server.admin.constant;
  */
 public class AdminReturnCodeConstant {
 
-  /** 验证码已过期 */
+  /** 验证码已过期或验证码错误 */
   public static final String CAPTCHA_HAS_EXPIRED = "A0001";
   /** 登录名或密码错误 */
   public static final String USER_DOES_NOT_EXIST = "A0002";
