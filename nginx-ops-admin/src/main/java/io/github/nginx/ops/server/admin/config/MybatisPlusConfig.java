@@ -25,10 +25,6 @@ import java.util.Date;
 @Configuration
 public class MybatisPlusConfig implements MetaObjectHandler {
 
-  public static void main(String[] args) {
-    System.out.println("\"sys\".equals(\"nginx\") = " + "sys".equals("nginx"));
-  }
-
   @Override
   public void insertFill(MetaObject metaObject) {
     log.debug("start insert fill ....");
