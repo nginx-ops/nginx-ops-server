@@ -1,6 +1,7 @@
 package io.github.nginx.ops.server.system.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -58,6 +60,9 @@ public class SysSettingServiceImpl extends ServiceImpl<SysSettingMapper, SysSett
   public List<SysSettingDTO> selectByUserId(String id) {
     queryWrapper.clear();
     List<String> settingIds = sysUserSettingService.selectSettingIdListByUserId(id);
+    if (ObjectUtil.isEmpty(settingIds)) {
+      return Collections.emptyList();
+    }
     queryWrapper.in(BaseEntity::getId, settingIds);
     List<SysSetting> list = this.list(queryWrapper);
     return BeanUtil.copyToList(list, SysSettingDTO.class);

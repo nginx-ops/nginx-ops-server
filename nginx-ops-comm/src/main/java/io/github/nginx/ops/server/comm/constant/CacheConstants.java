@@ -16,5 +16,5 @@ public class CacheConstants {
   /** 返回值 */
   public static final String RETURN = "return";
   /** 用户信息 */
-  public static final String USERINFO = "user-info";
+  public static final String USERINFO = "userInfo";
 }

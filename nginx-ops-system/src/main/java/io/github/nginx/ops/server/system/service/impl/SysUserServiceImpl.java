@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.nginx.ops.server.comm.exception.BusinessException;
 import io.github.nginx.ops.server.system.domain.SysUser;
 import io.github.nginx.ops.server.system.domain.dto.SysRoleDTO;
-import io.github.nginx.ops.server.system.domain.dto.SysUserDTO;
+import io.github.nginx.ops.server.system.domain.dto.SysUserRoleDTO;
 import io.github.nginx.ops.server.system.domain.query.SysUserQuery;
 import io.github.nginx.ops.server.system.mapper.SysUserMapper;
 import io.github.nginx.ops.server.system.service.SysRoleService;
@@ -40,7 +40,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
 
   @Override
   @Transactional(rollbackFor = Exception.class)
-  public void save(SysUserDTO dto) {
+  public void save(SysUserRoleDTO dto) {
     queryWrapper.clear();
     queryWrapper.eq(SysUser::getLoginName, dto.getLoginName());
     if (this.count(queryWrapper) > 0) {
@@ -65,7 +65,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
   }
 
   @Override
-  public void update(String id, SysUserDTO dto) {
+  public void update(String id, SysUserRoleDTO dto) {
     SysUser sysUser = this.getById(id);
     // 判断是否修改登录名
     if (ObjectUtil.isNotEmpty(sysUser)) {
@@ -113,14 +113,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     return this.list(queryWrapper);
   }
 
-  @Override
-  public SysUserDTO getOne(String id) {
-    SysUser sysUser = this.getById(id);
-    SysUserDTO sysUserDTO = BeanUtil.copyProperties(sysUser, SysUserDTO.class);
-    sysUserDTO.setSysRoleList(sysRoleService.selectSysRoleListByUserId(id));
-    sysUserDTO.setSysSettingList(sysSettingService.selectByUserId(id));
-    return sysUserDTO;
-  }
 
   @Override
   public SysUser getOneByLoginName(String loginName) {

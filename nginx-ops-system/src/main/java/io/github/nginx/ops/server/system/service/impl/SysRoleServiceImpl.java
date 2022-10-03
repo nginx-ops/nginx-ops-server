@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -37,6 +38,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
   public List<SysRoleDTO> selectSysRoleListByUserId(String id) {
     queryWrapper.clear();
     Set<String> roleIds = sysUserRoleService.selectRoleIdListByUserId(id);
+    if (ObjectUtil.isEmpty(roleIds)) {
+      return Collections.emptyList();
+    }
     queryWrapper.in(BaseEntity::getId, roleIds).eq(SysRole::getIsEnable, true);
     List<SysRole> sysRoleList = this.list(queryWrapper);
     return BeanUtil.copyToList(sysRoleList, SysRoleDTO.class);

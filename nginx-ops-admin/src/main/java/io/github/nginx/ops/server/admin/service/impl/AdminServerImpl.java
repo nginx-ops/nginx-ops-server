@@ -17,8 +17,12 @@ import io.github.nginx.ops.server.comm.constant.CacheConstants;
 import io.github.nginx.ops.server.comm.exception.BusinessException;
 import io.github.nginx.ops.server.comm.util.json.JsonUtils;
 import io.github.nginx.ops.server.system.domain.SysUser;
+import io.github.nginx.ops.server.system.domain.dto.SysRoleDTO;
+import io.github.nginx.ops.server.system.domain.dto.SysSettingDTO;
 import io.github.nginx.ops.server.system.domain.dto.SysUserDTO;
 import io.github.nginx.ops.server.system.domain.dto.UserInfo;
+import io.github.nginx.ops.server.system.service.SysRoleService;
+import io.github.nginx.ops.server.system.service.SysSettingService;
 import io.github.nginx.ops.server.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -42,6 +47,8 @@ public class AdminServerImpl implements AdminServer {
   private static final Snowflake SNOWFLAKE = IdUtil.getSnowflake();
   private final RedisTemplate redisTemplate;
   private final SysUserService sysUserService;
+  private final SysRoleService sysRoleService;
+  private final SysSettingService sysSettingService;
   private final BCryptPasswordEncoder encoder;
 
   @Override
@@ -49,14 +56,20 @@ public class AdminServerImpl implements AdminServer {
     // 获取当前登录的唯一ID
     String loginName = StpUtil.getLoginIdAsString();
     // 查询用户信息
-    SysUserDTO sysUserDTO = sysUserService.getOne(loginName);
+    SysUser sysUser = sysUserService.getOneByLoginName(loginName);
+    SysUserDTO sysUserDTO = BeanUtil.copyProperties(sysUser, SysUserDTO.class);
+    List<SysRoleDTO> sysRoleDTOList = sysRoleService.selectSysRoleListByUserId(sysUser.getId());
+    List<SysSettingDTO> sysSettingDTOList = sysSettingService.selectByUserId(sysUser.getId());
+    // 装配实体类
+    UserInfo userInfo =
+        UserInfo.builder()
+            .sysUser(sysUserDTO)
+            .sysRoleList(sysRoleDTOList)
+            .sysSettingList(sysSettingDTOList)
+            .build();
     // 存入缓存
-    StpUtil.getSession().set(CacheConstants.USERINFO, JsonUtils.toJSONString(sysUserDTO));
-    return UserInfo.builder()
-        .sysUser(BeanUtil.copyProperties(sysUserDTO, SysUserDTO.class))
-        .sysRoleList(sysUserDTO.getSysRoleList())
-        .sysSettingList(sysUserDTO.getSysSettingList())
-        .build();
+    StpUtil.getSession().set(CacheConstants.USERINFO, JsonUtils.toJSONString(userInfo));
+    return userInfo;
   }
 
   public static void main(String[] args) {
