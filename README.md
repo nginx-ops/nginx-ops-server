@@ -58,4 +58,4 @@ PS: 本项目采用Google编码风格, 如果您使用IDEA编程, 请下载googl
 
 ## 特别鸣谢
 
-<img alt="JetBrains Logo (Main) logo" height="300" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" width="300"/>
+<img alt="JetBrains Logo (Main) logo" height="200" src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" width="200"/>
