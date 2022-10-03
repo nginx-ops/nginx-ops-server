@@ -22,6 +22,7 @@ import io.github.nginx.ops.server.system.domain.dto.UserInfo;
 import io.github.nginx.ops.server.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -58,39 +59,14 @@ public class AdminServerImpl implements AdminServer {
         .build();
   }
 
-  @Override
-  public SaTokenInfo login(LoginDTO dto, HttpServletRequest request) {
-    // 判断验证码是否正确
-    String cacheKey =
-        CacheConstants.APP_NAME
-            + CacheConstants.SEPARATOR
-            + CacheConstants.CAPTCHA
-            + CacheConstants.SEPARATOR
-            + dto.getVerId();
-    if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))) {
-      throw new BusinessException(AdminReturnCodeConstant.CAPTCHA_HAS_EXPIRED);
-    }
-    SysUser sysUser = sysUserService.getOneByLoginName(dto.getLoginName());
-    if (ObjectUtil.isEmpty(sysUser)
-        || Boolean.FALSE.equals(encoder.matches(dto.getPassword(), sysUser.getPassword()))) {
-      throw new BusinessException(AdminReturnCodeConstant.USER_DOES_NOT_EXIST);
-    }
-    if (Boolean.FALSE.equals(sysUser.getIsEnable())) {
-      throw new BusinessException(AdminReturnCodeConstant.USER_NOT_ENABLE);
-    }
-    // 修改登录时间
-    sysUserService.updateById(
-        SysUser.builder()
-            .id(sysUser.getId())
-            .loginIp(ServletUtil.getClientIP(request))
-            .loginDate(new Date())
-            .build());
-    // 进行登录
-    StpUtil.login(
-        dto.getLoginName(),
-        new SaLoginModel().setDevice(dto.getDevice()).setIsLastingCookie(dto.getRemember()));
-    // 第2步，获取 Token  相关参数
-    return StpUtil.getTokenInfo();
+  public static void main(String[] args) {
+    //
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+    System.out.println("encoder.encode(\"123456\") = " + encoder.encode("123456"));
+    System.out.println(
+        "encoder.matches(\"123456\", \"$2a$10$zyGraLskfQl.T5oncHzr9uvoKcX5zxak3NZe/MMSgAzn1poRLRv0u\") = "
+            + encoder.matches(
+                "123456", "$2a$10$zyGraLskfQl.T5oncHzr9uvoKcX5zxak3NZe/MMSgAzn1poRLRv0u"));
   }
 
   @Override
@@ -115,10 +91,40 @@ public class AdminServerImpl implements AdminServer {
     return CaptchaVO.builder().id(id).image(specCaptcha.toBase64()).build();
   }
 
-  public static void main(String[] args){
-    //
-    BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
-    System.out.println("encoder.encode(\"123456\") = " + encoder.encode("123456"));
-    System.out.println("encoder.matches(\"123456\", \"$2a$10$zyGraLskfQl.T5oncHzr9uvoKcX5zxak3NZe/MMSgAzn1poRLRv0u\") = " + encoder.matches("123456", "$2a$10$zyGraLskfQl.T5oncHzr9uvoKcX5zxak3NZe/MMSgAzn1poRLRv0u"));
+  @Override
+  public SaTokenInfo login(LoginDTO dto, HttpServletRequest request) {
+    // 判断验证码是否正确
+    String cacheKey =
+        CacheConstants.APP_NAME
+            + CacheConstants.SEPARATOR
+            + CacheConstants.CAPTCHA
+            + CacheConstants.SEPARATOR
+            + dto.getVerId();
+    if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))
+        || !StringUtils.equals(
+            (String) redisTemplate.opsForValue().get(cacheKey), dto.getVerCode())) {
+      throw new BusinessException(AdminReturnCodeConstant.CAPTCHA_HAS_EXPIRED);
+    }
+    SysUser sysUser = sysUserService.getOneByLoginName(dto.getLoginName());
+    if (ObjectUtil.isEmpty(sysUser)
+        || Boolean.FALSE.equals(encoder.matches(dto.getPassword(), sysUser.getPassword()))) {
+      throw new BusinessException(AdminReturnCodeConstant.USER_DOES_NOT_EXIST);
+    }
+    if (Boolean.FALSE.equals(sysUser.getIsEnable())) {
+      throw new BusinessException(AdminReturnCodeConstant.USER_NOT_ENABLE);
+    }
+    // 修改登录时间
+    sysUserService.updateById(
+        SysUser.builder()
+            .id(sysUser.getId())
+            .loginIp(ServletUtil.getClientIP(request))
+            .loginDate(new Date())
+            .build());
+    // 进行登录
+    StpUtil.login(
+        dto.getLoginName(),
+        new SaLoginModel().setDevice(dto.getDevice()).setIsLastingCookie(dto.getRemember()));
+    // 第2步，获取 Token  相关参数
+    return StpUtil.getTokenInfo();
   }
 }
