@@ -57,4 +57,5 @@ PS: 本项目采用Google编码风格, 如果您使用IDEA编程, 请下载googl
 ## 友情链接
 
 ## 特别鸣谢
-
+感谢JetBrains对项目的支持
+![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png)
