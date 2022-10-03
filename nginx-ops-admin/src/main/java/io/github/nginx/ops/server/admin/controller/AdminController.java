@@ -7,6 +7,7 @@ import io.github.nginx.ops.server.admin.service.AdminServer;
 import io.github.nginx.ops.server.comm.annotation.OperationLog;
 import io.github.nginx.ops.server.comm.domain.vo.R;
 import io.github.nginx.ops.server.comm.enums.BusinessTypeEnum;
+import io.github.nginx.ops.server.system.domain.dto.UserInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,14 @@ public class AdminController {
   public R login(@RequestBody @Valid LoginDTO dto, HttpServletRequest request) {
     SaTokenInfo saTokenInfo = server.login(dto, request);
     return R.success("登录成功!", saTokenInfo);
+  }
+
+  @GetMapping("user/info")
+  @ApiOperation("获取用户信息")
+  @OperationLog(title = "获取用户信息", businessType = BusinessTypeEnum.SELECT)
+  public R getUserInfo() {
+    UserInfo userInfo = server.getUserInfo();
+    return R.success("登录成功!", userInfo);
   }
 
   @PostMapping("logout")
