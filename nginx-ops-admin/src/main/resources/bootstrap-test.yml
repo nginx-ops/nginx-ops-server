@@ -28,3 +28,6 @@ logging:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+sa-token:
+  # 是否输出操作日志
+  is-log: true

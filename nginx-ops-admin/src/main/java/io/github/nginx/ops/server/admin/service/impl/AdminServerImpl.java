@@ -22,10 +22,10 @@ import io.github.nginx.ops.server.system.domain.dto.UserInfo;
 import io.github.nginx.ops.server.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -92,6 +92,7 @@ public class AdminServerImpl implements AdminServer {
   }
 
   @Override
+  @Transactional(rollbackFor = Exception.class)
   public SaTokenInfo login(LoginDTO dto, HttpServletRequest request) {
     // 判断验证码是否正确
     String cacheKey =
@@ -100,10 +101,11 @@ public class AdminServerImpl implements AdminServer {
             + CacheConstants.CAPTCHA
             + CacheConstants.SEPARATOR
             + dto.getVerId();
-    if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))
-        || !StringUtils.equals(
-            (String) redisTemplate.opsForValue().get(cacheKey), dto.getVerCode())) {
+    if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))) {
       throw new BusinessException(AdminReturnCodeConstant.CAPTCHA_HAS_EXPIRED);
+    } else if (!dto.getVerCode()
+        .equalsIgnoreCase((String) redisTemplate.opsForValue().get(cacheKey))) {
+      throw new BusinessException(AdminReturnCodeConstant.CAPTCHA_ERROR);
     }
     SysUser sysUser = sysUserService.getOneByLoginName(dto.getLoginName());
     if (ObjectUtil.isEmpty(sysUser)
@@ -120,6 +122,8 @@ public class AdminServerImpl implements AdminServer {
             .loginIp(ServletUtil.getClientIP(request))
             .loginDate(new Date())
             .build());
+    // 删除验证码
+    redisTemplate.delete(cacheKey);
     // 进行登录
     StpUtil.login(
         dto.getLoginName(),
