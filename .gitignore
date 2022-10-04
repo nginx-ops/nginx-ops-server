@@ -1,6 +1,5 @@
 HELP.md
 target/
-**/src/main/resources/rebel.xml
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**
 !**/src/test/**
@@ -32,3 +31,8 @@ build/
 ### VS Code ###
 .vscode/
 
+### 忽略热部署 ###
+/nginx-ops-admin/src/main/resources/rebel.xml
+/nginx-ops-comm/src/main/resources/rebel.xml
+/nginx-ops-conf/src/main/resources/rebel.xml
+/nginx-ops-system/src/main/resources/rebel.xml
