@@ -41,26 +41,17 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(NotLoginException.class)
   public R handlerNotLoginException(NotLoginException e, HttpServletRequest request) {
     log.warn("鉴权异常, 异常信息为:{}", e.getMessage(), e);
+    String returnCode = AdminReturnCodeConstant.NOT_TOKEN;
     if (e.getType().equals(NotLoginException.INVALID_TOKEN)) {
-      return R.error(
-          AdminReturnCodeConstant.INVALID_TOKEN,
-          sysReturnService.getMessage(AdminReturnCodeConstant.INVALID_TOKEN));
+      returnCode = AdminReturnCodeConstant.INVALID_TOKEN;
     } else if (e.getType().equals(NotLoginException.TOKEN_TIMEOUT)) {
-      return R.error(
-          AdminReturnCodeConstant.TOKEN_TIMEOUT,
-          sysReturnService.getMessage(AdminReturnCodeConstant.TOKEN_TIMEOUT));
+      returnCode = AdminReturnCodeConstant.TOKEN_TIMEOUT;
     } else if (e.getType().equals(NotLoginException.BE_REPLACED)) {
-      return R.error(
-          AdminReturnCodeConstant.BE_REPLACED,
-          sysReturnService.getMessage(AdminReturnCodeConstant.BE_REPLACED));
+      returnCode = AdminReturnCodeConstant.BE_REPLACED;
     } else if (e.getType().equals(NotLoginException.KICK_OUT)) {
-      return R.error(
-          AdminReturnCodeConstant.KICK_OUT,
-          sysReturnService.getMessage(AdminReturnCodeConstant.KICK_OUT));
+      returnCode = AdminReturnCodeConstant.KICK_OUT;
     }
-    return R.error(
-        AdminReturnCodeConstant.NOT_TOKEN,
-        sysReturnService.getMessage(AdminReturnCodeConstant.NOT_TOKEN));
+    return R.error(returnCode, sysReturnService.getMessage(returnCode));
   }
 
   /** 参数异常 */
