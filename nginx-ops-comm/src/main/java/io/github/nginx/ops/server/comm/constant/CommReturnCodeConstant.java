@@ -8,11 +8,9 @@ package io.github.nginx.ops.server.comm.constant;
 public class CommReturnCodeConstant {
 
   /** 参数异常 */
-  public static final String CAPTCHA_HAS_EXPIRED = "C1001";
+  public static final String CAPTCHA_HAS_EXPIRED = "A0400";
   /** 请求格式异常 */
-  public static final String HTTP_REQUEST_METHOD_NOT_SUPPORTED = "C1002";
-  /** 运行异常 */
-  public static final String RUNTIME_EXCEPTION = "C1003";
+  public static final String HTTP_REQUEST_METHOD_NOT_SUPPORTED = "A0421";
   /** 未知异常 */
-  public static final String EXCEPTION = "C1004";
+  public static final String EXCEPTION = "B0001";
 }

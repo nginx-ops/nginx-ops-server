@@ -98,7 +98,7 @@ public class GlobalExceptionHandler {
   public R handleRuntimeException(RuntimeException e, HttpServletRequest request) {
     String requestURI = request.getRequestURI();
     log.error("请求地址:{},发生未知异常.", requestURI, e);
-    return R.error(CommReturnCodeConstant.RUNTIME_EXCEPTION, e.getMessage());
+    return R.error(CommReturnCodeConstant.EXCEPTION, e.getMessage());
   }
 
   /** 系统异常 */
