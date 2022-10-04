@@ -28,7 +28,7 @@
         <nginxparser.version>0.9.6</nginxparser.version>
         <mybatis-plus-boot-starter.version>3.5.1</mybatis-plus-boot-starter.version>
         <pagehelper.version>1.4.2</pagehelper.version>
-        <druid.version>1.1.10</druid.version>
+        <druid.version>1.2.12</druid.version>
         <lock4j-redisson.version>2.2.2</lock4j-redisson.version>
         <sa-token.version>1.31.0</sa-token.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
