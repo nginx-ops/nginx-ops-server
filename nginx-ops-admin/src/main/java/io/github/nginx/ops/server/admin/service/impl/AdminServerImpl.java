@@ -26,7 +26,7 @@ import io.github.nginx.ops.server.system.service.SysSettingService;
 import io.github.nginx.ops.server.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 public class AdminServerImpl implements AdminServer {
 
   private static final Snowflake SNOWFLAKE = IdUtil.getSnowflake();
-  private final RedisTemplate redisTemplate;
+  private final StringRedisTemplate stringRedisTemplate;
   private final SysUserService sysUserService;
   private final SysRoleService sysRoleService;
   private final SysSettingService sysSettingService;
@@ -72,16 +72,6 @@ public class AdminServerImpl implements AdminServer {
     return userInfo;
   }
 
-  public static void main(String[] args) {
-    //
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-    System.out.println("encoder.encode(\"123456\") = " + encoder.encode("123456"));
-    System.out.println(
-        "encoder.matches(\"123456\", \"$2a$10$zyGraLskfQl.T5oncHzr9uvoKcX5zxak3NZe/MMSgAzn1poRLRv0u\") = "
-            + encoder.matches(
-                "123456", "$2a$10$zyGraLskfQl.T5oncHzr9uvoKcX5zxak3NZe/MMSgAzn1poRLRv0u"));
-  }
-
   @Override
   public void logout() {
     StpUtil.logout();
@@ -99,7 +89,7 @@ public class AdminServerImpl implements AdminServer {
     SpecCaptcha specCaptcha = new SpecCaptcha();
     String verCode = specCaptcha.text().toLowerCase();
     // 存入redis并设置过期时间为10分钟
-    redisTemplate.opsForValue().set(cacheKey, verCode, 10, TimeUnit.MINUTES);
+    stringRedisTemplate.opsForValue().set(cacheKey, verCode, 10, TimeUnit.MINUTES);
     // 将key和base64返回给前端
     return CaptchaVO.builder().id(id).image(specCaptcha.toBase64()).build();
   }
@@ -114,10 +104,12 @@ public class AdminServerImpl implements AdminServer {
             + CacheConstants.CAPTCHA
             + CacheConstants.SEPARATOR
             + dto.getVerId();
-    if (Boolean.FALSE.equals(redisTemplate.hasKey(cacheKey))) {
+    if (Boolean.FALSE.equals(stringRedisTemplate.hasKey(cacheKey))) {
       throw new BusinessException(AdminReturnCodeConstant.CAPTCHA_HAS_EXPIRED);
-    } else if (!dto.getVerCode()
-        .equalsIgnoreCase((String) redisTemplate.opsForValue().get(cacheKey))) {
+    } else if (!stringRedisTemplate
+        .opsForValue()
+        .get(cacheKey)
+        .equalsIgnoreCase(dto.getVerCode())) {
       throw new BusinessException(AdminReturnCodeConstant.CAPTCHA_ERROR);
     }
     SysUser sysUser = sysUserService.getOneByLoginName(dto.getLoginName());
@@ -136,7 +128,7 @@ public class AdminServerImpl implements AdminServer {
             .loginDate(new Date())
             .build());
     // 删除验证码
-    redisTemplate.delete(cacheKey);
+    stringRedisTemplate.delete(cacheKey);
     // 进行登录
     StpUtil.login(
         dto.getLoginName(),

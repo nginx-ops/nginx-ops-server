@@ -10,12 +10,11 @@ import io.github.nginx.ops.server.system.domain.dto.SysRoleDTO;
 import io.github.nginx.ops.server.system.domain.dto.SysUserRoleDTO;
 import io.github.nginx.ops.server.system.domain.query.SysUserQuery;
 import io.github.nginx.ops.server.system.mapper.SysUserMapper;
-import io.github.nginx.ops.server.system.service.SysRoleService;
-import io.github.nginx.ops.server.system.service.SysSettingService;
 import io.github.nginx.ops.server.system.service.SysUserRoleService;
 import io.github.nginx.ops.server.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +34,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
   private final LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
 
   private final SysUserRoleService sysUserRoleService;
-  private final SysRoleService sysRoleService;
-  private final SysSettingService sysSettingService;
+  private final BCryptPasswordEncoder encoder;
 
   @Override
   @Transactional(rollbackFor = Exception.class)
@@ -47,6 +45,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
       throw new BusinessException("登录名重复, 请核实后重新提交!");
     }
     SysUser sysUser = BeanUtil.copyProperties(dto, SysUser.class);
+    sysUser.setPassword(encoder.encode(sysUser.getPassword()));
     this.save(sysUser);
     sysUserRoleService.setUserRole(
         sysUser.getId(),
@@ -82,6 +81,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
       }
     }
     SysUser updateSysUser = BeanUtil.copyProperties(dto, SysUser.class);
+    updateSysUser.setPassword(encoder.encode(dto.getPassword()));
     updateSysUser.setId(id);
     this.updateById(updateSysUser);
     sysUserRoleService.setUserRole(
