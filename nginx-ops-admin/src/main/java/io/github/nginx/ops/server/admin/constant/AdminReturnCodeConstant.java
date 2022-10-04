@@ -15,4 +15,14 @@ public class AdminReturnCodeConstant {
   public static final String USER_NOT_ENABLE = "A0003";
   /** 验证码错误 */
   public static final String CAPTCHA_ERROR = "A0004";
+  /** 未提供token */
+  public static final String NOT_TOKEN = "A0005";
+  /** token无效 */
+  public static final String INVALID_TOKEN = "A0006";
+  /** token已过期 */
+  public static final String TOKEN_TIMEOUT = "A0007";
+  /** token已被顶下线 */
+  public static final String BE_REPLACED = "A0008";
+  /** token已被踢下线 */
+  public static final String KICK_OUT = "A0009";
 }
