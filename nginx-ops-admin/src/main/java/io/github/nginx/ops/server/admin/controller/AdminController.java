@@ -60,7 +60,7 @@ public class AdminController {
 
   @GetMapping("captcha")
   @ApiOperation("获取验证码")
-  @OperationLog(title = "获取验证码", businessType = BusinessTypeEnum.LOGIN)
+  @OperationLog(title = "获取验证码", businessType = BusinessTypeEnum.SELECT)
   public R captcha() {
     CaptchaVO captchaVO = server.captcha();
     return R.success("获取验证码成功!", captchaVO);
