@@ -15,6 +15,7 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+.fleet
 *.iws
 *.iml
 *.ipr
@@ -29,3 +30,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### 忽略热部署 ###
+/nginx-ops-admin/src/main/resources/rebel.xml
+/nginx-ops-comm/src/main/resources/rebel.xml
+/nginx-ops-conf/src/main/resources/rebel.xml
+/nginx-ops-system/src/main/resources/rebel.xml

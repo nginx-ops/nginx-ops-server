@@ -5,6 +5,7 @@ import io.github.nginx.ops.server.system.domain.SysDict;
 import io.github.nginx.ops.server.system.domain.query.SysDictQuery;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 24709
@@ -20,4 +21,11 @@ public interface SysDictService extends IService<SysDict> {
    * @return
    */
   List<SysDict> list(SysDictQuery query);
+
+  /**
+   * 获取缓存字典值
+   *
+   * @return
+   */
+  Map<String, List<SysDict>> getCacheMap();
 }

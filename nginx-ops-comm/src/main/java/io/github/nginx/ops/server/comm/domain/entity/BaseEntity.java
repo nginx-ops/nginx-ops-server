@@ -1,13 +1,10 @@
 package io.github.nginx.ops.server.comm.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.OrderBy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
@@ -38,5 +35,6 @@ public class BaseEntity implements Serializable {
   private String updateBy;
   /** 修改时间 */
   @TableField(fill = FieldFill.INSERT_UPDATE)
+  @OrderBy
   private Date updateTime;
 }

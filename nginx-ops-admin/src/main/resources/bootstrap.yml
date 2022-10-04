@@ -90,8 +90,6 @@ pagehelper:
 sa-token:
   # token名称 (同时也是cookie名称)
   token-name: authentication
-  # token前缀
-  token-prefix: Bearer
   # token有效期，单位s 默认7天
   timeout: 1209600
   # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
@@ -101,6 +99,4 @@ sa-token:
   # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
   is-share: false
   # token风格
-  token-style: token-style=random-128
-  # 是否输出操作日志
-  is-log: false
+  token-style: random-128

@@ -5,9 +5,9 @@ name: Java CI with Maven
 
 on:
   push:
-    # 拉取tag动作
-    tags:
-      - 'v*'
+    branches: [ release ]
+  pull_request:
+    branches: [ release ]
 
 jobs:
   build:
@@ -25,15 +25,15 @@ jobs:
       # 编译
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-#      # 规范打包目录
-#      - name: Zip the Build
-#        run: |
-#          mkdir release
-#          cd ./src/PluginCore/bin/Release
-#          zip -r PluginCore-netcoreapp3.1.zip ./netcoreapp3.1/
-#          zip -r PluginCore-net5.0.zip ./net5.0/
-#          cd ../../../../
-#          mv ./src/PluginCore/bin/Release/*.zip ./
+      #      # 规范打包目录
+      #      - name: Zip the Build
+      #        run: |
+      #          mkdir release
+      #          cd ./src/PluginCore/bin/Release
+      #          zip -r PluginCore-netcoreapp3.1.zip ./netcoreapp3.1/
+      #          zip -r PluginCore-net5.0.zip ./net5.0/
+      #          cd ../../../../
+      #          mv ./src/PluginCore/bin/Release/*.zip ./
       # 创建发行版
       - name: Create Release
         uses: ncipollo/release-action@v1.10.0

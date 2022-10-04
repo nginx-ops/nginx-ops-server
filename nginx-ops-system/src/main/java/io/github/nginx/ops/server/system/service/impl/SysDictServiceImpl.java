@@ -5,13 +5,19 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.nginx.ops.server.system.domain.SysDict;
 import io.github.nginx.ops.server.system.domain.query.SysDictQuery;
+import io.github.nginx.ops.server.system.domain.vo.SysDictCacheVO;
 import io.github.nginx.ops.server.system.mapper.SysDictMapper;
 import io.github.nginx.ops.server.system.service.SysDictService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author 24709
@@ -35,5 +41,11 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict>
         .like(ObjectUtil.isNotEmpty(query.getValue()), SysDict::getValue, query.getValue())
         .like(ObjectUtil.isNotEmpty(query.getRemark()), SysDict::getRemark, query.getRemark());
     return this.list(queryWrapper);
+  }
+
+  @Override
+  public Map<String, List<SysDict>> getCacheMap() {
+    List<SysDict> dictList = this.list();
+     return dictList.stream().collect(Collectors.groupingBy(SysDict::getType, LinkedHashMap::new, Collectors.toList()));
   }
 }

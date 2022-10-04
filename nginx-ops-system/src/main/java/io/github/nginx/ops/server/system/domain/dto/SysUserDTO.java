@@ -1,15 +1,14 @@
 package io.github.nginx.ops.server.system.domain.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author lihao3
@@ -17,8 +16,8 @@ import java.util.List;
  */
 @Setter
 @Getter
-@Builder
 @ToString
+@SuperBuilder
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,8 +35,5 @@ public class SysUserDTO implements Serializable {
   private String avatar;
   /** 备注 */
   private String remark;
-  /** 设置表列表 */
-  private List<SysSettingDTO> sysSettingList;
-  /** 角色表列表 */
-  private List<SysRoleDTO> sysRoleList;
+
 }

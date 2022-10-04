@@ -6,7 +6,7 @@ import io.github.nginx.ops.server.comm.annotation.OperationLog;
 import io.github.nginx.ops.server.comm.domain.vo.R;
 import io.github.nginx.ops.server.comm.enums.BusinessTypeEnum;
 import io.github.nginx.ops.server.system.domain.SysUser;
-import io.github.nginx.ops.server.system.domain.dto.SysUserDTO;
+import io.github.nginx.ops.server.system.domain.dto.SysUserRoleDTO;
 import io.github.nginx.ops.server.system.domain.query.SysUserQuery;
 import io.github.nginx.ops.server.system.service.SysUserService;
 import io.swagger.annotations.Api;
@@ -41,7 +41,7 @@ public class SysUserController {
   @PostMapping
   @ApiOperation("新增用户")
   @OperationLog(title = "新增用户", businessType = BusinessTypeEnum.INSERT)
-  public R save(@RequestBody SysUserDTO dto) {
+  public R save(@RequestBody SysUserRoleDTO dto) {
     service.save(dto);
     return R.success("新增成功");
   }
@@ -57,7 +57,7 @@ public class SysUserController {
   @PutMapping("{id}")
   @ApiOperation("根据ID修改")
   @OperationLog(title = "修改用户", businessType = BusinessTypeEnum.UPDATE)
-  public R update(@PathVariable String id, @RequestBody SysUserDTO dto) {
+  public R update(@PathVariable String id, @RequestBody SysUserRoleDTO dto) {
     service.update(id, dto);
     return R.success("修改成功");
   }
@@ -83,7 +83,7 @@ public class SysUserController {
   @ApiOperation("根据ID查询")
   @OperationLog(title = "根据ID查询", businessType = BusinessTypeEnum.SELECT)
   public R one(@PathVariable String id) {
-    SysUserDTO sysUserDTO = service.getOne(id);
-    return R.success("查询成功", sysUserDTO);
+    // SysUserDTO sysUserDTO = service.getOne(id);
+    return R.success("查询成功", null);
   }
 }
