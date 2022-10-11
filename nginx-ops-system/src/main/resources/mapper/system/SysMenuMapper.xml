@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.nginx.ops.server.system.mapper.SysMenuMapper">
+
+    <resultMap id="BaseResultMap" type="io.github.nginx.ops.server.system.domain.SysMenu">
+        <id property="id" column="id" jdbcType="CHAR"/>
+        <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
+        <result property="parentId" column="parent_id" jdbcType="CHAR"/>
+        <result property="order" column="order" jdbcType="INTEGER"/>
+        <result property="path" column="path" jdbcType="VARCHAR"/>
+        <result property="component" column="component" jdbcType="VARCHAR"/>
+        <result property="query" column="query" jdbcType="VARCHAR"/>
+        <result property="isFrame" column="is_frame" jdbcType="BIT"/>
+        <result property="isCache" column="is_cache" jdbcType="BIT"/>
+        <result property="menuType" column="menu_type" jdbcType="CHAR"/>
+        <result property="isEnable" column="is_enable" jdbcType="BIT"/>
+        <result property="perms" column="perms" jdbcType="VARCHAR"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+
+        <association property="childrenList"
+                     select="io.github.nginx.ops.server.system.mapper.SysMenuMapper.selectChildrenMenuByParentId"
+                     fetchType="lazy"
+                     column="id"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,menu_name,parent_id,
+            order,path,component,
+            query,is_frame,is_cache,
+            menu_type,is_enable,perms,
+            icon,create_by,create_time,
+            update_by,update_time,delete_flag,
+            remark
+    </sql>
+
+    <select id="selectPermByRoleIds" resultType="string">
+        SELECT sm.perms
+        from sys_role_menu srm
+        LEFT JOIN sys_menu sm on srm.menu_id = sm.id
+        where sm.perms is not null
+        <if test="roleIds!= null and roleIds.size()>0">
+            and srm.role_id in
+            <foreach collection="roleIds" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="selectMenuByRoleIds" resultMap="BaseResultMap">
+        SELECT sm.*
+        from sys_role_menu srm
+        LEFT JOIN sys_menu sm on srm.menu_id = sm.id
+        where sm.menu_type = 'M' and sm.parent_id =0 and sm.is_enable=1 and sm.delete_flag=0
+        <if test="roleIds!= null and roleIds.size()>0">
+            and srm.role_id in
+            <foreach collection="roleIds" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+
+    <select id="selectChildrenMenuByParentId" resultType="io.github.nginx.ops.server.system.domain.SysMenu">
+        select *
+        from sys_menu
+        where parent_id = #{parentId}
+          and is_enable = 1
+          and delete_flag = 0
+    </select>
+</mapper>

@@ -35,7 +35,8 @@ public enum BusinessTypeEnum {
   FORCE("force"),
   /** 登录 */
   LOGIN("login"),
-  ;
+  /** 路由菜单 */
+  Router("router");
 
   private final String code;
 }

@@ -3,6 +3,7 @@ package io.github.nginx.ops.server.admin.controller;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import io.github.nginx.ops.server.admin.domain.dto.LoginDTO;
 import io.github.nginx.ops.server.admin.domain.vo.CaptchaVO;
+import io.github.nginx.ops.server.admin.domain.vo.RouterVo;
 import io.github.nginx.ops.server.admin.service.AdminServer;
 import io.github.nginx.ops.server.comm.annotation.OperationLog;
 import io.github.nginx.ops.server.comm.domain.vo.R;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author lihao3
@@ -47,7 +49,15 @@ public class AdminController {
   @OperationLog(title = "获取用户信息", businessType = BusinessTypeEnum.SELECT)
   public R getUserInfo() {
     UserInfo userInfo = server.getUserInfo();
-    return R.success("登录成功!", userInfo);
+    return R.success("信息获取成功!", userInfo);
+  }
+
+  @GetMapping("routers")
+  @ApiOperation("获取路由列表")
+  @OperationLog(title = "获取路由列表", businessType = BusinessTypeEnum.Router)
+  public R routers() {
+    List<RouterVo> routers = server.getRouters();
+    return R.success("获取路由列表成功!", routers);
   }
 
   @PostMapping("logout")

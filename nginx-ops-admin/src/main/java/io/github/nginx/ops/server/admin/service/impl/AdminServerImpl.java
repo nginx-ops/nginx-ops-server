@@ -12,15 +12,19 @@ import com.wf.captcha.SpecCaptcha;
 import io.github.nginx.ops.server.admin.constant.AdminReturnCodeConstant;
 import io.github.nginx.ops.server.admin.domain.dto.LoginDTO;
 import io.github.nginx.ops.server.admin.domain.vo.CaptchaVO;
+import io.github.nginx.ops.server.admin.domain.vo.MetaVo;
+import io.github.nginx.ops.server.admin.domain.vo.RouterVo;
 import io.github.nginx.ops.server.admin.service.AdminServer;
 import io.github.nginx.ops.server.comm.constant.CacheConstants;
 import io.github.nginx.ops.server.comm.exception.BusinessException;
 import io.github.nginx.ops.server.comm.util.json.JsonUtils;
+import io.github.nginx.ops.server.system.domain.SysMenu;
 import io.github.nginx.ops.server.system.domain.SysUser;
 import io.github.nginx.ops.server.system.domain.dto.SysRoleDTO;
 import io.github.nginx.ops.server.system.domain.dto.SysSettingDTO;
 import io.github.nginx.ops.server.system.domain.dto.SysUserDTO;
 import io.github.nginx.ops.server.system.domain.dto.UserInfo;
+import io.github.nginx.ops.server.system.service.SysMenuService;
 import io.github.nginx.ops.server.system.service.SysRoleService;
 import io.github.nginx.ops.server.system.service.SysSettingService;
 import io.github.nginx.ops.server.system.service.SysUserService;
@@ -32,6 +36,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -48,7 +53,9 @@ public class AdminServerImpl implements AdminServer {
   private final StringRedisTemplate stringRedisTemplate;
   private final SysUserService sysUserService;
   private final SysRoleService sysRoleService;
+  private final SysMenuService sysMenuService;
   private final SysSettingService sysSettingService;
+
   private final BCryptPasswordEncoder encoder;
 
   @Override
@@ -135,5 +142,70 @@ public class AdminServerImpl implements AdminServer {
         new SaLoginModel().setDevice(dto.getDevice()).setIsLastingCookie(dto.getRemember()));
     // 第2步，获取 Token  相关参数
     return StpUtil.getTokenInfo();
+  }
+
+  @Override
+  public List<RouterVo> getRouters() {
+    String loginName = StpUtil.getLoginIdAsString();
+    List<SysMenu> sysMenuList = sysMenuService.getRouterMenuByUserId(loginName);
+
+    // 创建路由列表
+    List<RouterVo> routers = new ArrayList<>();
+
+    this.getRouters(routers, sysMenuList);
+
+    return routers;
+  }
+
+  // 递归构建路由列表
+  private void getRouters(List<RouterVo> routerVoList, List<SysMenu> sysMenuList) {
+    sysMenuList.forEach(
+        item -> {
+          if (!item.getIsFrame()) {
+            RouterVo routerVo = new RouterVo();
+            // 非外链
+            routerVo.setRedirect("noRedirect");
+            // 父菜单
+            if ("0".equals(item.getParentId())) {
+              routerVo.setComponent("Layout");
+            } else {
+              routerVo.setComponent(item.getComponent());
+            }
+            routerVo.setName(
+                item.getPath().substring(0, 1).toUpperCase() + item.getPath().substring(1));
+            routerVo.setPath("/" + item.getPath());
+            routerVo.setHidden(!item.getIsEnable());
+            if (item.getChildrenList() != null) {
+              routerVo.setAlwaysShow(item.getChildrenList().size() > 1);
+            }
+            MetaVo metaVo = new MetaVo();
+            metaVo.setIcon(item.getIcon());
+            metaVo.setTitle(item.getMenuName());
+            metaVo.setNoCache(item.getIsCache());
+            routerVo.setMeta(metaVo);
+
+            // 子路由
+            if (item.getChildrenList() != null && item.getChildrenList().size() > 0) {
+              List<RouterVo> childrenRouter = new ArrayList<>();
+              this.getRouters(childrenRouter, item.getChildrenList());
+              routerVo.setChildren(childrenRouter);
+            }
+            routerVoList.add(routerVo);
+          } else {
+            RouterVo routerVo = new RouterVo();
+            // 外链
+            routerVo.setComponent("Layout");
+            routerVo.setName(item.getPath());
+            routerVo.setPath(item.getPath());
+            routerVo.setHidden(!item.getIsEnable());
+            MetaVo metaVo = new MetaVo();
+            metaVo.setIcon(item.getIcon());
+            metaVo.setTitle(item.getMenuName());
+            metaVo.setNoCache(item.getIsCache());
+            metaVo.setLink(item.getPath());
+            routerVo.setMeta(metaVo);
+            routerVoList.add(routerVo);
+          }
+        });
   }
 }
