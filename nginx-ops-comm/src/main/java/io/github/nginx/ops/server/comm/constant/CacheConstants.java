@@ -17,4 +17,6 @@ public class CacheConstants {
   public static final String RETURN = "return";
   /** 用户信息 */
   public static final String USERINFO = "userInfo";
+  /** 路由菜单 */
+  public static final String ROUTERS = "routers";
 }

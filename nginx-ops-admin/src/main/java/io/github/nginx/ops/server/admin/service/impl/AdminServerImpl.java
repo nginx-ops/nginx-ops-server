@@ -30,6 +30,7 @@ import io.github.nginx.ops.server.system.service.SysSettingService;
 import io.github.nginx.ops.server.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,7 @@ public class AdminServerImpl implements AdminServer {
 
   private static final Snowflake SNOWFLAKE = IdUtil.getSnowflake();
   private final StringRedisTemplate stringRedisTemplate;
+  private final RedisTemplate redisTemplate;
   private final SysUserService sysUserService;
   private final SysRoleService sysRoleService;
   private final SysMenuService sysMenuService;
@@ -61,9 +63,9 @@ public class AdminServerImpl implements AdminServer {
   @Override
   public UserInfo getUserInfo() {
     // 获取当前登录的唯一ID
-    String loginName = StpUtil.getLoginIdAsString();
+    String id = StpUtil.getLoginIdAsString();
     // 查询用户信息
-    SysUser sysUser = sysUserService.getOneByLoginName(loginName);
+    SysUser sysUser = sysUserService.getById(id);
     SysUserDTO sysUserDTO = BeanUtil.copyProperties(sysUser, SysUserDTO.class);
     List<SysRoleDTO> sysRoleDTOList = sysRoleService.selectSysRoleListByUserId(sysUser.getId());
     List<SysSettingDTO> sysSettingDTOList = sysSettingService.selectByUserId(sysUser.getId());
@@ -81,6 +83,15 @@ public class AdminServerImpl implements AdminServer {
 
   @Override
   public void logout() {
+    // 删除路由信息
+    String id = StpUtil.getLoginIdAsString();
+    String cacheKey =
+        CacheConstants.APP_NAME
+            + CacheConstants.SEPARATOR
+            + CacheConstants.ROUTERS
+            + CacheConstants.SEPARATOR
+            + id;
+    redisTemplate.delete(cacheKey);
     StpUtil.logout();
   }
 
@@ -138,7 +149,7 @@ public class AdminServerImpl implements AdminServer {
     stringRedisTemplate.delete(cacheKey);
     // 进行登录
     StpUtil.login(
-        dto.getLoginName(),
+        sysUser.getId(),
         new SaLoginModel().setDevice(dto.getDevice()).setIsLastingCookie(dto.getRemember()));
     // 第2步，获取 Token  相关参数
     return StpUtil.getTokenInfo();
@@ -146,14 +157,24 @@ public class AdminServerImpl implements AdminServer {
 
   @Override
   public List<RouterVo> getRouters() {
-    String loginName = StpUtil.getLoginIdAsString();
-    List<SysMenu> sysMenuList = sysMenuService.getRouterMenuByUserId(loginName);
+    String id = StpUtil.getLoginIdAsString();
+    String cacheKey =
+        CacheConstants.APP_NAME
+            + CacheConstants.SEPARATOR
+            + CacheConstants.ROUTERS
+            + CacheConstants.SEPARATOR
+            + id;
+    if (redisTemplate.hasKey(cacheKey)) {
+      return (List<RouterVo>) redisTemplate.opsForValue().get(cacheKey);
+    }
+    List<SysMenu> sysMenuList = sysMenuService.getRouterMenuByUserId(id);
 
     // 创建路由列表
     List<RouterVo> routers = new ArrayList<>();
 
     this.getRouters(routers, sysMenuList);
 
+    redisTemplate.opsForValue().set(cacheKey, routers);
     return routers;
   }
 
