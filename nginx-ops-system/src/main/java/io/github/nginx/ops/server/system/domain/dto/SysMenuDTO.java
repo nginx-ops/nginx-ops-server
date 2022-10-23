@@ -1,24 +1,25 @@
-package io.github.nginx.ops.server.system.domain;
+package io.github.nginx.ops.server.system.domain.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.github.nginx.ops.server.comm.domain.entity.BaseEntity;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
-import java.util.List;
 
-/** 菜单权限表 @TableName sys_menu */
+/**
+ * @Author: wgy @CreateTime: 2022-10-17 21:39:05 @Description:
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-@JsonIgnoreProperties(value = "handler")
-public class SysMenu extends BaseEntity implements Serializable {
-  private static final long serialVersionUID = 1L;
+public class SysMenuDTO implements Serializable {
+
+  /** 唯一ID */
+  @TableId private String id;
 
   /** 菜单名称 */
   private String menuName;
@@ -46,11 +47,4 @@ public class SysMenu extends BaseEntity implements Serializable {
   private String perms;
   /** 菜单图标 */
   private String icon;
-  /** 备注 */
-  private String remark;
-  /** 逻辑删除 */
-  private Boolean deleteFlag;
-  /** 子菜单列表 */
-  @TableField(exist = false)
-  private List<SysMenu> children;
 }

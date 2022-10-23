@@ -23,11 +23,6 @@
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remark" column="remark" jdbcType="VARCHAR"/>
-
-        <association property="childrenList"
-                     select="io.github.nginx.ops.server.system.mapper.SysMenuMapper.selectChildrenMenuByParentId"
-                     fetchType="lazy"
-                     column="id"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -55,25 +50,4 @@
     </select>
 
 
-    <select id="selectMenuByRoleIds" resultMap="BaseResultMap">
-        SELECT sm.*
-        from sys_role_menu srm
-        LEFT JOIN sys_menu sm on srm.menu_id = sm.id
-        where sm.menu_type = 'M' and sm.parent_id =0 and sm.is_enable=1 and sm.delete_flag=0
-        <if test="roleIds!= null and roleIds.size()>0">
-            and srm.role_id in
-            <foreach collection="roleIds" item="item" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
-    </select>
-
-
-    <select id="selectChildrenMenuByParentId" resultType="io.github.nginx.ops.server.system.domain.SysMenu">
-        select *
-        from sys_menu
-        where parent_id = #{parentId}
-          and is_enable = 1
-          and delete_flag = 0
-    </select>
 </mapper>

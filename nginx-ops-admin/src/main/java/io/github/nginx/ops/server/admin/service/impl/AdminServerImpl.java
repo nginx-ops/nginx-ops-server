@@ -182,7 +182,7 @@ public class AdminServerImpl implements AdminServer {
   private void getRouters(List<RouterVo> routerVoList, List<SysMenu> sysMenuList) {
     sysMenuList.forEach(
         item -> {
-          if (!item.getIsFrame()) {
+          if ("0".equals(item.getIsFrame())) {
             RouterVo routerVo = new RouterVo();
             // 非外链
             routerVo.setRedirect("noRedirect");
@@ -195,22 +195,35 @@ public class AdminServerImpl implements AdminServer {
             routerVo.setName(
                 item.getPath().substring(0, 1).toUpperCase() + item.getPath().substring(1));
             routerVo.setPath("/" + item.getPath());
-            routerVo.setHidden(!item.getIsEnable());
-            if (item.getChildrenList() != null) {
-              routerVo.setAlwaysShow(item.getChildrenList().size() > 1);
+            // if ("1".equals(item.getIsEnable())) {
+            //   routerVo.setHidden(false);
+            // } else {
+            //   routerVo.setHidden(true);
+            // }
+            if (item.getChildren() != null) {
+              routerVo.setAlwaysShow(item.getChildren().size() > 1);
             }
             MetaVo metaVo = new MetaVo();
             metaVo.setIcon(item.getIcon());
             metaVo.setTitle(item.getMenuName());
-            metaVo.setNoCache(item.getIsCache());
+            // 是否缓存
+            if ("1".equals(item.getIsCache())) {
+              metaVo.setNoCache(true);
+            } else {
+              metaVo.setNoCache(false);
+            }
             routerVo.setMeta(metaVo);
 
             // 子路由
-            if (item.getChildrenList() != null && item.getChildrenList().size() > 0) {
+            if (item.getChildren() != null && item.getChildren().size() > 0) {
               List<RouterVo> childrenRouter = new ArrayList<>();
-              this.getRouters(childrenRouter, item.getChildrenList());
+              this.getRouters(childrenRouter, item.getChildren());
               routerVo.setChildren(childrenRouter);
             }
+            // 是否可见
+            // if ("1".equals(item.getIsEnable())) {
+            //   routerVoList.add(routerVo);
+            // }
             routerVoList.add(routerVo);
           } else {
             RouterVo routerVo = new RouterVo();
@@ -218,13 +231,25 @@ public class AdminServerImpl implements AdminServer {
             routerVo.setComponent("Layout");
             routerVo.setName(item.getPath());
             routerVo.setPath(item.getPath());
-            routerVo.setHidden(!item.getIsEnable());
+            // if ("1".equals(item.getIsEnable())) {
+            //   routerVo.setHidden(false);
+            // } else {
+            //   routerVo.setHidden(true);
+            // }
             MetaVo metaVo = new MetaVo();
             metaVo.setIcon(item.getIcon());
             metaVo.setTitle(item.getMenuName());
-            metaVo.setNoCache(item.getIsCache());
+            if ("1".equals(item.getIsCache())) {
+              metaVo.setNoCache(true);
+            } else {
+              metaVo.setNoCache(false);
+            }
             metaVo.setLink(item.getPath());
             routerVo.setMeta(metaVo);
+            // 是否可见
+            // if ("1".equals(item.getIsEnable())) {
+            //   routerVoList.add(routerVo);
+            // }
             routerVoList.add(routerVo);
           }
         });

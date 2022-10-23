@@ -8,7 +8,7 @@ import io.github.nginx.ops.server.system.domain.query.SysRoleQuery;
 import java.util.List;
 
 /**
- * @author 24709
+ * @author wgy
  * @description 针对表【sys_role(角色表)】的数据库操作Service
  * @createDate 2022-08-27 13:58:57
  */
@@ -42,7 +42,7 @@ public interface SysRoleService extends IService<SysRole> {
    * @param id
    * @param dto
    */
-  void update(String id, SysRoleDTO dto);
+  void update(SysRoleDTO dto);
 
   /**
    * 列表查询

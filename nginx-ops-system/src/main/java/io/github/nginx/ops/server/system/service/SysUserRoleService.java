@@ -1,12 +1,14 @@
 package io.github.nginx.ops.server.system.service;
 
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.nginx.ops.server.system.domain.SysUserRole;
 
+import java.util.List;
 import java.util.Set;
 
 /**
- * @author 24709
+ * @author wgy
  * @description 针对表【sys_user_role(用户角色关联表)】的数据库操作Service
  * @createDate 2022-08-27 13:58:57
  */
@@ -35,10 +37,10 @@ public interface SysUserRoleService extends IService<SysUserRole> {
   void deleteByRoleId(String roleId);
 
   /**
-   * 根据用户ID查询角色ID集合
+   * 根据用户ID查询连接表集合
    *
    * @param userId
    * @return
    */
-  Set<String> selectRoleIdListByUserId(String userId);
+  List<String> selectRoleIdListByUserId(String userId);
 }

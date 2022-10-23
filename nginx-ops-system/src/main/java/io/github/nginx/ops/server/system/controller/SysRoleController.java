@@ -13,20 +13,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * @author lihao3
+ * @author wgy
  * @date 2022/8/24 9:50
  */
 @Api(tags = "角色管理接口")
@@ -43,6 +35,7 @@ public class SysRoleController {
   @OperationLog(title = "新增角色", businessType = BusinessTypeEnum.INSERT)
   public R save(@RequestBody SysRoleDTO dto) {
     dto.setId(null);
+    dto.setCreateTime(null);
     service.save(dto);
     return R.success("新增成功");
   }
@@ -55,11 +48,11 @@ public class SysRoleController {
     return R.success("删除成功");
   }
 
-  @PutMapping("{id}")
+  @PutMapping
   @ApiOperation("根据ID修改")
   @OperationLog(title = "修改角色", businessType = BusinessTypeEnum.UPDATE)
-  public R update(@PathVariable String id, @RequestBody SysRoleDTO dto) {
-    service.update(id, dto);
+  public R update(@RequestBody SysRoleDTO dto) {
+    service.update(dto);
     return R.success("修改成功");
   }
 
@@ -76,7 +69,7 @@ public class SysRoleController {
   @OperationLog(title = "分页查询角色列表", businessType = BusinessTypeEnum.SELECT)
   public R pageList(@ModelAttribute SysRoleQuery query) {
     Page<SysRole> page = PageHelper.startPage(query);
-    List<SysRole> sysRoleList = service.list(query);
+    service.list(query);
     return R.success("查询成功", page);
   }
 

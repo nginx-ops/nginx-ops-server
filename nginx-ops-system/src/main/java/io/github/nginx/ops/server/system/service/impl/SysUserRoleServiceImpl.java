@@ -16,7 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author 24709
+ * @author wgy
  * @description 针对表【sys_user_role(用户角色关联表)】的数据库操作Service实现
  * @createDate 2022-08-27 13:58:57
  */
@@ -56,10 +56,10 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
   }
 
   @Override
-  public Set<String> selectRoleIdListByUserId(String userId) {
+  public List<String> selectRoleIdListByUserId(String userId) {
     queryWrapper.clear();
     queryWrapper.eq(SysUserRole::getUserId, userId).select(SysUserRole::getRoleId);
     List<SysUserRole> userRoleList = this.list(queryWrapper);
-    return userRoleList.stream().map(SysUserRole::getRoleId).collect(Collectors.toSet());
+    return userRoleList.stream().map(SysUserRole::getRoleId).collect(Collectors.toList());
   }
 }

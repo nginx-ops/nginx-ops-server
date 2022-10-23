@@ -22,25 +22,5 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
    * @author wgy
    * @data 2022/10/04
    */
-  Set<String> selectPermByRoleIds(@Param("roleIds") Set<String> roleIds);
-
-  /**
-   * 通过角色id查找菜单
-   *
-   * @param roleIds 角色id
-   * @return @return {@link List }<{@link SysMenu }>
-   * @author wgy
-   * @data 2022/10/05
-   */
-  List<SysMenu> selectMenuByRoleIds(@Param("roleIds") Set<String> roleIds);
-
-  /**
-   * 通过父id查找菜单列表
-   *
-   * @param parentId
-   * @return @return {@link List }<{@link SysMenu }>
-   * @author wgy
-   * @data 2022/10/05
-   */
-  List<SysMenu> selectChildrenMenuByParentId(@Param("parentId") String parentId);
+  Set<String> selectPermByRoleIds(@Param("roleIds") List<String> roleIds);
 }
